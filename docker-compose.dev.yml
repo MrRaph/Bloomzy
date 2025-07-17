@@ -13,3 +13,16 @@ services:
     volumes:
       - ./backend:/app
     command: [".venv/bin/python", "app/__init__.py"]
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: bloomzy-frontend:dev
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./frontend:/app
+    command: ["npx", "http-server", "dist", "-p", "8080"]

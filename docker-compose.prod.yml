@@ -11,3 +11,14 @@ services:
     ports:
       - "5000:5000"
     command: [".venv/bin/python", "app/__init__.py"]
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: bloomzy-frontend:prod
+    restart: always
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "8080:8080"
+    command: ["npx", "http-server", "dist", "-p", "8080"]
