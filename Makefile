@@ -9,12 +9,10 @@ FRONTEND_DIR := frontend
 BACKEND_PORT := 5001
 FRONTEND_PORT := 3000
 
-
 # Couleurs pour les messages
 RED := \033[0;31m
 GREEN := \033[0;32m
 YELLOW := \033[1;33m
-
 BLUE := \033[0;34m
 NC := \033[0m # No Color
 
@@ -23,7 +21,6 @@ help: ## Affiche cette aide
 	@echo "\n$(YELLOW)Pour l'environnement Docker, utilisez : make dev-docker, make test-docker, etc.$(NC)"
 	@echo ""
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(GREEN)%-20s$(NC) %s\n", $$1, $$2}'
-
 
 # =============================================================================
 # INSTALLATION ET CONFIGURATION
