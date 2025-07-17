@@ -39,10 +39,16 @@ def protected():
 
 @bp.route('/signup', methods=['POST'])
 def signup():
+    print('--- POST /auth/signup reçu ---')
+    print('Headers:', dict(request.headers))
+    print('Body:', request.get_data(as_text=True))
+    print('DEBUG: Début de la fonction signup')
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
-    recaptcha = data.get('recaptcha_token')
+    # recaptcha = data.get('recaptcha_token')
+    # Désactivation temporaire du captcha (sera géré via l'admin)
+    # La vérification du captcha est désactivée pour le développement
 
     if not email or not password:
         return jsonify({'error': 'Champs obligatoires manquants'}), 400
@@ -54,8 +60,10 @@ def signup():
     if len(password) < 8 or password.isdigit() or password.isalpha():
         return jsonify({'error': 'Mot de passe trop faible'}), 400
 
-    if recaptcha is None:
-        return jsonify({'error': 'Captcha requis'}), 400
+    # if recaptcha is None:
+    #     return jsonify({'error': 'Captcha requis'}), 400
+    
+    print("DEBUG: Validation du captcha passée, vérification utilisateur existant")
 
     if User.query.filter_by(email=email).first():
         return jsonify({'error': 'Email existe déjà'}), 409

@@ -15,8 +15,8 @@ fi
 docker compose -f docker-compose.full.yml up -d --build
 
 echo "✅ Stack complète démarrée:"
-echo "   - Frontend: http://localhost:3000"
-echo "   - Backend: http://localhost:5001"
+echo "   - Frontend: http://localhost:8080"
+echo "   - Backend: http://localhost:5080"
 echo "   - PostgreSQL: localhost:5432"
 echo "   - Redis: localhost:6379"
 echo "   - Prometheus: http://localhost:9090"

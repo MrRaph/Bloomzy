@@ -8,6 +8,11 @@ Bloomzy est une plateforme collaborative pour la gestion intelligente des plante
 - **frontend/** : Application Vue.js, interface utilisateur, tests
 - **docs/** : Documentation technique, fonctionnelle et API
 
+
+## Aperçu de l'application
+
+![Capture d'écran de la page d'accueil](docs/assets/screenshot-homepage.jpg)
+
 ## Démarrage rapide
 
 ### Backend

@@ -381,7 +381,7 @@ Définir une architecture technique robuste, scalable et maintenable pour l'appl
 #### 12.1.2 Software licenses
 - **SSL certificates**: 100€/an
 - **Monitoring tools**: 1000-2000€/an
-- **Security tools**: 2000-3000€/an
+- **Security tools**: 2000-8080€/an
 - **Development tools**: 1000€/an
 - **Third-party APIs**: 500-1000€/mois
 

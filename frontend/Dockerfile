@@ -18,7 +18,7 @@ RUN npm install --legacy-peer-deps
 COPY . .
 
 # Définir les variables d'environnement pour le build
-ARG VITE_API_URL=http://localhost:5001
+ARG VITE_API_URL=http://localhost:5080
 ENV VITE_API_URL=$VITE_API_URL
 
 # Builder l'application
@@ -29,4 +29,5 @@ RUN ls -la dist/
 
 EXPOSE 8080
 
-CMD ["npx", "http-server", "dist", "-p", "8080", "--cors"]
+# Ajout du fallback SPA pour rediriger toutes les routes vers index.html
+CMD ["npx", "http-server", "dist", "-p", "8080", "--cors", "-c-1", "--proxy", "http://localhost:8080?", "--fallback", "index.html"]
