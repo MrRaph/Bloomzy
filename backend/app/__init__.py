@@ -1,5 +1,6 @@
 
 from flask import Flask, jsonify
+from flask_cors import CORS
 from models.user import db
 from routes.auth import bp as auth_bp
 from routes.api_keys import bp as api_keys_bp
@@ -11,6 +12,9 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key')
+
+    # Configuration CORS pour permettre les requêtes depuis le frontend
+    CORS(app, origins=['http://localhost:8080'], supports_credentials=True)
 
     db.init_app(app)
     with app.app_context():
