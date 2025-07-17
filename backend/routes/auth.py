@@ -36,21 +36,6 @@ def jwt_required(f):
 @jwt_required
 def protected():
     return jsonify({'message': 'Accès autorisé'}), 200
-from models.user import db, User
-
-# Blacklist JWT en mémoire (à remplacer par une solution persistante en prod)
-jwt_blacklist = set()
-
-bp = Blueprint('auth', __name__, url_prefix='/auth')
-
-def jwt_required(f):
-    @wraps(f)
-
-
-@bp.route('/protected', methods=['GET'])
-@jwt_required
-def protected():
-    return jsonify({'message': 'Accès autorisé'}), 200
 
 @bp.route('/signup', methods=['POST'])
 def signup():
@@ -128,3 +113,76 @@ def logout():
         return jsonify({'error': 'Token requis'}), 400
     jwt_blacklist.add(token)
     return jsonify({'message': 'Déconnexion réussie'}), 200
+
+def get_current_user():
+    """Récupère l'utilisateur courant à partir du token JWT"""
+    token = None
+    if 'Authorization' in request.headers:
+        auth_header = request.headers['Authorization']
+        if auth_header.startswith('Bearer '):
+            token = auth_header.split(' ')[1]
+    
+    if not token:
+        return None
+    
+    secret = current_app.config.get('SECRET_KEY', 'dev-secret-key')
+    if token in jwt_blacklist:
+        return None
+    
+    try:
+        payload = jwt.decode(token, secret, algorithms=['HS256'])
+        user = User.query.get(payload['user_id'])
+        return user
+    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
+        return None
+
+@bp.route('/profile', methods=['GET'])
+@jwt_required
+def get_profile():
+    user = get_current_user()
+    if not user:
+        return jsonify({'error': 'Utilisateur non trouvé'}), 404
+    return jsonify(user.to_dict()), 200
+
+@bp.route('/profile', methods=['PUT'])
+@jwt_required
+def update_profile():
+    user = get_current_user()
+    if not user:
+        return jsonify({'error': 'Utilisateur non trouvé'}), 404
+    
+    data = request.get_json()
+    if not data:
+        return jsonify({'error': 'Données requises'}), 400
+    
+    # Champs modifiables
+    updatable_fields = ['username', 'first_name', 'last_name', 'bio', 'location', 
+                       'timezone', 'language', 'notifications_enabled', 'email_notifications']
+    
+    # Validation username unique
+    if 'username' in data and data['username'] != user.username:
+        existing_user = User.query.filter_by(username=data['username']).first()
+        if existing_user:
+            return jsonify({'error': 'Nom d\'utilisateur déjà utilisé'}), 409
+    
+    # Validation des champs
+    if 'username' in data and data['username']:
+        if len(data['username']) < 3 or len(data['username']) > 80:
+            return jsonify({'error': 'Nom d\'utilisateur entre 3 et 80 caractères'}), 400
+    
+    if 'bio' in data and data['bio'] and len(data['bio']) > 500:
+        return jsonify({'error': 'Bio limitée à 500 caractères'}), 400
+    
+    # Mise à jour des champs
+    for field in updatable_fields:
+        if field in data:
+            setattr(user, field, data[field])
+    
+    user.updated_at = datetime.datetime.utcnow()
+    
+    try:
+        db.session.commit()
+        return jsonify(user.to_dict()), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': 'Erreur lors de la mise à jour'}), 500
