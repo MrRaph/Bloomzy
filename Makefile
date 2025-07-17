@@ -154,6 +154,30 @@ docker-stop: ## Arrête les conteneurs Docker
 docker-logs: ## Affiche les logs Docker
 	docker compose -f docker-compose.dev.yml logs -f
 
+docker-monitoring: ## Lance uniquement les services de monitoring
+	@echo "$(BLUE)🔍 Lancement des services de monitoring...$(NC)"
+	./scripts/start-monitoring.sh
+	@echo "$(GREEN)✅ Monitoring disponible sur http://localhost:3001$(NC)"
+
+docker-full: ## Lance la stack complète (app + monitoring + database)
+	@echo "$(BLUE)🚀 Lancement de la stack complète...$(NC)"
+	./scripts/start-full-stack.sh
+	@echo "$(GREEN)✅ Stack complète démarrée$(NC)"
+
+docker-backup: ## Sauvegarde les données Docker
+	@echo "$(YELLOW)💾 Sauvegarde en cours...$(NC)"
+	./scripts/backup.sh
+	@echo "$(GREEN)✅ Sauvegarde terminée$(NC)"
+
+docker-restore: ## Restaure les données Docker (usage: make docker-restore BACKUP=backup_name)
+	@echo "$(YELLOW)🔄 Restauration en cours...$(NC)"
+	@if [ -z "$(BACKUP)" ]; then \
+		echo "$(RED)❌ Veuillez spécifier un backup: make docker-restore BACKUP=backup_name$(NC)"; \
+		exit 1; \
+	fi
+	./scripts/restore.sh $(BACKUP)
+	@echo "$(GREEN)✅ Restauration terminée$(NC)"
+
 # =============================================================================
 # MAINTENANCE
 # =============================================================================
