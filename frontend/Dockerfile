@@ -29,4 +29,5 @@ RUN ls -la dist/
 
 EXPOSE 8080
 
-CMD ["npx", "http-server", "dist", "-p", "8080", "--cors"]
+# Ajout du fallback SPA pour rediriger toutes les routes vers index.html
+CMD ["npx", "http-server", "dist", "-p", "8080", "--cors", "-c-1", "--proxy", "http://localhost:8080?", "--fallback", "index.html"]
