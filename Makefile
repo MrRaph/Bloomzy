@@ -141,7 +141,7 @@ build-frontend: ## Build le frontend
 
 docker-build: ## Build les images Docker
 	@echo "$(YELLOW)Build des images Docker...$(NC)"
-	docker compose build
+	docker compose -f docker-compose.dev.yml build
 	@echo "$(GREEN)✅ Images Docker créées$(NC)"
 
 docker-run: ## Lance l'application avec Docker
