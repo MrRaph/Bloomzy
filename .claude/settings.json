@@ -5,7 +5,8 @@
       "Bash(make test:*)",
       "Bash(ls:*)",
       "Bash(source:*)",
-      "Bash(pip install:*)"
+      "Bash(pip install:*)",
+      "Bash(gh:*)"
     ],
     "deny": []
   }
