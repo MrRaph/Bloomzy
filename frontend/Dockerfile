@@ -5,6 +5,9 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+# Installer wget pour les health checks
+RUN apk add --no-cache wget
+
 # Copier les fichiers de dépendances
 COPY package*.json ./
 

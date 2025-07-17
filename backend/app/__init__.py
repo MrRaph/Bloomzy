@@ -1,5 +1,5 @@
 
-from flask import Flask
+from flask import Flask, jsonify
 from models.user import db
 from routes.auth import bp as auth_bp
 from routes.api_keys import bp as api_keys_bp
@@ -18,5 +18,13 @@ def create_app():
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(api_keys_bp)
-    app.register_blueprint(indoor_plants_bp)
+    
+    @app.route('/health')
+    def health_check():
+        return jsonify({
+            'status': 'healthy',
+            'service': 'bloomzy-backend',
+            'database': 'connected'
+        }), 200
+    
     return app
