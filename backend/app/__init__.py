@@ -3,6 +3,7 @@ from flask import Flask
 from models.user import db
 from routes.auth import bp as auth_bp
 from routes.api_keys import bp as api_keys_bp
+from routes.indoor_plants import indoor_plants_bp
 import os
 
 def create_app():
@@ -17,4 +18,5 @@ def create_app():
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(api_keys_bp)
+    app.register_blueprint(indoor_plants_bp)
     return app
