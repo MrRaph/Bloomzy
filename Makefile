@@ -18,6 +18,7 @@ NC := \033[0m # No Color
 
 help: ## Affiche cette aide
 	@echo "$(BLUE)Bloomzy Project - Commandes disponibles:$(NC)"
+	@echo "\n$(YELLOW)Pour l'environnement Docker, utilisez : make dev-docker, make test-docker, etc.$(NC)"
 	@echo ""
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(GREEN)%-20s$(NC) %s\n", $$1, $$2}'
 
@@ -137,21 +138,21 @@ build-frontend: ## Build le frontend
 
 docker-build: ## Build les images Docker
 	@echo "$(YELLOW)Build des images Docker...$(NC)"
-	docker-compose build
+	docker compose -f docker-compose.dev.yml build
 	@echo "$(GREEN)✅ Images Docker créées$(NC)"
 
 docker-run: ## Lance l'application avec Docker
 	@echo "$(BLUE)🐳 Lancement de l'application avec Docker...$(NC)"
-	docker-compose up -d
+	docker compose -f docker-compose.dev.yml up -d
 	@echo "$(GREEN)✅ Application disponible sur http://localhost:$(FRONTEND_PORT)$(NC)"
 
 docker-stop: ## Arrête les conteneurs Docker
 	@echo "$(YELLOW)Arrêt des conteneurs Docker...$(NC)"
-	docker-compose down
+	docker compose -f docker-compose.dev.yml down
 	@echo "$(GREEN)✅ Conteneurs arrêtés$(NC)"
 
 docker-logs: ## Affiche les logs Docker
-	docker-compose logs -f
+	docker compose -f docker-compose.dev.yml logs -f
 
 # =============================================================================
 # MAINTENANCE

@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: bloomzy-backend:prod
+    restart: always
+    environment:
+      - FLASK_ENV=production
+      - FLASK_DEBUG=0
+    ports:
+      - "5001:5000"
+    command: ["python", "run.py"]
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:5001
+    image: bloomzy-frontend:prod
+    restart: always
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "3000:8080"
+    depends_on:
+      - backend

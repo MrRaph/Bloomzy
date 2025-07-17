@@ -6,7 +6,12 @@
       "Bash(ls:*)",
       "Bash(source:*)",
       "Bash(pip install:*)",
-      "Bash(gh:*)"
+      "Bash(gh:*)",
+      "Bash(vue:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm install)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }
