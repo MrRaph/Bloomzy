@@ -87,4 +87,68 @@ Déconnexion de l’utilisateur et ajout du token JWT à une blacklist côté se
 
 ---
 
-*Cette documentation doit être mise à jour à chaque ajout ou modification d’endpoint.*
+---
+
+## GET /auth/profile
+
+**Description** : Récupération du profil utilisateur connecté.
+
+**Headers requis** :
+- `Authorization: Bearer <token>`
+
+**Réponses** :
+- `200 OK` : Profil utilisateur
+  - `{ "id": int, "email": string, "username": string, "first_name": string, "last_name": string, "bio": string, "profile_picture": string, "location": string, "timezone": string, "language": string, "notifications_enabled": boolean, "email_notifications": boolean, "created_at": string, "updated_at": string, "is_active": boolean }`
+- `401 Unauthorized` : Token manquant ou invalide
+- `404 Not Found` : Utilisateur non trouvé
+
+**Cas testés** :
+- Récupération réussie du profil
+- Accès sans token
+- Token invalide
+
+---
+
+## PUT /auth/profile
+
+**Description** : Mise à jour du profil utilisateur connecté.
+
+**Headers requis** :
+- `Authorization: Bearer <token>`
+- `Content-Type: application/json`
+
+**Payload JSON optionnel** :
+- `username` (string) : Nom d'utilisateur (3-80 caractères, unique)
+- `first_name` (string) : Prénom
+- `last_name` (string) : Nom
+- `bio` (string) : Biographie (max 500 caractères)
+- `location` (string) : Localisation
+- `timezone` (string) : Fuseau horaire
+- `language` (string) : Langue
+- `notifications_enabled` (boolean) : Notifications activées
+- `email_notifications` (boolean) : Notifications par email
+
+**Réponses** :
+- `200 OK` : Profil mis à jour
+  - `{ profil_utilisateur_complet }`
+- `400 Bad Request` :
+  - Données requises manquantes
+  - Username trop court/long
+  - Bio trop longue
+  - `{ "error": string }`
+- `401 Unauthorized` : Token manquant ou invalide
+- `404 Not Found` : Utilisateur non trouvé
+- `409 Conflict` : Username déjà utilisé
+- `500 Internal Server Error` : Erreur lors de la mise à jour
+
+**Cas testés** :
+- Mise à jour réussie du profil
+- Mise à jour des préférences
+- Username déjà utilisé
+- Username invalide (trop court)
+- Bio trop longue
+- Mise à jour avec données vides
+
+---
+
+*Cette documentation doit être mise à jour à chaque ajout ou modification d'endpoint.*

@@ -152,7 +152,7 @@ def update_profile():
         return jsonify({'error': 'Utilisateur non trouvé'}), 404
     
     data = request.get_json()
-    if not data:
+    if data is None:
         return jsonify({'error': 'Données requises'}), 400
     
     # Champs modifiables

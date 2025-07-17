@@ -2,6 +2,7 @@
 from flask import Flask
 from models.user import db
 from routes.auth import bp as auth_bp
+from routes.api_keys import bp as api_keys_bp
 import os
 
 def create_app():
@@ -15,4 +16,5 @@ def create_app():
         db.create_all()
 
     app.register_blueprint(auth_bp)
+    app.register_blueprint(api_keys_bp)
     return app
