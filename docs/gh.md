@@ -17,10 +17,16 @@ Utilisez les labels suivants pour catégoriser les issues selon le domaine :
 
 Pour chaque action à réaliser (voir les fichiers TODOs), créez une issue avec la commande :
 
+Avant de créer une issue, vérifiez d'abord si elle existe déjà dans le dépôt :
+```zsh
+gh issue list --repo MrRaph/Bloomzy --json number,title,labels | jq
+```
+Vous pouvez filtrer par mot-clé ou label avec jq pour vérifier l'existence d'une issue.
+Si l'issue existe, utilisez-la. Sinon, créez-la avec la commande suivante :
 ```sh
 gh issue create --title "<Titre>" --body "<Objectif, validation, critères>" --label "<domaine>"
 ```
-Exemple :
+Exemple :
 ```sh
 gh issue create --title "Initialisation du module Auth" --body "Objectif : Structure de base, endpoints REST, modèles DB.\nValidation : Tests unitaires sur la création d’utilisateur.\nCritères : TDD, documentation, PR sur branche dédiée." --label "auth"
 ```
@@ -50,6 +56,28 @@ gh project item-add 3 --owner MrRaph --url https://github.com/MrRaph/Bloomzy/iss
 - Suivez l'avancement dans le projet et déplacez la carte dans la colonne correspondante (Revue, Terminé).
 - Utilisez les labels pour filtrer et suivre l’avancement par domaine.
 - Reliez chaque PR à son issue pour assurer la traçabilité.
+
+### Exemple de workflow réel (CLI + Web)
+
+1. **Création de la branche dédiée**
+2. **Création de la PR liée à l'issue**
+   - Utiliser la commande :
+     ```zsh
+     gh pr create --fill --base main --head feature/auth-init --title "Implémentation : Initialisation du module Auth" --body "Closes #1\nStructure backend Flask, endpoints Auth, tests TDD, Makefile, documentation et bonnes pratiques."
+     ```
+   - La PR est automatiquement liée à l'issue grâce au champ `Closes #1`.
+3. **Ajout d'un commentaire de progression sur l'issue**
+   - Utiliser la commande :
+     ```zsh
+     gh issue comment 1 --repo MrRaph/Bloomzy --body "Progression : ..."
+     ```
+   - Permet de documenter l'avancement et la traçabilité.
+4. **Déplacement de l'item dans le projet GitHub**
+   - La commande CLI pour déplacer l'item dans la colonne "En cours" (`gh project item-move ...`) n'est pas fonctionnelle avec les flags `--owner` ou `--id` (erreur CLI).
+   - Solution : effectuer le déplacement manuellement via l'interface web GitHub Project.
+
+**Remarque :**
+La liaison PR/issue fonctionne parfaitement via la CLI, mais la gestion des colonnes du projet nécessite souvent une action manuelle sur l'interface web, en raison des limitations ou changements de la CLI GitHub.
 
 ## 5. Bonnes pratiques
 

@@ -15,6 +15,10 @@ Les spécifications fonctionnelles et techniques sont détaillées dans les fich
 - `docs/prds/bloomzy_prd_notifications.md`
 - `docs/prds/bloomzy_prd_ai_integration.md`
 
+### Contraintes techniques
+- Backend Python : `docs/backend.md`
+- Frontend Vue.js : `docs/frontend.md`
+
 ### TODOs
 Les étapes de développement, validation et documentation sont listées dans :
 - `docs/todos/todo_auth.md`
@@ -44,6 +48,21 @@ Les étapes de développement, validation et documentation sont listées dans :
 - Utiliser les outils et frameworks recommandés dans les PRDs.
 - Mettre à jour la documentation à chaque ajout ou modification significative.
 - En cas de doute, demander une validation ou clarification avant d’implémenter.
+
+## 8. Automatisation et bonnes pratiques
+- Utiliser le Makefile du backend (`backend/Makefile`) pour automatiser la création du venv, l’installation des dépendances et l’exécution des tests. Voir la documentation associée dans `docs/backend/makefile.md`.
+- Consulter et mettre à jour le fichier des bonnes pratiques backend dans `docs/backend/best_practices.md` pour garantir la qualité, la sécurité et la maintenabilité du code Python/Flask.
+
+## 7. Environnement virtuel Python (backend)
+
+- Créer le venv dans le dossier `backend/.venv` :
+  ```zsh
+  python3 -m venv backend/.venv
+  source backend/.venv/bin/activate
+  pip install -r backend/requirements.txt
+  ```
+- Exclure le dossier `backend/.venv/` du suivi git via `.gitignore`.
+- Toujours installer les dépendances Python dans ce venv pour garantir l’isolation du projet.
 
 ---
 
