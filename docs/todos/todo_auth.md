@@ -6,8 +6,13 @@ Développer un système d’authentification sécurisé, complet et personnalisa
 ### Étapes
 1. **Initialisation du module Auth** ([Issue #1](https://github.com/MrRaph/Bloomzy/issues/1))
    - Créer la branche `feature/auth-init`.
-   - Objectif : Structure de base, endpoints REST, modèles DB.
-   - Validation : Tests unitaires sur la création d’utilisateur.
+   - Objectif : Structure de base, endpoints REST, modèles DB, persistance SQLAlchemy, JWT, Makefile, modularisation (blueprints, modèles séparés).
+   - Validation :
+       - Tests unitaires et d’intégration sur l’inscription et la connexion.
+       - Automatisation des tests via Makefile.
+       - Documentation des endpoints et du Makefile.
+       - Respect des bonnes pratiques (voir `docs/backend/best_practices.md`).
+       - Documentation à jour dans les fichiers dédiés.
 
 2. **Inscription & Connexion (email, OAuth, invité)** ([Issue #2](https://github.com/MrRaph/Bloomzy/issues/2))
    - Développer les endpoints et la logique métier.
