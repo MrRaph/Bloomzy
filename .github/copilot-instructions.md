@@ -15,6 +15,10 @@ Les spécifications fonctionnelles et techniques sont détaillées dans les fich
 - `docs/prds/bloomzy_prd_notifications.md`
 - `docs/prds/bloomzy_prd_ai_integration.md`
 
+### Contraintes techniques
+- Backend Python : `docs/backend.md`
+- Frontend Vue.js : `docs/frontend.md`
+
 ### TODOs
 Les étapes de développement, validation et documentation sont listées dans :
 - `docs/todos/todo_auth.md`
