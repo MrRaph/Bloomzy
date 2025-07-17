@@ -36,7 +36,7 @@ npm run dev
 ```bash
 # Development
 make docker-build          # Build Docker images
-make docker-run            # Start containers (frontend: localhost:3000, backend: localhost:5001)
+make docker-run            # Start containers (frontend: localhost:8080, backend: localhost:5080)
 make docker-stop           # Stop containers
 make docker-logs           # View logs
 
@@ -139,8 +139,8 @@ docs/
 - Monitoring with Prometheus/Grafana
 
 ### Docker Architecture
-- **Frontend**: Vue.js app built and served via http-server on port 8080 (exposed as 3000)
-- **Backend**: Flask app running on port 5000 (exposed as 5001)
+- **Frontend**: Vue.js app built and served via http-server on port 8080 (exposed as 8080)
+- **Backend**: Flask app running on port 5000 (exposed as 5080)
 - **Environment Variables**: 
   - `VITE_API_URL` for frontend API configuration
   - `FLASK_ENV` and `FLASK_DEBUG` for backend environment

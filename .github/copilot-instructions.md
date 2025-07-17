@@ -112,7 +112,7 @@ Ces commandes permettent de vérifier rapidement l'état d'initialisation et le 
 # Installation et build
 make install              # Installe toutes les dépendances (backend + frontend)
 make docker-build        # Build les images Docker
-make docker-run          # Démarre les conteneurs (frontend: localhost:3000, backend: localhost:5001)
+make docker-run          # Démarre les conteneurs (frontend: localhost:8080, backend: localhost:5080)
 make docker-stop         # Arrête les conteneurs
 make docker-logs         # Affiche les logs
 
@@ -131,20 +131,20 @@ docker compose -f docker-compose.prod.yml build    # Build images production
 ```
 
 ### URLs des services
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:5001
-- **Test endpoint protégé**: http://localhost:5001/auth/protected
+- **Frontend**: http://localhost:8080
+- **Backend API**: http://localhost:5080
+- **Test endpoint protégé**: http://localhost:5080/auth/protected
 
 ### Architecture Docker
-- **Frontend**: Vue.js buildé et servi via http-server sur port 8080 (exposé 3000)
-- **Backend**: Flask sur port 5000 (exposé 5001)
+- **Frontend**: Vue.js buildé et servi via http-server sur port 8080 (exposé 8080)
+- **Backend**: Flask sur port 5000 (exposé 5080)
 - **Variables d'environnement**:
   - `VITE_API_URL`: URL de l'API backend pour le frontend
   - `FLASK_ENV` et `FLASK_DEBUG`: Configuration environnement backend
 - **Réseau**: Docker network `bloomzy_default` pour la communication inter-services
 
 ### Résolution des problèmes courants
-1. **Conflit de ports**: Le backend utilise le port 5001 (5000 occupé par AirPlay sur macOS)
+1. **Conflit de ports**: Le backend utilise le port 5080 (5000 occupé par AirPlay sur macOS)
 2. **Échec du build frontend**: Vérifier que le répertoire `dist/` existe après build
 3. **Échec des appels API**: Vérifier la variable d'environnement `VITE_API_URL`
 4. **Problèmes de base de données**: Vérifier les permissions du fichier SQLite
@@ -161,7 +161,7 @@ docker logs bloomzy-backend-1
 docker exec -it bloomzy-backend-1 /bin/bash
 
 # Tester l'API directement
-curl http://localhost:5001/auth/protected
+curl http://localhost:5080/auth/protected
 ```
 
 ## 10. Standards de code

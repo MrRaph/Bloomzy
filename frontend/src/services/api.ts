@@ -1,38 +1,45 @@
 
 import axios from 'axios'
 import type { AuthTokens, User, LoginCredentials, SignupData } from '@/types'
-// Utilisation directe d'axios pour faciliter le mock dans les tests
+
+// Configuration de l'URL de base de l'API
+const API_BASE_URL = import.meta.env.VITE_API_URL || ''
+
+// Création d'une instance axios avec l'URL de base
+const apiClient = axios.create({
+  baseURL: API_BASE_URL
+})
 
 // Indoor Plants API
 export const fetchIndoorPlants = async (search?: string): Promise<any[]> => {
   const params = search ? { search } : {}
-  const res = await axios.get<any[]>('/indoor-plants/', { params })
+  const res = await apiClient.get<any[]>('/indoor-plants/', { params })
   return res.data
 }
 
 export const createIndoorPlant = async (payload: Record<string, any>): Promise<any> => {
-  const res = await axios.post('/indoor-plants/', payload)
+  const res = await apiClient.post('/indoor-plants/', payload)
   return res.data
 }
 
 export const authApi = {
   login: (credentials: LoginCredentials) => 
-    axios.post<AuthTokens>('/auth/login', credentials),
+    apiClient.post<AuthTokens>('/auth/login', credentials),
   
   signup: (data: SignupData) => 
-    axios.post<AuthTokens>('/auth/signup', data),
+    apiClient.post<AuthTokens>('/auth/signup', data),
   
   logout: () => 
-    axios.post('/auth/logout'),
+    apiClient.post('/auth/logout'),
   
   getProfile: () => 
-    axios.get<User>('/auth/profile'),
+    apiClient.get<User>('/auth/profile'),
   
   updateProfile: (data: Partial<User>) => 
-    axios.put<User>('/auth/profile', data),
+    apiClient.put<User>('/auth/profile', data),
   
   refreshToken: () => 
-    axios.post<{ access_token: string }>('/auth/refresh')
+    apiClient.post<{ access_token: string }>('/auth/refresh')
 }
 
 // export default supprimé car l'instance api n'est plus utilisée

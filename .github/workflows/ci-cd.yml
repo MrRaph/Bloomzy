@@ -78,7 +78,7 @@ jobs:
     
     - name: Build frontend image
       run: |
-        docker build -t bloomzy-frontend:latest ./frontend --build-arg VITE_API_URL=http://localhost:5001
+        docker build -t bloomzy-frontend:latest ./frontend --build-arg VITE_API_URL=http://localhost:5080
     
     - name: Test Docker images
       run: |
@@ -86,10 +86,10 @@ jobs:
         sleep 30
         
         # Test backend health
-        curl -f http://localhost:5001/health || exit 1
+        curl -f http://localhost:5080/health || exit 1
         
         # Test frontend
-        curl -f http://localhost:3000 || exit 1
+        curl -f http://localhost:8080 || exit 1
         
         docker compose -f docker-compose.dev.yml down
 

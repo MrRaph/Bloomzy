@@ -131,8 +131,8 @@ sleep 30
 
 echo "✅ Restauration terminée!"
 echo "🌐 Services disponibles:"
-echo "   - Frontend: http://localhost:3000"
-echo "   - Backend: http://localhost:5001"
+echo "   - Frontend: http://localhost:8080"
+echo "   - Backend: http://localhost:5080"
 echo "   - Grafana: http://localhost:3001"
 
 # Vérifier l'état des services

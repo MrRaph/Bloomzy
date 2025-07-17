@@ -18,7 +18,7 @@ RUN npm install --legacy-peer-deps
 COPY . .
 
 # Définir les variables d'environnement pour le build
-ARG VITE_API_URL=http://localhost:5001
+ARG VITE_API_URL=http://localhost:5080
 ENV VITE_API_URL=$VITE_API_URL
 
 # Builder l'application

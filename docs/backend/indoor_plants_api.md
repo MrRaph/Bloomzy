@@ -59,14 +59,14 @@
 
 ### Création
 ```bash
-curl -X POST http://localhost:5001/indoor-plants/ \
+curl -X POST http://localhost:5080/indoor-plants/ \
   -H "Content-Type: application/json" \
   -d '{"scientific_name": "Sansevieria trifasciata", "air_purification": true}'
 ```
 
 ### Recherche
 ```bash
-curl http://localhost:5001/indoor-plants/?search=Sansevieria
+curl http://localhost:5080/indoor-plants/?search=Sansevieria
 ```
 
 ## Statut

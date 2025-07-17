@@ -6,8 +6,8 @@
 # Variables
 BACKEND_DIR := backend
 FRONTEND_DIR := frontend
-BACKEND_PORT := 5001
-FRONTEND_PORT := 3000
+BACKEND_PORT := 5080
+FRONTEND_PORT := 8080
 
 # Couleurs pour les messages
 RED := \033[0;31m

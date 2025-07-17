@@ -15,7 +15,7 @@
 - **Backend** : Optimisation des layers Docker et copie des dépendances en premier
 
 #### 2. Configuration Docker Compose
-- **Ports** : Frontend sur 3000 (externe) → 8080 (interne), Backend sur 5001 (externe) → 5000 (interne)
+- **Ports** : Frontend sur 8080 (externe) → 8080 (interne), Backend sur 5080 (externe) → 5000 (interne)
 - **Variables d'environnement** : Configuration de `VITE_API_URL` pour le frontend
 - **Dépendances** : Le frontend dépend du backend (`depends_on`)
 
@@ -50,21 +50,21 @@ docker compose -f docker-compose.prod.yml down
 ## Accès aux services
 
 ### Développement et Production
-- **Frontend** : http://localhost:3000
-- **Backend API** : http://localhost:5001
-- **Endpoint de test** : http://localhost:5001/auth/protected
+- **Frontend** : http://localhost:8080
+- **Backend API** : http://localhost:5080
+- **Endpoint de test** : http://localhost:5080/auth/protected
 
 ## Tests avec MCP Puppeteer
 
 L'application a été testée avec MCP Puppeteer et toutes les fonctionnalités suivantes fonctionnent :
 
-✅ **Frontend (localhost:3000)**
+✅ **Frontend (localhost:8080)**
 - Page d'accueil
 - Navigation entre les pages
 - Formulaires interactifs
 - Interface utilisateur responsive
 
-✅ **Backend (localhost:5001)**
+✅ **Backend (localhost:5080)**
 - API d'authentification
 - Endpoints protégés avec JWT
 - Validation des données
@@ -82,7 +82,7 @@ L'application a été testée avec MCP Puppeteer et toutes les fonctionnalités 
 ┌─────────────────┐    ┌─────────────────┐
 │   Frontend      │    │   Backend       │
 │   (Vue.js)      │    │   (Flask)       │
-│   Port: 3000    │◄───┤   Port: 5001    │
+│   Port: 8080    │◄───┤   Port: 5080    │
 │                 │    │                 │
 └─────────────────┘    └─────────────────┘
        │                        │
@@ -96,7 +96,7 @@ L'application a été testée avec MCP Puppeteer et toutes les fonctionnalités 
 ## Variables d'environnement
 
 ### Frontend
-- `VITE_API_URL`: URL de l'API backend (défaut: http://localhost:5001)
+- `VITE_API_URL`: URL de l'API backend (défaut: http://localhost:5080)
 
 ### Backend
 - `FLASK_ENV`: development ou production
