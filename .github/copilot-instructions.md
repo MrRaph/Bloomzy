@@ -49,6 +49,17 @@ Les étapes de développement, validation et documentation sont listées dans :
 - Mettre à jour la documentation à chaque ajout ou modification significative.
 - En cas de doute, demander une validation ou clarification avant d’implémenter.
 
+## 7. Environnement virtuel Python (backend)
+
+- Créer le venv dans le dossier `backend/.venv` :
+  ```zsh
+  python3 -m venv backend/.venv
+  source backend/.venv/bin/activate
+  pip install -r backend/requirements.txt
+  ```
+- Exclure le dossier `backend/.venv/` du suivi git via `.gitignore`.
+- Toujours installer les dépendances Python dans ce venv pour garantir l’isolation du projet.
+
 ---
 
 **Pour toute nouvelle fonctionnalité, suivre le process décrit dans les TODOs et valider la conformité avec les PRDs.**
