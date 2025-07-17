@@ -18,6 +18,7 @@ def create_app():
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(api_keys_bp)
+    app.register_blueprint(indoor_plants_bp)
     
     @app.route('/health')
     def health_check():

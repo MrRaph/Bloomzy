@@ -42,7 +42,10 @@ def signup():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
-    recaptcha = data.get('recaptcha_token')
+    # recaptcha = data.get('recaptcha_token')
+    # Désactivé temporairement la vérification du captcha (sera géré via l'admin)
+    # if recaptcha is None:
+    #     return jsonify({'error': 'Captcha requis'}), 400
 
     if not email or not password:
         return jsonify({'error': 'Champs obligatoires manquants'}), 400
@@ -54,8 +57,8 @@ def signup():
     if len(password) < 8 or password.isdigit() or password.isalpha():
         return jsonify({'error': 'Mot de passe trop faible'}), 400
 
-    if recaptcha is None:
-        return jsonify({'error': 'Captcha requis'}), 400
+    # if recaptcha is None:
+    #     return jsonify({'error': 'Captcha requis'}), 400
 
     if User.query.filter_by(email=email).first():
         return jsonify({'error': 'Email existe déjà'}), 409
