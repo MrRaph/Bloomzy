@@ -32,7 +32,16 @@ Développer un système d’authentification sécurisé, complet et personnalisa
    - ✅ Validation : Tests de sécurité, tests d'intégration.
    - **Détail** : Endpoints CRUD `/api/keys/`, chiffrement avec cryptography, support OpenAI/Claude/Gemini/HuggingFace, 12 tests passants.
 
-5. **🔄 Sécurité avancée** ([Issue #5](https://github.com/MrRaph/Bloomzy/issues/5)) - **EN ATTENTE**
+5. **✅ Interface utilisateur frontend** ([Issue #31](https://github.com/MrRaph/Bloomzy/issues/31)) - **TERMINÉ**
+   - ✅ Page d'accueil avec présentation des fonctionnalités
+   - ✅ Page de connexion avec formulaire d'authentification
+   - ✅ Page d'inscription avec validation des données
+   - ✅ Page de profil utilisateur avec gestion des informations
+   - ✅ Navigation avec Vue Router et protection des routes
+   - ✅ Intégration API avec le backend Flask
+   - **Détail** : Vue.js 3, TypeScript, Pinia, design responsive
+
+6. **🔄 Sécurité avancée** ([Issue #5](https://github.com/MrRaph/Bloomzy/issues/5)) - **EN ATTENTE**
    - MFA, rate limiting, audit trail, RGPD.
    - Objectif : Implémentation, documentation, tests de sécurité.
    - Validation : Couverture >90%, audit automatisé.
@@ -47,13 +56,15 @@ Développer un système d’authentification sécurisé, complet et personnalisa
 **Statut global** : 🎉 **MODULE AUTH COMPLÈTEMENT FONCTIONNEL**
 
 **Fonctionnalités implémentées** :
-- Système d'authentification JWT complet
-- Gestion des profils utilisateur avec préférences
-- Gestion sécurisée des clés API IA (chiffrement)
-- 37 tests automatisés (100% de passage)
+- Système d'authentification JWT complet (Backend)
+- Gestion des profils utilisateur avec préférences (Backend)
+- Gestion sécurisée des clés API IA (Backend)
+- Interface utilisateur complète (Frontend)
+- 37 tests automatisés backend (100% de passage)
 - Documentation complète des APIs
 - Structure modulaire avec blueprints Flask
+- Application Vue.js avec TypeScript et Pinia
 
 **Prochaines étapes** :
-- Préparer PR pour merge vers `main`
+- Finaliser PR #30 pour merge vers `main`
 - Commencer le module suivant (Indoor Plants ou Architecture)
