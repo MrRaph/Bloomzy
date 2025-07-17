@@ -152,7 +152,7 @@ docker-stop: ## Arrête les conteneurs Docker
 	@echo "$(GREEN)✅ Conteneurs arrêtés$(NC)"
 
 docker-logs: ## Affiche les logs Docker
-	docker compose -f docker-compose.dev.yml logs -f
+	docker compose -f docker-compose.dev.yml logs
 
 docker-monitoring: ## Lance uniquement les services de monitoring
 	@echo "$(BLUE)🔍 Lancement des services de monitoring...$(NC)"
