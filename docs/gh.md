@@ -60,3 +60,31 @@ gh project item-add 3 --owner MrRaph --url https://github.com/MrRaph/Bloomzy/iss
 ---
 
 Pour toute question ou problème, consultez les fichiers de référence ou demandez une validation avant d’implémenter.
+
+
+## 6. Utilisation de la CLI GitHub (gh)
+
+Pour gérer et vérifier efficacement les issues, labels et projets, utilisez la CLI GitHub (`gh`). Voici les commandes recommandées :
+
+- **Lister toutes les issues du projet** :
+  ```zsh
+  gh issue list --repo MrRaph/Bloomzy
+  ```
+- **Lister les issues par label** :
+  ```zsh
+  gh issue list --repo MrRaph/Bloomzy --label auth,indoor,garden,notifications,ai,community,architecture
+  ```
+- **Lister les projets du propriétaire** :
+  ```zsh
+  gh project list --owner MrRaph
+  ```
+- **Lister les items du projet "Bloomzy Roadmap" (ID 3)** :
+  ```zsh
+  gh project item-list 3 --owner MrRaph
+  ```
+- **Afficher le détail d’une issue** :
+  ```zsh
+  gh issue view <numéro_issue> --repo MrRaph/Bloomzy
+  ```
+
+Ces commandes permettent de vérifier à tout moment l’état d’initialisation et le suivi du projet sur GitHub.

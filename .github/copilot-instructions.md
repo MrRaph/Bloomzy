@@ -57,3 +57,31 @@ Le workflow complet de gestion des issues, du projet et des PRs est détaillé d
 - [docs/gh.md](../docs/gh.md)
 
 Merci de vous y référer pour toutes les étapes : création du projet, création et organisation des issues, passage en "In Progress", création de branche, PR, liaison des issues aux PRs, et bonnes pratiques.
+
+
+## 6. Utilisation de la CLI GitHub (gh)
+
+Pour faciliter la gestion et la vérification des issues, labels et projets, utilisez la CLI GitHub (`gh`). Voici les commandes utiles :
+
+- **Lister toutes les issues du projet** :
+  ```zsh
+  gh issue list --repo MrRaph/Bloomzy
+  ```
+- **Lister les issues par label** :
+  ```zsh
+  gh issue list --repo MrRaph/Bloomzy --label auth,indoor,garden,notifications,ai,community,architecture
+  ```
+- **Lister les projets du propriétaire** :
+  ```zsh
+  gh project list --owner MrRaph
+  ```
+- **Lister les items du projet "Bloomzy Roadmap" (ID 3)** :
+  ```zsh
+  gh project item-list 3 --owner MrRaph
+  ```
+- **Afficher le détail d’une issue** :
+  ```zsh
+  gh issue view <numéro_issue> --repo MrRaph/Bloomzy
+  ```
+
+Ces commandes permettent de vérifier rapidement l’état d’initialisation et le suivi du projet sur GitHub.
