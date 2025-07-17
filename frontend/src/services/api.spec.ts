@@ -4,10 +4,11 @@ import axios from 'axios'
 
 vi.mock('axios')
 
-const mockPlants = [
-  { id: 1, name: 'Monstera', type: 'indoor' },
-  { id: 2, name: 'Ficus', type: 'indoor' }
-]
+// const mockPlants = [
+//   { id: 1, name: 'Monstera', type: 'indoor' },
+//   { id: 2, name: 'Ficus', type: 'indoor' }
+// ]
+
 
 describe('Indoor Plants API service', () => {
   describe('fetchIndoorPlants', () => {
