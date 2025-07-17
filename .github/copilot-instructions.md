@@ -49,6 +49,10 @@ Les étapes de développement, validation et documentation sont listées dans :
 - Mettre à jour la documentation à chaque ajout ou modification significative.
 - En cas de doute, demander une validation ou clarification avant d’implémenter.
 
+## 8. Automatisation et bonnes pratiques
+- Utiliser le Makefile du backend (`backend/Makefile`) pour automatiser la création du venv, l’installation des dépendances et l’exécution des tests. Voir la documentation associée dans `docs/backend/makefile.md`.
+- Consulter et mettre à jour le fichier des bonnes pratiques backend dans `docs/backend/best_practices.md` pour garantir la qualité, la sécurité et la maintenabilité du code Python/Flask.
+
 ## 7. Environnement virtuel Python (backend)
 
 - Créer le venv dans le dossier `backend/.venv` :
