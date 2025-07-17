@@ -103,4 +103,92 @@ Pour faciliter la gestion et la vérification des issues, labels et projets, uti
   gh issue view <numéro_issue> --repo MrRaph/Bloomzy
   ```
 
-Ces commandes permettent de vérifier rapidement l’état d’initialisation et le suivi du projet sur GitHub.
+Ces commandes permettent de vérifier rapidement l'état d'initialisation et le suivi du projet sur GitHub.
+
+## 9. Déploiement Docker
+
+### Commandes de développement
+```bash
+# Installation et build
+make install              # Installe toutes les dépendances (backend + frontend)
+make docker-build        # Build les images Docker
+make docker-run          # Démarre les conteneurs (frontend: localhost:3000, backend: localhost:5001)
+make docker-stop         # Arrête les conteneurs
+make docker-logs         # Affiche les logs
+
+# Commandes manuelles
+docker compose -f docker-compose.dev.yml up -d     # Démarre conteneurs développement
+docker compose -f docker-compose.dev.yml down      # Arrête conteneurs développement
+docker compose -f docker-compose.dev.yml build     # Build images développement
+docker compose -f docker-compose.dev.yml logs -f   # Suit les logs en temps réel
+```
+
+### Commandes de production
+```bash
+docker compose -f docker-compose.prod.yml up -d    # Démarre conteneurs production
+docker compose -f docker-compose.prod.yml down     # Arrête conteneurs production
+docker compose -f docker-compose.prod.yml build    # Build images production
+```
+
+### URLs des services
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:5001
+- **Test endpoint protégé**: http://localhost:5001/auth/protected
+
+### Architecture Docker
+- **Frontend**: Vue.js buildé et servi via http-server sur port 8080 (exposé 3000)
+- **Backend**: Flask sur port 5000 (exposé 5001)
+- **Variables d'environnement**:
+  - `VITE_API_URL`: URL de l'API backend pour le frontend
+  - `FLASK_ENV` et `FLASK_DEBUG`: Configuration environnement backend
+- **Réseau**: Docker network `bloomzy_default` pour la communication inter-services
+
+### Résolution des problèmes courants
+1. **Conflit de ports**: Le backend utilise le port 5001 (5000 occupé par AirPlay sur macOS)
+2. **Échec du build frontend**: Vérifier que le répertoire `dist/` existe après build
+3. **Échec des appels API**: Vérifier la variable d'environnement `VITE_API_URL`
+4. **Problèmes de base de données**: Vérifier les permissions du fichier SQLite
+
+### Commandes de debug
+```bash
+# Vérifier l'état des conteneurs
+docker ps
+
+# Voir les logs d'un conteneur
+docker logs bloomzy-backend-1
+
+# Accéder au shell d'un conteneur
+docker exec -it bloomzy-backend-1 /bin/bash
+
+# Tester l'API directement
+curl http://localhost:5001/auth/protected
+```
+
+## 10. Standards de code
+
+### Backend (Flask)
+- Utiliser le pattern Flask application factory
+- Organiser les routes dans des blueprints sous `backend/routes/`
+- Modèles dans `backend/models/`
+- Authentification JWT avec PyJWT
+- Tests dans `backend/tests/` organisés par fonctionnalité
+
+### Frontend (Vue.js)
+- Vue 3 Composition API avec TypeScript
+- Pinia pour la gestion d'état
+- Axios pour les appels API avec intercepteurs
+- Configuration API dans `frontend/src/services/api.ts`
+
+### Sécurité
+- Jamais de secrets hardcodés (utiliser les variables d'environnement)
+- Tokens JWT avec expiration et mécanisme de refresh
+- CORS configuré pour les requêtes cross-origin
+- Validation des entrées sur tous les endpoints
+- Hachage des mots de passe avec Werkzeug
+
+## 11. Documentation technique
+
+- `CLAUDE.md`: Guide de développement complet
+- `docs/docker-deployment.md`: Documentation complète du déploiement Docker
+- `docs/prds/`: Documents d'exigences produit (consulter avant modifications)
+- `docs/todos/`: Tâches de développement organisées par fonctionnalité

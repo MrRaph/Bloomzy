@@ -32,6 +32,25 @@ npm install
 npm run dev
 ```
 
+### Docker Deployment
+```bash
+# Development
+make docker-build          # Build Docker images
+make docker-run            # Start containers (frontend: localhost:3000, backend: localhost:5001)
+make docker-stop           # Stop containers
+make docker-logs           # View logs
+
+# Production
+docker compose -f docker-compose.prod.yml up -d    # Start production containers
+docker compose -f docker-compose.prod.yml down     # Stop production containers
+
+# Manual commands
+docker compose -f docker-compose.dev.yml up -d     # Start development containers
+docker compose -f docker-compose.dev.yml down      # Stop development containers
+docker compose -f docker-compose.dev.yml build     # Build development images
+docker compose -f docker-compose.dev.yml logs -f   # Follow logs
+```
+
 ## Architecture
 
 ### Backend Structure
@@ -118,6 +137,14 @@ docs/
 - PostgreSQL + Redis for production
 - Elasticsearch for search functionality
 - Monitoring with Prometheus/Grafana
+
+### Docker Architecture
+- **Frontend**: Vue.js app built and served via http-server on port 8080 (exposed as 3000)
+- **Backend**: Flask app running on port 5000 (exposed as 5001)
+- **Environment Variables**: 
+  - `VITE_API_URL` for frontend API configuration
+  - `FLASK_ENV` and `FLASK_DEBUG` for backend environment
+- **Network**: Docker network `bloomzy_default` for inter-service communication
 
 ## Testing Strategy
 

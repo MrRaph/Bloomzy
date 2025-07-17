@@ -2,7 +2,7 @@ import axios from 'axios'
 import type { User, AuthTokens, LoginCredentials, SignupData } from '@/types'
 
 const api = axios.create({
-  baseURL: 'http://localhost:5001',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5001',
   headers: {
     'Content-Type': 'application/json'
   }
@@ -23,7 +23,7 @@ api.interceptors.response.use(
       const refreshToken = localStorage.getItem('refresh_token')
       if (refreshToken) {
         try {
-          const response = await axios.post('http://localhost:5001/auth/refresh', {}, {
+          const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/auth/refresh`, {}, {
             headers: { Authorization: `Bearer ${refreshToken}` }
           })
           const { access_token } = response.data
