@@ -40,6 +40,14 @@ gh project item-add 3 --owner MrRaph --url https://github.com/MrRaph/Bloomzy/iss
 ## 4. Organisation et suivi
 
 - Placez chaque issue dans la colonne appropriée du projet (Backlog, En cours, Revue, Terminé).
+- Lorsqu'un développement commence, passez l'issue en "In Progress" (En cours) dans le projet.
+- Créez une branche dédiée pour le développement (ex : `feature/<nom>`).
+- Créez une Pull Request (PR) liée à la branche et à l'issue :
+  ```sh
+  gh pr create --fill --base main --head feature/<nom> --title "Implémentation : ..." --body "Closes #numéro_issue"
+  ```
+- Liez l'issue à la PR (GitHub le fait automatiquement si le corps de la PR contient `Closes #numéro_issue`).
+- Suivez l'avancement dans le projet et déplacez la carte dans la colonne correspondante (Revue, Terminé).
 - Utilisez les labels pour filtrer et suivre l’avancement par domaine.
 - Reliez chaque PR à son issue pour assurer la traçabilité.
 

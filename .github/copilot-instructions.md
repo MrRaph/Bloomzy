@@ -49,40 +49,11 @@ Les étapes de développement, validation et documentation sont listées dans :
 
 **Pour toute nouvelle fonctionnalité, suivre le process décrit dans les TODOs et valider la conformité avec les PRDs.**
 
+
 ## 5. Workflow GitHub Project & Issues
 
-### Création du projet
-1. Rafraîchir les permissions GH si besoin :
-   ```sh
-   gh auth refresh -s project,read:project
-   ```
-2. Créer le projet de suivi :
-   ```sh
-   gh project create --title "Bloomzy Roadmap" --owner MrRaph
-   ```
+Le workflow complet de gestion des issues, du projet et des PRs est détaillé dans le guide :
 
-### Création des issues
-Pour chaque action des TODOs, créer une issue avec :
-```sh
-gh issue create --title "<Titre>" --body "<Objectif, validation, critères>" --project "Bloomzy Roadmap" --label "<domaine>"
-```
-Exemple :
-```sh
-gh issue create --title "Initialisation du module Auth" --body "Objectif : Structure de base, endpoints REST, modèles DB.\nValidation : Tests unitaires sur la création d’utilisateur.\nCritères : TDD, documentation, PR sur branche dédiée." --project "Bloomzy Roadmap" --label "auth"
-```
+- [docs/gh.md](../docs/gh.md)
 
-### Branches, PRs et validation
-- Créer une branche dédiée pour chaque issue (ex : `feature/auth-init`).
-- Développer en respectant TDD et la documentation.
-- Ouvrir une Pull Request liée à l’issue :
-  ```sh
-  gh pr create --fill --base main --head feature/xxx --title "Implémentation : ..." --body "Closes #numéro_issue"
-  ```
-- Demander une revue, valider les critères (tests, doc, revue).
-- Fusionner sur `main` uniquement après validation.
-- Fermer l’issue et déplacer la carte dans la colonne “Terminé”.
-
-### Bonnes pratiques
-- Toujours relier les PRs aux issues du projet.
-- Mettre à jour la documentation à chaque merge.
-- Utiliser les labels pour catégoriser les issues (auth, garden, notifications, etc).
+Merci de vous y référer pour toutes les étapes : création du projet, création et organisation des issues, passage en "In Progress", création de branche, PR, liaison des issues aux PRs, et bonnes pratiques.
