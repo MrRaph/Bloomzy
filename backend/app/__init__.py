@@ -3,6 +3,7 @@ from flask import Flask, jsonify
 from models.user import db
 from routes.auth import bp as auth_bp
 from routes.api_keys import bp as api_keys_bp
+from routes.indoor_plants import indoor_plants_bp
 import os
 
 def create_app():
@@ -25,5 +26,4 @@ def create_app():
             'service': 'bloomzy-backend',
             'database': 'connected'
         }), 200
-    
     return app
