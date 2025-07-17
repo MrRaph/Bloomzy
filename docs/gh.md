@@ -17,10 +17,16 @@ Utilisez les labels suivants pour catégoriser les issues selon le domaine :
 
 Pour chaque action à réaliser (voir les fichiers TODOs), créez une issue avec la commande :
 
+Avant de créer une issue, vérifiez d'abord si elle existe déjà dans le dépôt :
+```zsh
+gh issue list --repo MrRaph/Bloomzy --json number,title,labels | jq
+```
+Vous pouvez filtrer par mot-clé ou label avec jq pour vérifier l'existence d'une issue.
+Si l'issue existe, utilisez-la. Sinon, créez-la avec la commande suivante :
 ```sh
 gh issue create --title "<Titre>" --body "<Objectif, validation, critères>" --label "<domaine>"
 ```
-Exemple :
+Exemple :
 ```sh
 gh issue create --title "Initialisation du module Auth" --body "Objectif : Structure de base, endpoints REST, modèles DB.\nValidation : Tests unitaires sur la création d’utilisateur.\nCritères : TDD, documentation, PR sur branche dédiée." --label "auth"
 ```
