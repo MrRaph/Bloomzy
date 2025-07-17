@@ -1,11 +1,12 @@
 
 import axios from 'axios'
+import type { AuthTokens, User, LoginCredentials, SignupData } from '@/types'
 // Utilisation directe d'axios pour faciliter le mock dans les tests
 
 // Indoor Plants API
 export const fetchIndoorPlants = async (search?: string): Promise<any[]> => {
   const params = search ? { search } : {}
-  const res = await axios.get('/indoor-plants/', { params })
+  const res = await axios.get<any[]>('/indoor-plants/', { params })
   return res.data
 }
 
@@ -16,22 +17,22 @@ export const createIndoorPlant = async (payload: Record<string, any>): Promise<a
 
 export const authApi = {
   login: (credentials: LoginCredentials) => 
-    api.post<AuthTokens>('/auth/login', credentials),
+    axios.post<AuthTokens>('/auth/login', credentials),
   
   signup: (data: SignupData) => 
-    api.post<AuthTokens>('/auth/signup', data),
+    axios.post<AuthTokens>('/auth/signup', data),
   
   logout: () => 
-    api.post('/auth/logout'),
+    axios.post('/auth/logout'),
   
   getProfile: () => 
-    api.get<User>('/auth/profile'),
+    axios.get<User>('/auth/profile'),
   
   updateProfile: (data: Partial<User>) => 
-    api.put<User>('/auth/profile', data),
+    axios.put<User>('/auth/profile', data),
   
   refreshToken: () => 
-    api.post<{ access_token: string }>('/auth/refresh')
+    axios.post<{ access_token: string }>('/auth/refresh')
 }
 
 // export default supprimé car l'instance api n'est plus utilisée
