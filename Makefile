@@ -9,17 +9,21 @@ FRONTEND_DIR := frontend
 BACKEND_PORT := 5001
 FRONTEND_PORT := 3000
 
+
 # Couleurs pour les messages
 RED := \033[0;31m
 GREEN := \033[0;32m
 YELLOW := \033[1;33m
+
 BLUE := \033[0;34m
 NC := \033[0m # No Color
 
 help: ## Affiche cette aide
 	@echo "$(BLUE)Bloomzy Project - Commandes disponibles:$(NC)"
+	@echo "\n$(YELLOW)Pour l'environnement Docker, utilisez : make dev-docker, make test-docker, etc.$(NC)"
 	@echo ""
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(GREEN)%-20s$(NC) %s\n", $$1, $$2}'
+
 
 # =============================================================================
 # INSTALLATION ET CONFIGURATION
@@ -137,21 +141,21 @@ build-frontend: ## Build le frontend
 
 docker-build: ## Build les images Docker
 	@echo "$(YELLOW)Build des images Docker...$(NC)"
-	docker-compose build
+	docker compose build
 	@echo "$(GREEN)✅ Images Docker créées$(NC)"
 
 docker-run: ## Lance l'application avec Docker
 	@echo "$(BLUE)🐳 Lancement de l'application avec Docker...$(NC)"
-	docker-compose up -d
+	docker compose up -d
 	@echo "$(GREEN)✅ Application disponible sur http://localhost:$(FRONTEND_PORT)$(NC)"
 
 docker-stop: ## Arrête les conteneurs Docker
 	@echo "$(YELLOW)Arrêt des conteneurs Docker...$(NC)"
-	docker-compose down
+	docker compose down
 	@echo "$(GREEN)✅ Conteneurs arrêtés$(NC)"
 
 docker-logs: ## Affiche les logs Docker
-	docker-compose logs -f
+	docker compose logs -f
 
 # =============================================================================
 # MAINTENANCE

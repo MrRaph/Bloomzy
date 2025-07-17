@@ -1,3 +1,47 @@
+## Utilisation multi-service avec Docker Compose
+
+Le projet Bloomzy propose un déploiement simultané du backend (Flask) et du frontend (Vue.js) via Docker Compose.
+
+### Production
+
+Le fichier `docker-compose.prod.yml` permet de lancer les deux services :
+
+- **backend** :
+  - Build à partir de `backend/Dockerfile`
+  - Exposé sur le port 5000
+  - Variables d’environnement : `FLASK_ENV=production`
+- **frontend** :
+  - Build à partir de `frontend/Dockerfile`
+  - Exposé sur le port 8080
+  - Variables d’environnement : `NODE_ENV=production`
+
+Commande pour lancer en production :
+```zsh
+DOCKER_BUILDKIT=1 docker compose -f docker-compose.prod.yml up --build -d
+```
+
+### Développement
+
+Le fichier `docker-compose.dev.yml` permet le hot reload du code et le développement simultané :
+
+- **backend** :
+  - Montage du dossier local `backend/` dans le conteneur
+  - Variables d’environnement : `FLASK_ENV=development`
+- **frontend** :
+  - Montage du dossier local `frontend/` dans le conteneur
+  - Variables d’environnement : `NODE_ENV=development`
+
+Commande pour lancer en développement :
+```zsh
+DOCKER_BUILDKIT=1 docker compose -f docker-compose.dev.yml up --build
+```
+
+### Accès aux services
+
+- Backend : http://localhost:5000
+- Frontend : http://localhost:8080
+
+---
 # Documentation Dockerfile backend
 
 Ce fichier décrit le Dockerfile utilisé pour construire l’image Docker du backend Bloomzy.
