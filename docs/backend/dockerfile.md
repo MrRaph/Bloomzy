@@ -31,10 +31,33 @@ CMD [".venv/bin/python", "app/__init__.py"]
 Le Dockerfile est placé à la racine du projet ou dans le dossier `backend/` selon la structure recommandée.
 
 ## Références
-- [docs/backend/best_practices.md](./best_practices.md)
-- [docs/todos/todo_architecture.md](../todos/todo_architecture.md)
-- Issue GitHub : [#26](https://github.com/MrRaph/Bloomzy/issues/26)
+ - [docs/backend/best_practices.md](./best_practices.md)
+ - [docs/todos/todo_architecture.md](../todos/todo_architecture.md)
+ - Issue GitHub : [#26](https://github.com/MrRaph/Bloomzy/issues/26)
+
+## Utilisation des fichiers docker-compose
+
+Deux fichiers sont disponibles à la racine du projet :
+- `docker-compose.prod.yml` : pour le déploiement en production
+- `docker-compose.dev.yml` : pour le développement local
+
+### Production
+
+```zsh
+DOCKER_BUILDKIT=1 docker compose -f docker-compose.prod.yml up --build -d
+```
+- L’image est construite sans montage de volume, avec les variables d’environnement de production.
+- Le conteneur redémarre automatiquement en cas de crash.
+
+### Développement
+
+```zsh
+DOCKER_BUILDKIT=1 docker compose -f docker-compose.dev.yml up --build
+```
+- Le dossier `backend/` est monté dans le conteneur pour un hot reload du code.
+- Les variables d’environnement sont adaptées au développement.
+- Le conteneur redémarre sauf arrêt manuel.
 
 ---
-
+Pour toute modification, mettre à jour ce fichier et la documentation associée.
 Pour toute modification, mettre à jour ce fichier et la documentation associée.

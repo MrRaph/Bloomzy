@@ -1,0 +1,15 @@
+version: '3.11'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: bloomzy-backend:dev
+    restart: unless-stopped
+    environment:
+      - FLASK_ENV=development
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    command: [".venv/bin/python", "app/__init__.py"]
