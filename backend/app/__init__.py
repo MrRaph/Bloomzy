@@ -31,5 +31,5 @@ def create_app():
             'service': 'bloomzy-backend',
             'database': 'connected'
         }), 200
-    
+      
     return app
