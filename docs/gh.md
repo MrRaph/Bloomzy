@@ -57,6 +57,28 @@ gh project item-add 3 --owner MrRaph --url https://github.com/MrRaph/Bloomzy/iss
 - Utilisez les labels pour filtrer et suivre l’avancement par domaine.
 - Reliez chaque PR à son issue pour assurer la traçabilité.
 
+### Exemple de workflow réel (CLI + Web)
+
+1. **Création de la branche dédiée**
+2. **Création de la PR liée à l'issue**
+   - Utiliser la commande :
+     ```zsh
+     gh pr create --fill --base main --head feature/auth-init --title "Implémentation : Initialisation du module Auth" --body "Closes #1\nStructure backend Flask, endpoints Auth, tests TDD, Makefile, documentation et bonnes pratiques."
+     ```
+   - La PR est automatiquement liée à l'issue grâce au champ `Closes #1`.
+3. **Ajout d'un commentaire de progression sur l'issue**
+   - Utiliser la commande :
+     ```zsh
+     gh issue comment 1 --repo MrRaph/Bloomzy --body "Progression : ..."
+     ```
+   - Permet de documenter l'avancement et la traçabilité.
+4. **Déplacement de l'item dans le projet GitHub**
+   - La commande CLI pour déplacer l'item dans la colonne "En cours" (`gh project item-move ...`) n'est pas fonctionnelle avec les flags `--owner` ou `--id` (erreur CLI).
+   - Solution : effectuer le déplacement manuellement via l'interface web GitHub Project.
+
+**Remarque :**
+La liaison PR/issue fonctionne parfaitement via la CLI, mais la gestion des colonnes du projet nécessite souvent une action manuelle sur l'interface web, en raison des limitations ou changements de la CLI GitHub.
+
 ## 5. Bonnes pratiques
 
 - Respectez la structure des branches et des PRs (voir `.github/copilot-instructions.md`).
