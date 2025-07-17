@@ -12,7 +12,7 @@ services:
       - "5000:5000"
     volumes:
       - ./backend:/app
-    command: [".venv/bin/python", "app/__init__.py"]
+    command: ["python", "run.py"]
   frontend:
     build:
       context: ./frontend

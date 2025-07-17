@@ -146,16 +146,16 @@ docker-build: ## Build les images Docker
 
 docker-run: ## Lance l'application avec Docker
 	@echo "$(BLUE)🐳 Lancement de l'application avec Docker...$(NC)"
-	docker compose up -d
+	docker compose -f docker-compose.dev.yml up -d
 	@echo "$(GREEN)✅ Application disponible sur http://localhost:$(FRONTEND_PORT)$(NC)"
 
 docker-stop: ## Arrête les conteneurs Docker
 	@echo "$(YELLOW)Arrêt des conteneurs Docker...$(NC)"
-	docker compose down
+	docker compose -f docker-compose.dev.yml down
 	@echo "$(GREEN)✅ Conteneurs arrêtés$(NC)"
 
 docker-logs: ## Affiche les logs Docker
-	docker compose logs -f
+	docker compose -f docker-compose.dev.yml logs -f
 
 # =============================================================================
 # MAINTENANCE
