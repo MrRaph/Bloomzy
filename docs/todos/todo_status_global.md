@@ -1,6 +1,6 @@
 # Status Global du Projet Bloomzy
 
-**Dernière mise à jour** : 17 juillet 2025
+**Dernière mise à jour** : 18 juillet 2025
 
 ## 🎯 Vue d'ensemble
 
@@ -10,11 +10,14 @@
    - Tests : 37 tests passants (100%)
    - Documentation : Complète
 
-### Modules prêts à commencer 🔄
-2. **Module Indoor Plants** - **PRÊT** (Issues #6 à #9)
-   - Prochaine étape : Catalogue des espèces (Issue #6)
+### Modules en cours 🔄
+2. **Module Indoor Plants** - **EN COURS** (Issues #6 à #9)
+   - ✅ Étape 1 terminée : Catalogue des espèces (Issue #6)
+   - ✅ Étape 2 terminée : Gestion des plantes utilisateur (Issue #7)
+   - 🔄 Prochaine étape : Algorithme d'arrosage intelligent (Issue #8)
    - Dépendances : ✅ Module Auth terminé
 
+### Modules prêts à commencer 🔄
 3. **Module Architecture** - **PRÊT** (Issues #26 à #29)
    - Prochaine étape : Infrastructure Docker (Issue #26)
    - Dépendances : ✅ Module Auth terminé
@@ -29,8 +32,8 @@
 ## 📊 Statistiques
 
 ### Tests et qualité
-- **Tests passants** : 37/37 (100%)
-- **Couverture** : Module Auth complet
+- **Tests passants** : 68/68 (100%)
+- **Couverture** : Modules Auth et Indoor Plants (partiellement)
 - **Documentation** : À jour
 
 ### Fonctionnalités implémentées
@@ -40,6 +43,10 @@
 - ✅ Protection reCAPTCHA
 - ✅ Validation des données
 - ✅ Chiffrement des données sensibles
+- ✅ Catalogue des espèces de plantes
+- ✅ Gestion des plantes utilisateur
+- ✅ Historique d'arrosage
+- ✅ Upload de photos de plantes
 
 ### Architecture technique
 - ✅ Flask avec SQLAlchemy
@@ -51,9 +58,9 @@
 ## 🚀 Prochaines étapes recommandées
 
 ### Option 1 : Continuer les fonctionnalités métier
-- Démarrer le **Module Indoor Plants** (Issue #6)
-- Créer le catalogue des espèces
-- Implémenter la gestion des plantes utilisateur
+- Continuer le **Module Indoor Plants** (Issue #8)
+- Implémenter l'algorithme d'arrosage intelligent
+- Créer le journal de croissance
 
 ### Option 2 : Renforcer l'infrastructure
 - Démarrer le **Module Architecture** (Issue #26)
@@ -81,7 +88,7 @@
 
 ### Environnement
 - **Backend** : Flask 3.0.0, SQLAlchemy, JWT
-- **Tests** : pytest avec 37 tests passants
+- **Tests** : pytest avec 68 tests passants
 - **Sécurité** : Chiffrement, validation, authentification
 - **Documentation** : APIs documentées
 
@@ -93,4 +100,5 @@
 ---
 
 **Statut global** : 🎉 **PHASE 1 TERMINÉE AVEC SUCCÈS**
+**Statut actuel** : 🔄 **PHASE 2 EN COURS** (Module Indoor Plants - 2/4 terminées)
 **Prochaine phase** : À définir selon les priorités métier/infrastructure
