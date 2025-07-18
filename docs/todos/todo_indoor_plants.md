@@ -34,10 +34,20 @@ Permettre la gestion intelligente des plantes d’intérieur avec notifications 
    - ✅ **Prérequis** : ✅ Gestion des plantes terminée
    - **Réalisé** : API complète avec 8 endpoints, 5 tests, modèle GrowthEntry, analytics et comparaison temporelle
 
+
+### Frontend (Vue 3 + Pinia + TypeScript)
+5. **✅ Interface utilisateur gestion plantes d’intérieur** ([PR #43](https://github.com/MrRaph/Bloomzy/pull/43)) - **TERMINÉ**
+   - ✅ Vue principale IndoorPlants.vue (affichage, ajout, modification, suppression, responsive)
+   - ✅ Store Pinia typé (CRUD, intégration API)
+   - ✅ Services API (fetch, add, update, delete)
+   - ✅ Tests unitaires (vue, store, API)
+   - ✅ Documentation et conformité PRD/TODO
+
 ### Critères de validation
 - Fonctionnalités testées (TDD)
-- Documentation API et utilisateur
+- Documentation API, utilisateur et frontend
 - PRs avec revue et merge
+
 
 ### Statut global
 **Module Indoor Plants** : ✅ **TERMINÉ**
@@ -46,6 +56,7 @@ Permettre la gestion intelligente des plantes d’intérieur avec notifications 
 - ✅ Étape 2 terminée : Gestion des plantes utilisateur (Issue #7)
 - ✅ Étape 3 terminée : Algorithme d'arrosage intelligent (Issue #8)
 - ✅ Étape 4 terminée : Journal de croissance (Issue #9)
+- ✅ Étape 5 terminée : Frontend gestion plantes d’intérieur (PR #43)
 
 ### Résumé des réalisations
 - **46 endpoints API** couvrant toutes les fonctionnalités
