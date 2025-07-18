@@ -4,6 +4,7 @@ from models.indoor_plant import IndoorPlant
 from models.user_plant import UserPlant
 from models.watering_history import WateringHistory
 from routes.auth import jwt_required, get_current_user
+from services.watering_algorithm import WateringAlgorithm
 from datetime import datetime, date
 import os
 
@@ -325,5 +326,30 @@ def update_watering_record(watering_id):
         return jsonify(watering.to_dict()), 200
     except ValueError as e:
         return jsonify({'error': 'Invalid datetime format. Use YYYY-MM-DD HH:MM:SS'}), 400
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@user_plants_bp.route('/<int:plant_id>/watering-schedule', methods=['GET'])
+@jwt_required
+def get_watering_schedule(plant_id):
+    """Get intelligent watering schedule for a specific plant"""
+    try:
+        user = get_current_user()
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+        
+        # Check if plant exists and belongs to user
+        plant = UserPlant.query.filter_by(id=plant_id, user_id=user.id).first()
+        if not plant:
+            return jsonify({'error': 'Plant not found'}), 404
+        
+        # Calculate watering schedule using algorithm
+        algorithm = WateringAlgorithm()
+        schedule = algorithm.calculate_watering_schedule(plant_id, user.id)
+        
+        if not schedule:
+            return jsonify({'error': 'Unable to calculate watering schedule'}), 500
+        
+        return jsonify(schedule), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500

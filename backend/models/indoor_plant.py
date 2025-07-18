@@ -9,7 +9,7 @@ class IndoorPlant(db.Model):
     family = db.Column(db.String(128))
     origin = db.Column(db.String(128))
     difficulty = db.Column(db.String(64))
-    watering_frequency = db.Column(db.String(64))
+    watering_frequency = db.Column(db.Integer)
     light = db.Column(db.String(64))
     humidity = db.Column(db.String(64))
     temperature = db.Column(db.String(64))
