@@ -38,5 +38,4 @@ pytest_cache/
 
 # Misc
 .env
-.env.*
 backend/bloomzy.db
