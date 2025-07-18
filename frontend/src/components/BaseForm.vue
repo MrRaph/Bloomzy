@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, ref, computed } from 'vue';
+import { reactive, watch, computed } from 'vue';
 
 interface Field {
   name: string;

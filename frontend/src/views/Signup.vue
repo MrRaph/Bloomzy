@@ -9,7 +9,7 @@
       :on-submit="handleSignup"
       :loading="authStore.isLoading"
       loading-text="Création du compte..."
-      :general-error="authStore.error"
+      :general-error="authStore.error || undefined"
     >
       <template #submit-label>Créer mon compte</template>
       <template #footer>

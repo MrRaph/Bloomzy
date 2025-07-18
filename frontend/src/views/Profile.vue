@@ -68,7 +68,7 @@
             :on-submit="handleUpdateProfile"
             :loading="authStore.isLoading"
             loading-text="Mise à jour..."
-            :general-error="authStore.error"
+            :general-error="authStore.error || undefined"
           >
             <template #submit-label>Sauvegarder</template>
             <template #footer>

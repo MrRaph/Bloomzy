@@ -8,7 +8,7 @@
       :on-submit="handleLogin"
       :loading="authStore.isLoading"
       loading-text="Connexion..."
-      :general-error="authStore.error"
+      :general-error="authStore.error || undefined"
     >
       <template #submit-label>Se connecter</template>
       <template #footer>
@@ -26,6 +26,7 @@ import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import BaseForm from '@/components/BaseForm.vue'
+import type { LoginCredentials } from '@/types'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -50,7 +51,11 @@ const loginFields = [
 ]
 
 const handleLogin = async (formData: Record<string, any>) => {
-  const success = await authStore.login(formData)
+  const credentials: LoginCredentials = {
+    email: formData.email as string,
+    password: formData.password as string
+  }
+  const success = await authStore.login(credentials)
   if (success) {
     router.push('/dashboard')
   }

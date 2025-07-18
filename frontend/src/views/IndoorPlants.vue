@@ -80,7 +80,11 @@ function submitForm(formData: Record<string, any>) {
     store.updatePlant(editingPlant.value.id, formData);
     editingPlant.value = null;
   } else {
-    store.addPlant(formData);
+    const plantData = {
+      name: formData.name as string,
+      species: formData.species as string
+    };
+    store.addPlant(plantData);
   }
   form.value = { name: '', species: '' };
   showAddForm.value = false;
