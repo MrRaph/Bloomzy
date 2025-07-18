@@ -193,3 +193,51 @@ Development steps are organized in:
 - All API endpoints should return appropriate HTTP status codes
 - Email validation uses regex pattern
 - reCAPTCHA token validation is implemented for signup
+
+## CRITICAL DEVELOPMENT RULES
+
+### 🚨 MANDATORY REQUIREMENTS
+These rules are **IMPERATIVE** and must be followed at all times:
+
+1. **Backend/Frontend Alignment**: 
+   - Backend models and frontend interfaces MUST be perfectly aligned
+   - API endpoints MUST match frontend expectations exactly
+   - Data structures MUST be consistent between backend and frontend
+   - Any change in backend models MUST be reflected in frontend types/interfaces
+
+2. **Docker Container Testing**:
+   - ALL development containers MUST be built and tested before any commit
+   - ALL production containers MUST be built and tested before any release
+   - Docker builds MUST pass without errors or warnings
+   - Container functionality MUST be verified after each build
+
+3. **Backend Best Practices**:
+   - Follow Flask application factory pattern strictly
+   - Use SQLAlchemy ORM for all database operations
+   - Implement proper error handling with appropriate HTTP status codes
+   - Use JWT authentication with proper token management
+   - Environment variables for all sensitive configuration
+   - Follow blueprint pattern for route organization
+
+4. **Frontend Best Practices**:
+   - Strict separation of HTML, CSS, and JavaScript
+   - Use Vue.js composition API and single-file components properly
+   - CSS styles MUST be scoped or in separate files
+   - JavaScript logic MUST be in separate methods/computed properties
+   - No inline styles or scripts in templates
+   - Use TypeScript interfaces for API data structures
+
+5. **Code Organization**:
+   - HTML template logic MUST be in `<template>` section only
+   - CSS styling MUST be in `<style>` section or external files
+   - JavaScript logic MUST be in `<script>` section with proper methods
+   - No mixing of concerns between HTML/CSS/JS
+
+### ⚠️ VALIDATION CHECKLIST
+Before any commit, ensure:
+- [ ] Unit tests pass (backend and frontend)
+- [ ] Docker containers build successfully
+- [ ] Backend/frontend alignment verified
+- [ ] HTML/CSS/JS separation enforced
+- [ ] Best practices followed
+- [ ] No hardcoded secrets or configuration
