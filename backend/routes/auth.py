@@ -139,7 +139,7 @@ def get_current_user():
     
     try:
         payload = jwt.decode(token, secret, algorithms=['HS256'])
-        user = User.query.get(payload['user_id'])
+        user = db.session.get(User, payload['user_id'])
         return user
     except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
         return None

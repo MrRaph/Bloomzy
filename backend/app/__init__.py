@@ -18,7 +18,12 @@ from models.growth_entry import GrowthEntry
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+    # Gestion dynamique de la chaîne de connexion DB (SQLite ou MySQL)
+    db_url = os.environ.get('SQLALCHEMY_DATABASE_URI')
+    if not db_url:
+        # Par défaut, SQLite fichier local
+        db_url = 'sqlite:///../bloomzy.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key')
 

@@ -5,14 +5,19 @@ services:
       dockerfile: Dockerfile
     image: bloomzy-backend:dev
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       - FLASK_ENV=development
       - FLASK_DEBUG=1
+      # Les variables du fichier .env sont automatiquement chargées
+      # - SQLALCHEMY_DATABASE_URI (définie dans .env)
     ports:
       - "5080:5000"
     volumes:
       - ./backend:/app
-    command: ["python", "run.py"]
+      - bloomzy_sqlite_data:/data
+    command: ["flask", "run", "--host=0.0.0.0", "--port=5000"]
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5000/health"]
       interval: 30s
@@ -40,3 +45,5 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+volumes:
+  bloomzy_sqlite_data:
