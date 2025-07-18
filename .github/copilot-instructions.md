@@ -2,6 +2,12 @@
 
 Ce fichier est destiné à tous les agents Copilot qui interviendront sur ce projet. Il centralise les informations essentielles pour garantir la cohérence, la qualité et la rapidité d’exécution des tâches.
 
+### RÈGLES IMPÉRATIVES
+- **ALIGNEMENT BACKEND/FRONTEND OBLIGATOIRE** : Il FAUT ABSOLUMENT que toutes les routes backend soient utilisées dans le frontend et vice versa. Aucune route orpheline n'est tolérée.
+- **TESTS CONTAINERS OBLIGATOIRES** : Il FAUT ABSOLUMENT tester la construction des containers Docker en plus des tests unitaires avant toute validation.
+- **BONNES PRATIQUES STRICTES** : Il FAUT ABSOLUMENT respecter les bonnes pratiques backend et frontend définies dans la documentation.
+- **SÉPARATION DES RESPONSABILITÉS** : Il FAUT ABSOLUMENT séparer le HTML du CSS et du JavaScript. Aucun style inline ou script inline n'est autorisé.
+
 ## 1. Structure des documents de référence
 
 ### PRDs (Product Requirement Documents)
@@ -40,7 +46,11 @@ Les étapes de développement, validation et documentation sont listées dans :
   - Elle est testée (unitaires + intégration)
   - Elle est fonctionnelle
   - Elle est documentée
-  - Elle a fait l’objet d’une PR et d’une revue
+  - Elle a fait l'objet d'une PR et d'une revue
+  - **Les containers Docker se construisent sans erreur**
+  - **L'alignement backend/frontend est vérifié et complet**
+  - **Les bonnes pratiques sont respectées**
+  - **La séparation HTML/CSS/JS est respectée**
 
 ## 4. Conseils pour les agents
 - Toujours commencer par consulter les fichiers PRD et TODO avant toute modification ou ajout.

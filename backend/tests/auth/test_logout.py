@@ -18,11 +18,11 @@ def test_logout_blacklists_token(client):
         'email': email,
         'password': password
     })
-    token = response.get_json()['token']
+    token = response.get_json()['access_token']
     # Déconnexion (blacklist)
-    logout_response = client.post('/auth/logout', json={'token': token})
+    logout_response = client.post('/auth/logout', json={'access_token': token})
     assert logout_response.status_code == 200
     # Le token ne doit plus être utilisable pour refresh
-    refresh_response = client.post('/auth/refresh', json={'token': token})
+    refresh_response = client.post('/auth/refresh', json={'access_token': token})
     assert refresh_response.status_code == 401
     assert refresh_response.get_json()['error'] == 'Token révoqué'

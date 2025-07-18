@@ -1,0 +1,70 @@
+{
+  "datacenter": "dc1",
+  "data_dir": "/consul/data",
+  "log_level": "INFO",
+  "node_name": "consul-server",
+  "bind_addr": "0.0.0.0",
+  "client_addr": "0.0.0.0",
+  "retry_join": ["consul-server"],
+  "server": true,
+  "bootstrap_expect": 1,
+  "ui_config": {
+    "enabled": true
+  },
+  "ports": {
+    "grpc": 8502
+  },
+  "connect": {
+    "enabled": true
+  },
+  "services": [
+    {
+      "id": "auth-service",
+      "name": "auth-service",
+      "tags": ["auth", "microservice"],
+      "address": "auth-service",
+      "port": 5001,
+      "check": {
+        "http": "http://auth-service:5001/health",
+        "interval": "10s",
+        "timeout": "5s"
+      }
+    },
+    {
+      "id": "plants-service",
+      "name": "plants-service",
+      "tags": ["plants", "microservice"],
+      "address": "plants-service",
+      "port": 5002,
+      "check": {
+        "http": "http://plants-service:5002/health",
+        "interval": "10s",
+        "timeout": "5s"
+      }
+    },
+    {
+      "id": "notifications-service",
+      "name": "notifications-service",
+      "tags": ["notifications", "microservice"],
+      "address": "notifications-service",
+      "port": 5003,
+      "check": {
+        "http": "http://notifications-service:5003/health",
+        "interval": "10s",
+        "timeout": "5s"
+      }
+    },
+    {
+      "id": "api-gateway",
+      "name": "api-gateway",
+      "tags": ["gateway", "proxy"],
+      "address": "api-gateway",
+      "port": 80,
+      "check": {
+        "http": "http://api-gateway:8080/health",
+        "interval": "10s",
+        "timeout": "5s"
+      }
+    }
+  ]
+}

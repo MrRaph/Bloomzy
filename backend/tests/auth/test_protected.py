@@ -23,7 +23,7 @@ def test_protected_route_with_valid_token(client):
         'email': email,
         'password': password
     })
-    token = response.get_json()['token']
+    token = response.get_json()['access_token']
     # Accès à la route protégée
     protected_response = client.get('/auth/protected', headers={
         'Authorization': f'Bearer {token}'
@@ -44,9 +44,9 @@ def test_protected_route_with_revoked_token(client):
         'email': email,
         'password': password
     })
-    token = response.get_json()['token']
+    token = response.get_json()['access_token']
     # Déconnexion (blacklist)
-    client.post('/auth/logout', json={'token': token})
+    client.post('/auth/logout', json={'access_token': token})
     # Accès à la route protégée avec token révoqué
     revoked_response = client.get('/auth/protected', headers={
         'Authorization': f'Bearer {token}'
