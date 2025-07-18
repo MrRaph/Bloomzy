@@ -20,9 +20,9 @@ def test_login_returns_jwt(client):
     })
     data = response.get_json()
     assert response.status_code == 200
-    assert 'token' in data
+    assert 'access_token' in data
     secret = client.application.config.get('SECRET_KEY', 'dev-secret-key')
-    payload = jwt.decode(data['token'], secret, algorithms=['HS256'])
+    payload = jwt.decode(data['access_token'], secret, algorithms=['HS256'])
     assert payload['user_id'] == user_id
     assert payload['email'] == user_email
 
@@ -41,15 +41,15 @@ def test_refresh_token(client):
         'email': email,
         'password': password
     })
-    token = response.get_json()['token']
+    token = response.get_json()['access_token']
     # Appel au refresh
-    refresh_response = client.post('/auth/refresh', json={'token': token})
+    refresh_response = client.post('/auth/refresh', json={'access_token': token})
     refresh_data = refresh_response.get_json()
     assert refresh_response.status_code == 200
-    assert 'token' in refresh_data
+    assert 'access_token' in refresh_data
     # Le nouveau token doit être décodable
     secret = client.application.config.get('SECRET_KEY', 'dev-secret-key')
-    new_payload = jwt.decode(refresh_data['token'], secret, algorithms=['HS256'])
+    new_payload = jwt.decode(refresh_data['access_token'], secret, algorithms=['HS256'])
     assert new_payload['user_id'] == user_id
     assert new_payload['email'] == user_email
 
@@ -62,6 +62,6 @@ def test_refresh_token_expired(client):
         'exp': datetime.datetime.utcnow() - datetime.timedelta(hours=1)
     }
     expired_token = jwt.encode(expired_payload, secret, algorithm='HS256')
-    response = client.post('/auth/refresh', json={'token': expired_token})
+    response = client.post('/auth/refresh', json={'access_token': expired_token})
     assert response.status_code == 401
     assert 'error' in response.get_json()
