@@ -94,6 +94,16 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  const refreshToken = async () => {
+    try {
+      const response = await authApi.refreshToken()
+      localStorage.setItem('access_token', response.data.access_token)
+      return true
+    } catch (err) {
+      return false
+    }
+  }
+
   const initializeAuth = async () => {
     const token = localStorage.getItem('access_token')
     if (token) {
@@ -111,6 +121,7 @@ export const useAuthStore = defineStore('auth', () => {
     logout,
     fetchProfile,
     updateProfile,
-    initializeAuth
+    initializeAuth,
+    refreshToken
   }
 })
