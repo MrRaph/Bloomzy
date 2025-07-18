@@ -24,12 +24,20 @@ export const useIndoorPlantsStore = defineStore('indoorPlants', {
     async addPlant(payload: Omit<IndoorPlant, 'id' | 'created_at' | 'updated_at'>) {
       this.loading = true
       try {
-        // Adapter le payload pour l'API backend
+        // Adapter le payload pour l'API backend (mapping frontend -> backend)
         const apiPayload = {
           scientific_name: payload.name,
-          common_names: payload.species
+          common_names: [payload.species]
         }
-        const plant = await createIndoorPlant(apiPayload) as IndoorPlant
+        // Appel API, puis conversion backend -> frontend
+        const backendPlant = await createIndoorPlant(apiPayload)
+        const plant: IndoorPlant = {
+          id: backendPlant.id,
+          name: backendPlant.scientific_name,
+          species: Array.isArray(backendPlant.common_names) && backendPlant.common_names.length > 0 ? backendPlant.common_names[0] : '',
+          created_at: backendPlant.created_at,
+          updated_at: backendPlant.updated_at
+        }
         this.plants.unshift(plant)
         this.error = null
       } catch (e: any) {
