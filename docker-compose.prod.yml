@@ -21,6 +21,9 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    volumes:
+      - ./backend:/app
+      - bloomzy_sqlite_data:/data
   frontend:
     build:
       context: ./frontend
@@ -42,3 +45,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+
+volumes:
+  bloomzy_sqlite_data:

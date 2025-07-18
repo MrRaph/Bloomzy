@@ -16,6 +16,7 @@ services:
       - "5080:5000"
     volumes:
       - ./backend:/app
+      - bloomzy_sqlite_data:/data
     command: ["python", "run.py"]
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5000/health"]
@@ -44,3 +45,5 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+volumes:
+  bloomzy_sqlite_data:
