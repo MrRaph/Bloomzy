@@ -5,12 +5,13 @@ services:
       dockerfile: Dockerfile
     image: bloomzy-backend:prod
     restart: always
+    env_file:
+      - .env
     environment:
       - FLASK_ENV=production
       - FLASK_DEBUG=0
-      - SQLALCHEMY_DATABASE_URI=sqlite:////data/bloomzy.db
-      # Exemple MySQL (décommenter et adapter pour activer)
-      # - SQLALCHEMY_DATABASE_URI=mysql://user:password@mysql/bloomzy_db
+      # Les variables du fichier .env sont automatiquement chargées
+      # - SQLALCHEMY_DATABASE_URI (définie dans .env)
     ports:
       - "5080:5000"
     command: ["flask", "run", "--host=0.0.0.0", "--port=5000"]
