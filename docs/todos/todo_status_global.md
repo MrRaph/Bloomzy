@@ -4,7 +4,7 @@
 
 ## 🎯 Vue d'ensemble
 
-Le projet Bloomzy a atteint une étape majeure avec **2 modules complets** sur 7, représentant une base solide pour la gestion des plantes d'intérieur avec authentification sécurisée.
+Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7, représentant une base solide pour la gestion des plantes d'intérieur avec authentification sécurisée et système de notifications intelligent.
 
 ### Modules complétés ✅
 1. **Module Authentification** - **TERMINÉ** (Issues #1 à #4)
@@ -22,27 +22,35 @@ Le projet Bloomzy a atteint une étape majeure avec **2 modules complets** sur 7
    - Tests : 84 tests passants (100%)
    - Documentation : Complète
 
+3. **Module Notifications** - **TERMINÉ** (Issue #14)
+   - Statut : 🎉 **ARCHITECTURE ET BASE DE DONNÉES FONCTIONNELLES**
+   - ✅ Étape 1 terminée : Architecture et base de données (Issue #14)
+   - ✅ Modèles de données : 4 modèles complets
+   - ✅ API REST : 13 endpoints avec authentification
+   - ✅ Service intelligent : Calcul d'heure optimale, anti-spam
+   - ✅ Scheduler automatique : Génération de notifications
+   - Tests : 19 tests passants (100%)
+   - Documentation : Complète
+
 ### Modules prêts à commencer 🔄
-3. **Module Architecture** - **PRÊT** (Issues #26 à #29)
+4. **Module Architecture** - **PRÊT** (Issues #26 à #29)
    - Prochaine étape : Infrastructure Docker (Issue #26)
-   - Dépendances : ✅ Modules Auth et Indoor Plants terminés
+   - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
    - Note : Peut être démarré maintenant
 
 ### Modules en attente 🔄
-4. **Module Garden** - **EN ATTENTE**
-   - Dépendances : ✅ Modules Auth et Indoor Plants terminés
-5. **Module Notifications** - **EN ATTENTE**
-   - Dépendances : ✅ Modules Auth et Indoor Plants terminés
+5. **Module Garden** - **EN ATTENTE**
+   - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
 6. **Module AI Integration** - **EN ATTENTE**
-   - Dépendances : ✅ Modules Auth et Indoor Plants terminés
+   - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
 7. **Module Community** - **EN ATTENTE**
-   - Dépendances : ✅ Modules Auth et Indoor Plants terminés
+   - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
 
 ## 📊 Statistiques
 
 ### Tests et qualité
-- **Tests passants** : 84/84 (100%) ← **Mis à jour**
-- **Couverture** : Modules Auth et Indoor Plants complets
+- **Tests passants** : 103/103 (100%) ← **Mis à jour**
+- **Couverture** : Modules Auth, Indoor Plants et Notifications complets
 - **Documentation** : À jour
 
 ### Fonctionnalités implémentées
@@ -61,6 +69,12 @@ Le projet Bloomzy a atteint une étape majeure avec **2 modules complets** sur 7
 - ✅ Système de notifications toast
 - ✅ Navigation utilisateur complète
 - ✅ Composants réutilisables (PlantCard, BaseForm)
+- ✅ Système de notifications intelligent
+- ✅ Notifications d'arrosage automatiques
+- ✅ Préférences utilisateur pour notifications
+- ✅ Scheduler automatique de notifications
+- ✅ API REST complète pour notifications
+- ✅ Analytics de notifications
 
 ### Architecture technique
 - ✅ Flask avec SQLAlchemy
@@ -120,9 +134,10 @@ Le projet Bloomzy a atteint une étape majeure avec **2 modules complets** sur 7
 ### Environnement
 - **Backend** : Flask 3.0.0, SQLAlchemy, JWT
 - **Frontend** : Vue 3, TypeScript, Pinia, Vite
-- **Tests** : pytest + vitest avec 84 tests passants
+- **Tests** : pytest + vitest avec 103 tests passants
 - **Sécurité** : Chiffrement, validation, authentification
 - **Infrastructure** : Docker, monitoring Prometheus/Grafana
+- **Notifications** : Système intelligent avec scheduler
 - **Documentation** : APIs documentées
 
 ### Dépendances
@@ -133,5 +148,5 @@ Le projet Bloomzy a atteint une étape majeure avec **2 modules complets** sur 7
 ---
 
 **Statut global** : 🎉 **PHASE 1 TERMINÉE AVEC SUCCÈS**
-**Statut actuel** : 🔄 **PHASE 2 EN COURS** (Module Indoor Plants - 2/4 terminées)
-**Prochaine phase** : À définir selon les priorités métier/infrastructure
+**Statut actuel** : 🎉 **PHASE 2 TERMINÉE** (3 modules complets sur 7)
+**Prochaine phase** : Module Architecture ou Garden selon les priorités métier/infrastructure
