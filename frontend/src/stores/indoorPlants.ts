@@ -24,7 +24,12 @@ export const useIndoorPlantsStore = defineStore('indoorPlants', {
     async addPlant(payload: Omit<IndoorPlant, 'id' | 'created_at' | 'updated_at'>) {
       this.loading = true
       try {
-        const plant = await createIndoorPlant(payload) as IndoorPlant
+        // Adapter le payload pour l'API backend
+        const apiPayload = {
+          scientific_name: payload.name,
+          common_names: payload.species
+        }
+        const plant = await createIndoorPlant(apiPayload) as IndoorPlant
         this.plants.unshift(plant)
         this.error = null
       } catch (e: any) {
