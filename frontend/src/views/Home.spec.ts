@@ -1,7 +1,7 @@
 /// <reference types="vitest/globals" />
 import { describe, it, expect } from 'vitest'
 import { mount, RouterLinkStub } from '@vue/test-utils'
-import { createPinia } from 'pinia'
+// ...existing code...
 import Home from './Home.vue'
 import { useAuthStore } from '@/stores/auth'
 

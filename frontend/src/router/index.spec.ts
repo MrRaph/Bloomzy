@@ -36,7 +36,7 @@ describe('router guard logic (unitaire)', () => {
 import { describe, it, expect } from 'vitest'
 // ...existing code...
 import { useAuthStore } from '@/stores/auth'
-import router from '@/router/index'
+// ...existing code...
 
 vi.mock('@/stores/auth')
 

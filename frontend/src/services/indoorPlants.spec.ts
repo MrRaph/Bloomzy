@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { authApi, fetchIndoorPlants, createIndoorPlant } from '@/services/api'
+import { fetchIndoorPlants, createIndoorPlant } from '@/services/api'
 
 vi.mock('axios', () => ({
   default: {

@@ -1,7 +1,7 @@
 /// <reference types="vitest/globals" />
 import { describe, it, expect, vi } from 'vitest'
 import { mount, RouterLinkStub } from '@vue/test-utils'
-import { createPinia } from 'pinia'
+// ...existing code...
 import { createRouter, createWebHistory } from 'vue-router'
 import Profile from './Profile.vue'
 import { useAuthStore } from '@/stores/auth'

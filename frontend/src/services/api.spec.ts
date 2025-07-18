@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { authApi } from '@/services/api'
 import type { AxiosResponse } from 'axios'
+import { AxiosHeaders } from 'axios'
 
 describe('authApi', () => {
   function mockAxiosResponse<T>(data: T): AxiosResponse<T> {
@@ -8,8 +9,8 @@ describe('authApi', () => {
       data,
       status: 200,
       statusText: 'OK',
-      headers: {},
-      config: {}
+      headers: new AxiosHeaders({ 'Content-Type': 'application/json' }),
+      config: { headers: new AxiosHeaders({ 'Content-Type': 'application/json' }) }
     }
   }
 
