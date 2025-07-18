@@ -1,9 +1,13 @@
 import { defineStore } from 'pinia'
-import { fetchIndoorPlants, createIndoorPlant } from '../services/api'
+import { fetchIndoorPlants, createIndoorPlant, updateIndoorPlant, deleteIndoorPlant } from '../services/api'
+import type { IndoorPlant } from '../types'
+
+// Fonctions API à ajouter pour update et delete
+import type { IndoorPlant } from '../types'
 
 export const useIndoorPlantsStore = defineStore('indoorPlants', {
   state: () => ({
-    plants: [] as any[],
+    plants: [] as IndoorPlant[],
     loading: false,
     error: null as string | null
   }),
@@ -11,7 +15,7 @@ export const useIndoorPlantsStore = defineStore('indoorPlants', {
     async fetchPlants(search?: string) {
       this.loading = true
       try {
-        this.plants = await fetchIndoorPlants(search)
+        this.plants = await fetchIndoorPlants(search) as IndoorPlant[]
         this.error = null
       } catch (e: any) {
         this.error = e.message
@@ -19,11 +23,36 @@ export const useIndoorPlantsStore = defineStore('indoorPlants', {
         this.loading = false
       }
     },
-    async createPlant(payload: Record<string, any>) {
+    async addPlant(payload: Omit<IndoorPlant, 'id' | 'created_at' | 'updated_at'>) {
       this.loading = true
       try {
-        const plant = await createIndoorPlant(payload)
+        const plant = await createIndoorPlant(payload) as IndoorPlant
         this.plants.unshift(plant)
+        this.error = null
+      } catch (e: any) {
+        this.error = e.message
+      } finally {
+        this.loading = false
+      }
+    },
+    async updatePlant(id: number, payload: Partial<Omit<IndoorPlant, 'id' | 'created_at' | 'updated_at'>>) {
+      this.loading = true
+      try {
+        const updated = await updateIndoorPlant(id, payload) as IndoorPlant
+        const idx = this.plants.findIndex((p) => p.id === id)
+        if (idx !== -1) this.plants[idx] = updated
+        this.error = null
+      } catch (e: any) {
+        this.error = e.message
+      } finally {
+        this.loading = false
+      }
+    },
+    async deletePlant(id: number) {
+      this.loading = true
+      try {
+        await deleteIndoorPlant(id)
+        this.plants = this.plants.filter((p) => p.id !== id)
         this.error = null
       } catch (e: any) {
         this.error = e.message

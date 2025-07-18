@@ -5,6 +5,7 @@ import Login from '@/views/Login.vue'
 import Signup from '@/views/Signup.vue'
 import Profile from '@/views/Profile.vue'
 import Dashboard from '@/views/Dashboard.vue'
+import IndoorPlants from '@/views/IndoorPlants.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -37,6 +38,12 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/indoor-plants',
+      name: 'indoor-plants',
+      component: IndoorPlants,
       meta: { requiresAuth: true }
     }
   ]

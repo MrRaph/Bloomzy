@@ -1,3 +1,13 @@
+// Update indoor plant
+export const updateIndoorPlant = async (id: number, payload: Record<string, any>): Promise<any> => {
+  const res = await apiClient.put(`/indoor-plants/${id}/`, payload)
+  return res.data
+}
+
+// Delete indoor plant
+export const deleteIndoorPlant = async (id: number): Promise<void> => {
+  await apiClient.delete(`/indoor-plants/${id}/`)
+}
 
 import axios from 'axios'
 import type { AuthTokens, User, LoginCredentials, SignupData } from '@/types'

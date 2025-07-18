@@ -1,3 +1,10 @@
+export interface IndoorPlant {
+  id: number
+  name: string
+  species: string
+  created_at: string
+  updated_at: string
+}
 export interface User {
   id: number
   email: string
