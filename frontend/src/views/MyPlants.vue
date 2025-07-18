@@ -49,7 +49,7 @@
             v-for="plant in store.plants"
             :key="plant.id"
             :plant="plant"
-            @edit="(plant) => openEditModal(plant)"
+            @edit="(plant) => editPlant(plant)"
             @delete="(plant) => handleDeletePlant(plant)"
             @water="(plant) => openWateringModal(plant)"
           />
@@ -260,16 +260,6 @@ const loadSpeciesOptions = async () => {
   }
 }
 
-const getStatusLabel = (status: string) => {
-  const labels = {
-    healthy: 'Bonne santé',
-    sick: 'Malade',
-    dying: 'Dépérit',
-    dead: 'Morte'
-  }
-  return labels[status as keyof typeof labels] || status
-}
-
 const editPlant = (plant: UserPlant) => {
   editingPlant.value = plant
   form.value = {
@@ -307,11 +297,6 @@ const closeWateringModal = () => {
   wateringPlant.value = null
 }
 
-const viewPlantDetails = (plant: UserPlant) => {
-  // TODO: Naviguer vers une page de détails de la plante
-  console.log('Voir détails de la plante:', plant)
-}
-
 const submitForm = async (formData: Record<string, any>) => {
   const plantData = {
     species_id: parseInt(formData.species_id),
@@ -339,6 +324,7 @@ const submitWatering = async (formData: Record<string, any>) => {
 
   const wateringData = {
     plant_id: wateringPlant.value.id,
+    watered_at: new Date().toISOString(),
     amount_ml: formData.amount_ml ? parseInt(formData.amount_ml) : undefined,
     water_type: formData.water_type,
     notes: formData.notes || undefined

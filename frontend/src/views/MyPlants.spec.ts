@@ -170,13 +170,6 @@ describe('MyPlants.vue', () => {
     expect(wrapper.vm.wateringPlant).toBe(null)
   })
 
-  it('affiche le bon label de statut', () => {
-    expect(wrapper.vm.getStatusLabel('healthy')).toBe('Bonne santé')
-    expect(wrapper.vm.getStatusLabel('sick')).toBe('Malade')
-    expect(wrapper.vm.getStatusLabel('dying')).toBe('Dépérit')
-    expect(wrapper.vm.getStatusLabel('dead')).toBe('Morte')
-  })
-
   it('ferme le formulaire', async () => {
     wrapper.vm.showAddForm = true
     wrapper.vm.editingPlant = mockUserPlant

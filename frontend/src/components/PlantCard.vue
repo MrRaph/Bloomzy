@@ -96,7 +96,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import type { UserPlant } from '@/types'
 
 interface WateringInfo {
@@ -114,7 +113,7 @@ interface Props {
   wateringInfo?: WateringInfo | null
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   compact: false,
   showActions: true,
   actions: () => ['water', 'edit', 'details', 'delete']
