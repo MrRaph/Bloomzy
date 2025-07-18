@@ -1,12 +1,18 @@
 #!/bin/sh
 set -e
 
+# Extraire le chemin de la DB depuis SQLALCHEMY_DATABASE_URI si définie
+if [ -n "$SQLALCHEMY_DATABASE_URI" ]; then
+  # Extrait le chemin après sqlite:///
+  DB_PATH=$(echo "$SQLALCHEMY_DATABASE_URI" | sed 's/sqlite:\/\/\///')
+else
+  # Valeur par défaut
+  DB_PATH="/data/bloomzy.db"
+fi
 
-DB_DIR="/data"
-DB_PATH="$DB_DIR/bloomzy.db"
+DB_DIR=$(dirname "$DB_PATH")
 
-
-# S'assure que le dossier /data existe et attend qu'il soit accessible en écriture
+# S'assure que le dossier DB existe et attend qu'il soit accessible en écriture
 mkdir -p "$DB_DIR"
 MAX_WAIT=10
 WAIT=0

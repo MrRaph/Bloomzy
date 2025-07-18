@@ -20,7 +20,7 @@ def test_db_init_when_missing(tmp_path, monkeypatch):
     assert not db_path.exists()
     # Lance le script entrypoint.sh
     result = subprocess.run([
-        "sh", "backend/entrypoint.sh", "echo", "test"
+        "sh", "entrypoint.sh", "echo", "test"
     ], capture_output=True, text=True)
     assert "Initialisation de la base de données" in result.stdout
     # La DB doit être créée
@@ -33,6 +33,6 @@ def test_db_no_init_if_exists(tmp_path, monkeypatch):
     monkeypatch.setenv("SQLALCHEMY_DATABASE_URI", f"sqlite:///{db_path}")
     assert db_path.exists()
     result = subprocess.run([
-        "sh", "backend/entrypoint.sh", "echo", "test"
+        "sh", "entrypoint.sh", "echo", "test"
     ], capture_output=True, text=True)
     assert "pas d'initialisation nécessaire" in result.stdout
