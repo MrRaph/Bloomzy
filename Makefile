@@ -1,3 +1,16 @@
+# =============================================================================
+# BASE DE DONNÉES (init & migrations)
+# =============================================================================
+
+init-db: ## Initialise la base de données (création des tables)
+	@echo "$(YELLOW)Initialisation de la base de données...$(NC)"
+	cd $(BACKEND_DIR) && source .venv/bin/activate && pip install -r requirements.txt && python -c "from app import create_app; app = create_app()"
+	@echo "$(GREEN)✅ Base de données initialisée$(NC)"
+
+migrate-db: ## Applique les migrations de base de données (Flask-Migrate)
+	@echo "$(YELLOW)Application des migrations...$(NC)"
+	cd $(BACKEND_DIR) && source .venv/bin/activate && pip install -r requirements.txt && flask db upgrade
+	@echo "$(GREEN)✅ Migrations appliquées$(NC)"
 # Bloomzy Project Makefile
 # Gestion centralisée du projet frontend/backend
 
