@@ -1,6 +1,6 @@
 <template>
   <div class="indoor-plants-view">
-    <h1>Mes plantes d'intérieur</h1>
+    <h1>Catalogue des plantes d'intérieur</h1>
     <button @click="showAddForm = true">Ajouter une plante</button>
     <ul v-if="plants && plants.length">
       <li v-for="plant in plants" :key="plant.id">
