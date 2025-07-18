@@ -4,6 +4,7 @@ import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import Signup from '@/views/Signup.vue'
 import Profile from '@/views/Profile.vue'
+import Dashboard from '@/views/Dashboard.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -29,6 +30,13 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: Profile,
+      meta: { requiresAuth: true }
+    }
+    ,
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Dashboard,
       meta: { requiresAuth: true }
     }
   ]

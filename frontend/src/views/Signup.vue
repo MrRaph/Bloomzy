@@ -128,13 +128,13 @@ const handleSignup = async () => {
   })
   
   if (success) {
-    router.push('/')
+    router.push('/dashboard')
   }
 }
 
 onMounted(() => {
   if (authStore.isAuthenticated) {
-    router.push('/')
+    router.push('/dashboard')
   }
 })
 </script>

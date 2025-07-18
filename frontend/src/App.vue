@@ -12,7 +12,11 @@
           <router-link to="/signup" class="nav-link btn-primary">Inscription</router-link>
         </template>
         <template v-else>
+          <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
           <router-link to="/profile" class="nav-link">Mon profil</router-link>
+          <router-link to="/plants" class="nav-link">Mes plantes</router-link>
+          <router-link to="/journal" class="nav-link">Journal</router-link>
+          <router-link to="/community" class="nav-link">Communauté</router-link>
           <button @click="logout" class="nav-link btn-logout">Déconnexion</button>
         </template>
       </div>

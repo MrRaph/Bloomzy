@@ -67,13 +67,13 @@ const form = ref({
 const handleLogin = async () => {
   const success = await authStore.login(form.value)
   if (success) {
-    router.push('/')
+    router.push('/dashboard')
   }
 }
 
 onMounted(() => {
   if (authStore.isAuthenticated) {
-    router.push('/')
+    router.push('/dashboard')
   }
 })
 </script>
