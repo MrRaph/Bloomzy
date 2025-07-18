@@ -1,9 +1,11 @@
-# Volume pour la persistance de la base SQLite
-VOLUME ["/data"]
-# Dockerfile backend Bloomzy
-# Ce fichier permet de construire l'image Docker pour le backend Python/Flask
 
 FROM python:3.11-slim
+
+# Volume pour la persistance de la base SQLite
+VOLUME ["/data"]
+
+# Dockerfile backend Bloomzy
+# Ce fichier permet de construire l'image Docker pour le backend Python/Flask
 
 WORKDIR /app
 
