@@ -11,6 +11,7 @@ describe('App.vue navigation', () => {
   beforeEach(() => {
     authStoreMock = {
       isAuthenticated: true,
+      isAuthReady: true,
       user: { username: 'TestUser', email: 'test@example.com' },
       logout: vi.fn()
     }
@@ -40,6 +41,7 @@ describe('App.vue navigation', () => {
 
   it('affiche Connexion/Inscription si non connecté', () => {
     authStoreMock.isAuthenticated = false
+    authStoreMock.isAuthReady = true
     const wrapper = mount(App, {
       global: {
         stubs: { RouterLink: RouterLinkStub, RouterView: true }

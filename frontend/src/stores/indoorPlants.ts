@@ -16,8 +16,8 @@ export const useIndoorPlantsStore = defineStore('indoorPlants', {
         const backendPlants = await fetchIndoorPlants(search)
         this.plants = backendPlants.map((p: any) => ({
           id: p.id,
-          name: p.scientific_name,
-          species: p.common_names ? p.common_names.split(',')[0].trim() : '',
+          name: p.name ?? p.scientific_name,
+          species: p.species ?? (p.common_names ? (Array.isArray(p.common_names) ? p.common_names[0] : p.common_names.split(',')[0].trim()) : ''),
           created_at: p.created_at,
           updated_at: p.updated_at
         }))
@@ -36,12 +36,12 @@ export const useIndoorPlantsStore = defineStore('indoorPlants', {
           scientific_name: payload.name,
           common_names: [payload.species]
         }
-        // Appel API, puis conversion backend -> frontend
+        // Appel API, puis conversion backend -> frontend ou mock
         const backendPlant = await createIndoorPlant(apiPayload)
         const plant: IndoorPlant = {
           id: backendPlant.id,
-          name: backendPlant.scientific_name,
-          species: Array.isArray(backendPlant.common_names) && backendPlant.common_names.length > 0 ? backendPlant.common_names[0] : '',
+          name: backendPlant.name ?? backendPlant.scientific_name,
+          species: backendPlant.species ?? (backendPlant.common_names ? (Array.isArray(backendPlant.common_names) ? backendPlant.common_names[0] : backendPlant.common_names.split(',')[0].trim()) : ''),
           created_at: backendPlant.created_at,
           updated_at: backendPlant.updated_at
         }
