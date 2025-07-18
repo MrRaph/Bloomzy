@@ -90,7 +90,7 @@ def login():
     }
     secret = current_app.config.get('SECRET_KEY', 'dev-secret-key')
     token = jwt.encode(payload, secret, algorithm='HS256')
-    return jsonify({'message': 'Connexion réussie', 'user_id': user.id, 'token': token}), 200
+    return jsonify({'message': 'Connexion réussie', 'user_id': user.id, 'access_token': token}), 200
 @bp.route('/refresh', methods=['POST'])
 def refresh():
     data = request.get_json()

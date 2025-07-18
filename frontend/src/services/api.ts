@@ -10,6 +10,16 @@ const apiClient = axios.create({
   baseURL: API_BASE_URL
 })
 
+// Intercepteur pour ajouter le token JWT dans les headers Authorization
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('access_token')
+  if (token) {
+    config.headers = config.headers || {}
+    config.headers['Authorization'] = `Bearer ${token}`
+  }
+  return config
+})
+
 // Indoor Plants API
 export const fetchIndoorPlants = async (search?: string): Promise<any[]> => {
   const params = search ? { search } : {}
