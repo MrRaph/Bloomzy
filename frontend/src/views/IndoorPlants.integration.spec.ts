@@ -29,8 +29,9 @@ describe('IndoorPlants.vue (integration)', () => {
     await nextTick()
     // Ajout
     await wrapper.find('button').trigger('click')
-    await wrapper.find('input[placeholder="Nom de la plante"]').setValue('Monstera')
-    await wrapper.find('input[placeholder="Espèce"]').setValue('Monstera deliciosa')
+    await nextTick()
+    await wrapper.find('input[placeholder="Ex: Monstera deliciosa"]').setValue('Monstera')
+    await wrapper.find('input[placeholder="Ex: Araceae"]').setValue('Monstera deliciosa')
     await wrapper.find('form').trigger('submit.prevent')
     await nextTick()
     expect(store.addPlant).toHaveBeenCalledWith({ name: 'Monstera', species: 'Monstera deliciosa' })

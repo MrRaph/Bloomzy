@@ -60,112 +60,25 @@
         </div>
 
         <div class="profile-form" v-else>
-          <form @submit.prevent="handleUpdateProfile">
-            <div class="form-section">
-              <h3>Informations générales</h3>
-              <div class="form-grid">
-                <div class="form-group">
-                  <label for="username">Nom d'utilisateur</label>
-                  <input
-                    id="username"
-                    v-model="form.username"
-                    type="text"
-                    required
-                    :disabled="authStore.isLoading"
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label for="bio">Biographie</label>
-                  <textarea
-                    id="bio"
-                    v-model="form.bio"
-                    rows="3"
-                    placeholder="Parlez-nous de vous..."
-                    :disabled="authStore.isLoading"
-                  ></textarea>
-                </div>
-
-                <div class="form-group">
-                  <label for="location">Localisation</label>
-                  <input
-                    id="location"
-                    v-model="form.location"
-                    type="text"
-                    placeholder="Votre ville, pays"
-                    :disabled="authStore.isLoading"
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label for="expertise_level">Niveau d'expertise</label>
-                  <select
-                    id="expertise_level"
-                    v-model="form.expertise_level"
-                    :disabled="authStore.isLoading"
-                  >
-                    <option value="beginner">Débutant</option>
-                    <option value="intermediate">Intermédiaire</option>
-                    <option value="advanced">Avancé</option>
-                    <option value="expert">Expert</option>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label for="phone">Téléphone</label>
-                  <input
-                    id="phone"
-                    v-model="form.phone"
-                    type="tel"
-                    placeholder="+33 1 23 45 67 89"
-                    :disabled="authStore.isLoading"
-                  />
-                </div>
+          <BaseForm
+            title="Modifier le profil"
+            description="Mettez à jour vos informations personnelles"
+            :fields="profileFields"
+            :initial-values="form"
+            :on-submit="handleUpdateProfile"
+            :loading="authStore.isLoading"
+            loading-text="Mise à jour..."
+            :general-error="authStore.error"
+          >
+            <template #submit-label>Sauvegarder</template>
+            <template #footer>
+              <div class="form-actions">
+                <button type="button" @click="cancelEditing" class="btn btn-secondary">
+                  Annuler
+                </button>
               </div>
-            </div>
-
-            <div class="form-section">
-              <h3>Préférences</h3>
-              <div class="form-grid">
-                <div class="form-group">
-                  <label for="preferred_units">Unités préférées</label>
-                  <select
-                    id="preferred_units"
-                    v-model="form.preferred_units"
-                    :disabled="authStore.isLoading"
-                  >
-                    <option value="metric">Métrique (cm, ml, °C)</option>
-                    <option value="imperial">Impérial (in, fl oz, °F)</option>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      v-model="form.notifications_enabled"
-                      :disabled="authStore.isLoading"
-                    />
-                    Recevoir des notifications
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="error-message" v-if="authStore.error">
-              {{ authStore.error }}
-            </div>
-
-            <div class="form-actions">
-              <button type="button" @click="cancelEditing" class="btn btn-secondary">
-                Annuler
-              </button>
-              <button type="submit" class="btn btn-primary" :disabled="authStore.isLoading">
-                <span v-if="authStore.isLoading">Mise à jour...</span>
-                <span v-else>Sauvegarder</span>
-              </button>
-            </div>
-          </form>
+            </template>
+          </BaseForm>
         </div>
       </div>
     </div>
@@ -176,6 +89,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import BaseForm from '@/components/BaseForm.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -190,6 +104,60 @@ const form = ref({
   preferred_units: 'metric',
   notifications_enabled: true
 })
+
+const profileFields = [
+  {
+    name: 'username',
+    label: 'Nom d\'utilisateur',
+    type: 'text',
+    required: true,
+    autocomplete: 'username'
+  },
+  {
+    name: 'bio',
+    label: 'Biographie',
+    type: 'textarea',
+    placeholder: 'Parlez-nous de vous...',
+    rows: 3
+  },
+  {
+    name: 'location',
+    label: 'Localisation',
+    type: 'text',
+    placeholder: 'Votre ville, pays'
+  },
+  {
+    name: 'expertise_level',
+    label: 'Niveau d\'expertise',
+    type: 'select',
+    options: [
+      { value: 'beginner', label: 'Débutant' },
+      { value: 'intermediate', label: 'Intermédiaire' },
+      { value: 'advanced', label: 'Avancé' },
+      { value: 'expert', label: 'Expert' }
+    ]
+  },
+  {
+    name: 'phone',
+    label: 'Téléphone',
+    type: 'tel',
+    placeholder: '+33 1 23 45 67 89'
+  },
+  {
+    name: 'preferred_units',
+    label: 'Unités préférées',
+    type: 'select',
+    options: [
+      { value: 'metric', label: 'Métrique (cm, ml, °C)' },
+      { value: 'imperial', label: 'Impérial (in, fl oz, °F)' }
+    ]
+  },
+  {
+    name: 'notifications_enabled',
+    label: 'Recevoir des notifications',
+    type: 'checkbox'
+  }
+]
 
 const getExpertiseLabel = (level: string | undefined) => {
   const labels = {
@@ -229,8 +197,8 @@ const cancelEditing = () => {
   authStore.error = null
 }
 
-const handleUpdateProfile = async () => {
-  const success = await authStore.updateProfile(form.value)
+const handleUpdateProfile = async (formData: Record<string, any>) => {
+  const success = await authStore.updateProfile(formData)
   if (success) {
     isEditing.value = false
   }
@@ -324,83 +292,6 @@ onMounted(async () => {
   margin-top: 2rem;
   padding-top: 2rem;
   border-top: 1px solid #e5e7eb;
-}
-
-.form-section {
-  margin-bottom: 2rem;
-}
-
-.form-section h3 {
-  font-size: 1.25rem;
-  color: #374151;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #e5e7eb;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.form-group label {
-  font-weight: 600;
-  color: #374151;
-  font-size: 0.9rem;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-  padding: 0.75rem;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: #059669;
-  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
-}
-
-.form-group textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.checkbox-label input[type="checkbox"] {
-  width: auto;
-  margin: 0;
-}
-
-.error-message {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #dc2626;
-  padding: 0.75rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  text-align: center;
-  margin-bottom: 1rem;
 }
 
 .form-actions {

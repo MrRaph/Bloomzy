@@ -36,12 +36,19 @@ Permettre la gestion intelligente des plantes d’intérieur avec notifications 
 
 
 ### Frontend (Vue 3 + Pinia + TypeScript)
-5. **✅ Interface utilisateur gestion plantes d’intérieur** ([PR #43](https://github.com/MrRaph/Bloomzy/pull/43)) - **TERMINÉ**
+5. **✅ Interface utilisateur gestion plantes d'intérieur** ([PR #43](https://github.com/MrRaph/Bloomzy/pull/43)) - **TERMINÉ**
    - ✅ Vue principale IndoorPlants.vue (affichage, ajout, modification, suppression, responsive)
    - ✅ Store Pinia typé (CRUD, intégration API)
    - ✅ Services API (fetch, add, update, delete)
    - ✅ Tests unitaires (vue, store, API)
    - ✅ Documentation et conformité PRD/TODO
+
+6. **✅ Refactorisation formulaires avec BaseForm** - **TERMINÉ**
+   - ✅ Refactorisation du formulaire d'ajout/modification des plantes
+   - ✅ Utilisation du composant BaseForm pour cohérence
+   - ✅ Amélioration de l'UX avec placeholders et validation
+   - ✅ Tests mis à jour et fonctionnels
+   - ✅ Documentation de la refactorisation
 
 ### Critères de validation
 - Fonctionnalités testées (TDD)

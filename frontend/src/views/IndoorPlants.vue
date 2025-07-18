@@ -13,13 +13,22 @@
 
     <!-- Formulaire d'ajout/modification -->
     <div v-if="showAddForm || editingPlant">
-      <h2>{{ editingPlant ? 'Modifier' : 'Ajouter' }} une plante</h2>
-      <form @submit.prevent="submitForm">
-        <input v-model="form.name" placeholder="Nom de la plante" required />
-        <input v-model="form.species" placeholder="Espèce" required />
-        <button type="submit">{{ editingPlant ? 'Enregistrer' : 'Ajouter' }}</button>
-        <button type="button" @click="cancelForm">Annuler</button>
-      </form>
+      <BaseForm
+        :title="editingPlant ? 'Modifier une plante' : 'Ajouter une plante'"
+        :description="editingPlant ? 'Modifiez les informations de votre plante' : 'Ajoutez une nouvelle plante à votre collection'"
+        :fields="plantFields"
+        :initial-values="form"
+        :on-submit="submitForm"
+      >
+        <template #submit-label>{{ editingPlant ? 'Enregistrer' : 'Ajouter' }}</template>
+        <template #footer>
+          <div class="form-actions">
+            <button type="button" @click="cancelForm" class="btn btn-secondary">
+              Annuler
+            </button>
+          </div>
+        </template>
+      </BaseForm>
     </div>
   </div>
 </template>
@@ -27,12 +36,30 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useIndoorPlantsStore } from '../stores/indoorPlants';
+import BaseForm from '@/components/BaseForm.vue';
 
 const store = useIndoorPlantsStore();
 const plants = store.plants;
 const showAddForm = ref(false);
 const editingPlant = ref(null as null | any);
 const form = ref({ name: '', species: '' });
+
+const plantFields = [
+  {
+    name: 'name',
+    label: 'Nom de la plante',
+    type: 'text',
+    required: true,
+    placeholder: 'Ex: Monstera deliciosa'
+  },
+  {
+    name: 'species',
+    label: 'Espèce',
+    type: 'text',
+    required: true,
+    placeholder: 'Ex: Araceae'
+  }
+];
 
 onMounted(() => {
   store.fetchPlants();
@@ -48,12 +75,12 @@ function deletePlant(id: number) {
   store.deletePlant(id);
 }
 
-function submitForm() {
+function submitForm(formData: Record<string, any>) {
   if (editingPlant.value) {
-    store.updatePlant(editingPlant.value.id, form.value);
+    store.updatePlant(editingPlant.value.id, formData);
     editingPlant.value = null;
   } else {
-    store.addPlant(form.value);
+    store.addPlant(formData);
   }
   form.value = { name: '', species: '' };
   showAddForm.value = false;
@@ -84,10 +111,30 @@ li {
 button {
   margin-left: 0.5rem;
 }
-form {
+
+.form-actions {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
+  justify-content: center;
   margin-top: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1rem;
+}
+
+.btn-secondary {
+  background: #6b7280;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #4b5563;
 }
 </style>
