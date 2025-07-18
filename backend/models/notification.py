@@ -1,7 +1,7 @@
 """
 Modèle de notification pour le système de notifications intelligent.
 """
-from app import db
+from models.user import db
 from datetime import datetime
 from enum import Enum
 import json
@@ -44,7 +44,7 @@ class Notification(db.Model):
     __tablename__ = 'notifications'
     
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
-    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     type = db.Column(db.Enum(NotificationType), nullable=False)
     title = db.Column(db.String(200), nullable=False)
     content = db.Column(db.Text, nullable=False)
@@ -147,7 +147,7 @@ class NotificationPreferences(db.Model):
     __tablename__ = 'notification_preferences'
     
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
-    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     notification_type = db.Column(db.Enum(NotificationType), nullable=False)
     
     # Activation

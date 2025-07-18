@@ -16,6 +16,7 @@ from models.indoor_plant import IndoorPlant
 from models.user_plant import UserPlant
 from models.watering_history import WateringHistory
 from models.growth_entry import GrowthEntry
+from models.api_key import ApiKey
 from models.notification import Notification, NotificationPreferences, NotificationTemplate, NotificationDeliveryLog
 
 def create_app():

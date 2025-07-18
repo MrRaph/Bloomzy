@@ -40,6 +40,11 @@ export const deleteIndoorPlant = async (id: number): Promise<void> => {
   await apiClient.delete(`/indoor-plants/${id}/`)
 }
 
+export const getIndoorPlant = async (id: number): Promise<any> => {
+  const res = await apiClient.get(`/indoor-plants/${id}/`)
+  return res.data
+}
+
 // User Plants API (Mes plantes personnelles)
 export const fetchMyPlants = async (): Promise<any> => {
   const res = await apiClient.get('/user-plants')
@@ -89,6 +94,11 @@ export const getWateringHistory = async (plantId: string): Promise<any> => {
 
 export const getWateringSchedule = async (plantId: string): Promise<any> => {
   const res = await apiClient.get(`/user-plants/${plantId}/watering-schedule`)
+  return res.data
+}
+
+export const updateWateringRecord = async (plantId: string, wateringId: string, payload: Record<string, any>): Promise<any> => {
+  const res = await apiClient.put(`/user-plants/${plantId}/watering/${wateringId}`, payload)
   return res.data
 }
 
