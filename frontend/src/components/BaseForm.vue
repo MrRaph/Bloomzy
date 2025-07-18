@@ -147,7 +147,6 @@ async function handleSubmit() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
   padding: 2rem;
 }
 
