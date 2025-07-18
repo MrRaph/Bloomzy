@@ -38,11 +38,18 @@ Standardiser tous les formulaires de l'application Bloomzy en utilisant le compo
 - ✅ Amélioration de l'UX avec placeholders
 - ✅ Tests mis à jour et fonctionnels
 
+#### **✅ Formulaire gestion plantes utilisateur (MyPlants)**
+- ✅ Conversion vers BaseForm pour ajout/modification de plantes
+- ✅ Intégration avec le store myPlants
+- ✅ Gestion des espèces avec select dynamique
+- ✅ Modal d'arrosage intégré
+- ✅ Tests complets et fonctionnels
+
 ### 3. **✅ Corrections et tests**
 - ✅ Installation de la dépendance `@pinia/testing`
 - ✅ Correction des tests d'intégration
 - ✅ Mise à jour des sélecteurs de tests
-- ✅ Validation : 49 tests frontend passants
+- ✅ Validation : 84 tests frontend passants ← **Mis à jour**
 - ✅ Validation : 95 tests backend passants
 
 ### 4. **✅ Documentation**

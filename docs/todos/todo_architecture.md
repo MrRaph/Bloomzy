@@ -20,6 +20,7 @@ Définir et mettre en œuvre une architecture scalable, sécurisée et maintenab
    - Objectif : Orchestration, scaling, monitoring.
    - Validation : Tests d'intégration, monitoring Prometheus/Grafana.
    - **Prérequis** : ✅ Infrastructure Docker terminée
+   - **Note** : Peut commencer maintenant que les modules Auth et Indoor Plants sont terminés
 
 3. **🔄 Sécurité et conformité** ([Issue #28](https://github.com/MrRaph/Bloomzy/issues/28)) - **EN ATTENTE**
    - Chiffrement, RBAC, MFA, audit, RGPD.
