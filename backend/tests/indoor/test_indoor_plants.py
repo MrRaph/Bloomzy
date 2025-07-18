@@ -97,3 +97,134 @@ def test_api_search_indoor_plant(app, client):
         assert response.status_code == 200
         results = response.get_json()
         assert any(p["scientific_name"] == "Chlorophytum comosum" for p in results)
+
+def test_api_get_indoor_plant_by_id(app, client):
+    with app.app_context():
+        # Créer une plante
+        plant_data = {
+            "scientific_name": "Pothos aureus",
+            "common_names": "Pothos doré",
+            "family": "Araceae"
+        }
+        response = client.post("/indoor-plants/", json=plant_data)
+        assert response.status_code == 201
+        plant_id = response.get_json()["id"]
+        
+        # Récupérer la plante par ID
+        response = client.get(f"/indoor-plants/{plant_id}")
+        assert response.status_code == 200
+        data = response.get_json()
+        assert data["scientific_name"] == "Pothos aureus"
+
+def test_api_get_nonexistent_plant(app, client):
+    with app.app_context():
+        response = client.get("/indoor-plants/999")
+        assert response.status_code == 404
+
+def test_api_update_indoor_plant(app, client):
+    with app.app_context():
+        # Créer une plante
+        plant_data = {
+            "scientific_name": "Ficus benjamina",
+            "common_names": "Ficus",
+            "difficulty": "Moyen"
+        }
+        response = client.post("/indoor-plants/", json=plant_data)
+        assert response.status_code == 201
+        plant_id = response.get_json()["id"]
+        
+        # Mettre à jour la plante
+        update_data = {
+            "difficulty": "Facile",
+            "watering_frequency": "Hebdomadaire"
+        }
+        response = client.put(f"/indoor-plants/{plant_id}", json=update_data)
+        assert response.status_code == 200
+        data = response.get_json()
+        assert data["difficulty"] == "Facile"
+        assert data["watering_frequency"] == "Hebdomadaire"
+
+def test_api_update_nonexistent_plant(app, client):
+    with app.app_context():
+        response = client.put("/indoor-plants/999", json={"difficulty": "Facile"})
+        assert response.status_code == 404
+
+def test_api_delete_indoor_plant(app, client):
+    with app.app_context():
+        # Créer une plante
+        plant_data = {
+            "scientific_name": "Aloe vera",
+            "common_names": "Aloès"
+        }
+        response = client.post("/indoor-plants/", json=plant_data)
+        assert response.status_code == 201
+        plant_id = response.get_json()["id"]
+        
+        # Supprimer la plante
+        response = client.delete(f"/indoor-plants/{plant_id}")
+        assert response.status_code == 200
+        
+        # Vérifier que la plante n'existe plus
+        response = client.get(f"/indoor-plants/{plant_id}")
+        assert response.status_code == 404
+
+def test_api_search_with_filters(app, client):
+    with app.app_context():
+        # Créer plusieurs plantes
+        plants = [
+            {
+                "scientific_name": "Cactus opuntia",
+                "family": "Cactaceae",
+                "difficulty": "Facile"
+            },
+            {
+                "scientific_name": "Orchidaceae vanda",
+                "family": "Orchidaceae",
+                "difficulty": "Difficile"
+            }
+        ]
+        
+        for plant in plants:
+            client.post("/indoor-plants/", json=plant)
+        
+        # Recherche par famille
+        response = client.get("/indoor-plants/?family=Cactaceae")
+        assert response.status_code == 200
+        results = response.get_json()
+        assert len(results) == 1
+        assert results[0]["family"] == "Cactaceae"
+        
+        # Recherche par difficulté
+        response = client.get("/indoor-plants/?difficulty=Facile")
+        assert response.status_code == 200
+        results = response.get_json()
+        assert len(results) >= 1
+        assert all(p["difficulty"] == "Facile" for p in results)
+
+def test_api_create_duplicate_plant(app, client):
+    with app.app_context():
+        plant_data = {
+            "scientific_name": "Duplicata species",
+            "common_names": "Plante test"
+        }
+        
+        # Créer la première plante
+        response = client.post("/indoor-plants/", json=plant_data)
+        assert response.status_code == 201
+        
+        # Essayer de créer une plante avec le même nom scientifique
+        response = client.post("/indoor-plants/", json=plant_data)
+        assert response.status_code == 409
+        data = response.get_json()
+        assert "already exists" in data["error"]
+
+def test_api_create_plant_without_scientific_name(app, client):
+    with app.app_context():
+        plant_data = {
+            "common_names": "Plante sans nom scientifique"
+        }
+        
+        response = client.post("/indoor-plants/", json=plant_data)
+        assert response.status_code == 400
+        data = response.get_json()
+        assert "Scientific name is required" in data["error"]
