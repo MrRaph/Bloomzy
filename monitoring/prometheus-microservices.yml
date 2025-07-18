@@ -1,0 +1,69 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - "alert_rules.yml"
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+    
+  - job_name: 'auth-service'
+    static_configs:
+      - targets: ['auth-service:5001']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+    
+  - job_name: 'plants-service'
+    static_configs:
+      - targets: ['plants-service:5002']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+    
+  - job_name: 'notifications-service'
+    static_configs:
+      - targets: ['notifications-service:5003']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+    
+  - job_name: 'api-gateway'
+    static_configs:
+      - targets: ['api-gateway:8080']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+    
+  - job_name: 'consul'
+    static_configs:
+      - targets: ['consul:8500']
+    metrics_path: '/v1/agent/metrics'
+    params:
+      format: ['prometheus']
+    scrape_interval: 15s
+    
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']
+    scrape_interval: 15s
+    
+  - job_name: 'postgres-auth'
+    static_configs:
+      - targets: ['auth-db:5432']
+    scrape_interval: 15s
+    
+  - job_name: 'postgres-plants'
+    static_configs:
+      - targets: ['plants-db:5432']
+    scrape_interval: 15s
+    
+  - job_name: 'postgres-notifications'
+    static_configs:
+      - targets: ['notifications-db:5432']
+    scrape_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093

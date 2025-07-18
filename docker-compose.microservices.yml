@@ -1,0 +1,362 @@
+version: '3.8'
+
+services:
+  # Databases
+  auth-db:
+    image: postgres:15-alpine
+    container_name: bloomzy-auth-db
+    environment:
+      POSTGRES_DB: auth
+      POSTGRES_USER: auth_user
+      POSTGRES_PASSWORD: auth_password
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+    networks:
+      - bloomzy-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U auth_user -d auth"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  plants-db:
+    image: postgres:15-alpine
+    container_name: bloomzy-plants-db
+    environment:
+      POSTGRES_DB: plants
+      POSTGRES_USER: plants_user
+      POSTGRES_PASSWORD: plants_password
+    volumes:
+      - plants_db_data:/var/lib/postgresql/data
+    networks:
+      - bloomzy-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U plants_user -d plants"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  notifications-db:
+    image: postgres:15-alpine
+    container_name: bloomzy-notifications-db
+    environment:
+      POSTGRES_DB: notifications
+      POSTGRES_USER: notifications_user
+      POSTGRES_PASSWORD: notifications_password
+    volumes:
+      - notifications_db_data:/var/lib/postgresql/data
+    networks:
+      - bloomzy-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U notifications_user -d notifications"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Cache and Message Queue
+  redis:
+    image: redis:7-alpine
+    container_name: bloomzy-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - bloomzy-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Service Discovery
+  consul:
+    image: consul:latest
+    container_name: bloomzy-consul
+    command: agent -server -bootstrap-expect=1 -ui -client=0.0.0.0 -bind=0.0.0.0
+    volumes:
+      - consul_data:/consul/data
+      - ./microservices/service-discovery/consul-config.json:/consul/config/consul-config.json
+    ports:
+      - "8500:8500"
+    networks:
+      - bloomzy-network
+    healthcheck:
+      test: ["CMD", "consul", "members"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Microservices
+  auth-service:
+    build:
+      context: ./microservices/auth-service
+      dockerfile: Dockerfile
+    image: bloomzy-auth-service:latest
+    container_name: bloomzy-auth-service
+    environment:
+      - DATABASE_URL=postgresql://auth_user:auth_password@auth-db:5432/auth
+      - SECRET_KEY=your-secret-key-here
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - CONSUL_HOST=consul
+      - CONSUL_PORT=8500
+    depends_on:
+      auth-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      consul:
+        condition: service_healthy
+    networks:
+      - bloomzy-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  plants-service:
+    build:
+      context: ./microservices/plants-service
+      dockerfile: Dockerfile
+    image: bloomzy-plants-service:latest
+    container_name: bloomzy-plants-service
+    environment:
+      - DATABASE_URL=postgresql://plants_user:plants_password@plants-db:5432/plants
+      - SECRET_KEY=your-secret-key-here
+      - AUTH_SERVICE_URL=http://auth-service:5001
+      - CONSUL_HOST=consul
+      - CONSUL_PORT=8500
+    depends_on:
+      plants-db:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+      consul:
+        condition: service_healthy
+    networks:
+      - bloomzy-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  notifications-service:
+    build:
+      context: ./microservices/notifications-service
+      dockerfile: Dockerfile
+    image: bloomzy-notifications-service:latest
+    container_name: bloomzy-notifications-service
+    environment:
+      - DATABASE_URL=postgresql://notifications_user:notifications_password@notifications-db:5432/notifications
+      - SECRET_KEY=your-secret-key-here
+      - AUTH_SERVICE_URL=http://auth-service:5001
+      - PLANTS_SERVICE_URL=http://plants-service:5002
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - CONSUL_HOST=consul
+      - CONSUL_PORT=8500
+    depends_on:
+      notifications-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+      consul:
+        condition: service_healthy
+    networks:
+      - bloomzy-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Celery worker for notifications
+  celery-worker:
+    build:
+      context: ./microservices/notifications-service
+      dockerfile: Dockerfile
+    image: bloomzy-notifications-service:latest
+    container_name: bloomzy-celery-worker
+    command: celery -A tasks worker --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://notifications_user:notifications_password@notifications-db:5432/notifications
+      - SECRET_KEY=your-secret-key-here
+      - AUTH_SERVICE_URL=http://auth-service:5001
+      - PLANTS_SERVICE_URL=http://plants-service:5002
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      notifications-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      notifications-service:
+        condition: service_healthy
+    networks:
+      - bloomzy-network
+
+  # Celery beat scheduler
+  celery-beat:
+    build:
+      context: ./microservices/notifications-service
+      dockerfile: Dockerfile
+    image: bloomzy-notifications-service:latest
+    container_name: bloomzy-celery-beat
+    command: celery -A tasks beat --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://notifications_user:notifications_password@notifications-db:5432/notifications
+      - SECRET_KEY=your-secret-key-here
+      - AUTH_SERVICE_URL=http://auth-service:5001
+      - PLANTS_SERVICE_URL=http://plants-service:5002
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      notifications-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      notifications-service:
+        condition: service_healthy
+    networks:
+      - bloomzy-network
+
+  # API Gateway
+  api-gateway:
+    build:
+      context: ./microservices/api-gateway
+      dockerfile: Dockerfile
+    image: bloomzy-api-gateway:latest
+    container_name: bloomzy-api-gateway
+    ports:
+      - "8000:80"
+      - "8001:8080"
+    depends_on:
+      auth-service:
+        condition: service_healthy
+      plants-service:
+        condition: service_healthy
+      notifications-service:
+        condition: service_healthy
+    networks:
+      - bloomzy-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Frontend (updated to use API Gateway)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:8000
+    image: bloomzy-frontend:microservices
+    container_name: bloomzy-frontend
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - VITE_API_URL=http://localhost:8000
+    ports:
+      - "8080:8080"
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+    networks:
+      - bloomzy-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: bloomzy-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus-microservices.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    networks:
+      - bloomzy-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9090/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: bloomzy-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    networks:
+      - bloomzy-network
+    depends_on:
+      - prometheus
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000/login || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Jaeger for distributed tracing
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: bloomzy-jaeger
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - bloomzy-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:16686/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  bloomzy-network:
+    driver: bridge
+
+volumes:
+  auth_db_data:
+  plants_db_data:
+  notifications_db_data:
+  redis_data:
+  consul_data:
+  prometheus_data:
+  grafana_data:

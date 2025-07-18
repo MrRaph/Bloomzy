@@ -4,7 +4,7 @@
 
 ## 🎯 Vue d'ensemble
 
-Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7, représentant une base solide pour la gestion des plantes d'intérieur avec authentification sécurisée et système de notifications intelligent.
+Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7, plus **2 étapes d'architecture terminées**, représentant une base solide avec authentification sécurisée, système de notifications intelligent et **architecture microservices complète**.
 
 ### Modules complétés ✅
 1. **Module Authentification** - **TERMINÉ** (Issues #1 à #4)
@@ -32,19 +32,21 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
    - Tests : 19 tests passants (100%)
    - Documentation : Complète
 
-### Modules prêts à commencer 🔄
-4. **Module Architecture** - **PRÊT** (Issues #26 à #29)
-   - Prochaine étape : Infrastructure Docker (Issue #26)
-   - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
-   - Note : Peut être démarré maintenant
+4. **Module Architecture** - **EN COURS** (Issues #26 à #29)
+   - Statut : 🔄 **2/4 ÉTAPES TERMINÉES**
+   - ✅ Issue #26 : Infrastructure Docker terminée
+   - ✅ Issue #27 : Déploiement microservices terminé
+   - ✅ Architecture microservices complète avec 4 services
+   - ✅ API Gateway, Service Discovery, Monitoring
+   - 🔄 Prochaine étape : Sécurité et conformité (Issue #28)
 
-### Modules en attente 🔄
-5. **Module Garden** - **EN ATTENTE**
-   - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
-6. **Module AI Integration** - **EN ATTENTE**
-   - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
-7. **Module Community** - **EN ATTENTE**
-   - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
+### Modules prêts à commencer 🔄
+5. **Module Garden** - **PRÊT À COMMENCER**
+   - Dépendances : ✅ Modules Auth, Indoor Plants, Notifications et Architecture terminés
+6. **Module AI Integration** - **PRÊT À COMMENCER**
+   - Dépendances : ✅ Modules Auth, Indoor Plants, Notifications et Architecture terminés
+7. **Module Community** - **PRÊT À COMMENCER**
+   - Dépendances : ✅ Modules Auth, Indoor Plants, Notifications et Architecture terminés
 
 ## 📊 Statistiques
 
@@ -75,6 +77,12 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 - ✅ Scheduler automatique de notifications
 - ✅ API REST complète pour notifications
 - ✅ Analytics de notifications
+- ✅ Architecture microservices complète
+- ✅ API Gateway avec routing et load balancing
+- ✅ Service Discovery avec Consul
+- ✅ Monitoring avec Prometheus et Grafana
+- ✅ Bases de données séparées par service
+- ✅ Déploiement automatisé avec scripts
 
 ### Architecture technique
 - ✅ Flask avec SQLAlchemy
@@ -82,6 +90,13 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 - ✅ Tests automatisés avec pytest
 - ✅ Makefile pour automatisation
 - ✅ Documentation complète
+- ✅ Architecture microservices avec 4 services
+- ✅ Docker containerisation complète
+- ✅ PostgreSQL pour chaque service
+- ✅ Redis pour caching et queues
+- ✅ Nginx comme API Gateway
+- ✅ Consul pour service discovery
+- ✅ Stack de monitoring complète
 
 ## 🚀 Prochaines étapes recommandées
 
@@ -148,5 +163,5 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 ---
 
 **Statut global** : 🎉 **PHASE 1 TERMINÉE AVEC SUCCÈS**
-**Statut actuel** : 🎉 **PHASE 2 TERMINÉE** (3 modules complets sur 7)
-**Prochaine phase** : Module Architecture ou Garden selon les priorités métier/infrastructure
+**Statut actuel** : 🎉 **PHASE 2 AVANCÉE** (3 modules complets + architecture microservices)
+**Prochaine phase** : Sécurité et conformité (Issue #28) ou nouveaux modules métier

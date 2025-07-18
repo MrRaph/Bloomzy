@@ -42,33 +42,33 @@ export const deleteIndoorPlant = async (id: number): Promise<void> => {
 
 // User Plants API (Mes plantes personnelles)
 export const fetchMyPlants = async (): Promise<any> => {
-  const res = await apiClient.get('/api/plants/my-plants')
+  const res = await apiClient.get('/user-plants')
   return res.data
 }
 
 export const createMyPlant = async (payload: Record<string, any>): Promise<any> => {
-  const res = await apiClient.post('/api/plants/my-plants', payload)
+  const res = await apiClient.post('/user-plants', payload)
   return res.data
 }
 
-export const getMyPlant = async (id: number): Promise<any> => {
-  const res = await apiClient.get(`/api/plants/my-plants/${id}`)
+export const getMyPlant = async (id: string): Promise<any> => {
+  const res = await apiClient.get(`/user-plants/${id}`)
   return res.data
 }
 
-export const updateMyPlant = async (id: number, payload: Record<string, any>): Promise<any> => {
-  const res = await apiClient.put(`/api/plants/my-plants/${id}`, payload)
+export const updateMyPlant = async (id: string, payload: Record<string, any>): Promise<any> => {
+  const res = await apiClient.put(`/user-plants/${id}`, payload)
   return res.data
 }
 
-export const deleteMyPlant = async (id: number): Promise<void> => {
-  await apiClient.delete(`/api/plants/my-plants/${id}`)
+export const deleteMyPlant = async (id: string): Promise<void> => {
+  await apiClient.delete(`/user-plants/${id}`)
 }
 
-export const uploadPlantPhoto = async (plantId: number, photo: File): Promise<any> => {
+export const uploadPlantPhoto = async (plantId: string, photo: File): Promise<any> => {
   const formData = new FormData()
   formData.append('photo', photo)
-  const res = await apiClient.post(`/api/plants/my-plants/${plantId}/photo`, formData, {
+  const res = await apiClient.post(`/user-plants/${plantId}/photo`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
@@ -77,19 +77,55 @@ export const uploadPlantPhoto = async (plantId: number, photo: File): Promise<an
 }
 
 // Watering API
-export const recordWatering = async (payload: Record<string, any>): Promise<any> => {
-  const res = await apiClient.post('/api/plants/watering', payload)
+export const recordWatering = async (plantId: string, payload: Record<string, any>): Promise<any> => {
+  const res = await apiClient.post(`/user-plants/${plantId}/watering`, payload)
   return res.data
 }
 
-export const getWateringHistory = async (plantId: number): Promise<any> => {
-  const res = await apiClient.get(`/api/plants/${plantId}/watering-history`)
+export const getWateringHistory = async (plantId: string): Promise<any> => {
+  const res = await apiClient.get(`/user-plants/${plantId}/watering`)
   return res.data
 }
 
-export const getWateringSchedule = async (plantId: number): Promise<any> => {
-  const res = await apiClient.get(`/api/plants/${plantId}/watering-schedule`)
+export const getWateringSchedule = async (plantId: string): Promise<any> => {
+  const res = await apiClient.get(`/user-plants/${plantId}/watering-schedule`)
   return res.data
+}
+
+// Notifications API
+export const notificationsApi = {
+  getNotifications: (params?: { status?: string; type?: string; limit?: number; offset?: number }) => 
+    apiClient.get('/notifications', { params }),
+  
+  getNotification: (id: string) => 
+    apiClient.get(`/notifications/${id}`),
+  
+  markAsOpened: (id: string) => 
+    apiClient.post(`/notifications/${id}/mark-opened`),
+  
+  markAsActedUpon: (id: string, action: string) => 
+    apiClient.post(`/notifications/${id}/mark-acted`, { action }),
+  
+  dismissNotification: (id: string) => 
+    apiClient.post(`/notifications/${id}/dismiss`),
+  
+  cancelNotification: (id: string) => 
+    apiClient.post(`/notifications/${id}/cancel`),
+  
+  getPreferences: () => 
+    apiClient.get('/notifications/preferences'),
+  
+  updatePreferences: (preferences: any) => 
+    apiClient.put('/notifications/preferences', { preferences }),
+  
+  scheduleNotification: (data: any) => 
+    apiClient.post('/notifications/schedule', data),
+  
+  getAnalytics: (period_days?: number) => 
+    apiClient.get('/notifications/analytics', { params: { period_days } }),
+  
+  sendTestNotification: (data: any) => 
+    apiClient.post('/notifications/test', data)
 }
 
 // Auth API
