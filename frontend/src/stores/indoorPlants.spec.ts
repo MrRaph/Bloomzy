@@ -10,7 +10,7 @@ vi.mock('../services/api', () => {
   return {
     fetchIndoorPlants: vi.fn().mockResolvedValue([mockPlant]),
     createIndoorPlant: vi.fn().mockResolvedValue(mockPlant),
-    updateIndoorPlant: vi.fn().mockImplementation((id, payload) => Promise.resolve({ ...mockPlant, ...payload })),
+    updateIndoorPlant: vi.fn().mockImplementation((_id, payload) => Promise.resolve({ ...mockPlant, ...payload })),
     deleteIndoorPlant: vi.fn().mockResolvedValue(undefined)
   }
 })

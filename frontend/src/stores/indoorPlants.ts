@@ -2,8 +2,6 @@ import { defineStore } from 'pinia'
 import { fetchIndoorPlants, createIndoorPlant, updateIndoorPlant, deleteIndoorPlant } from '../services/api'
 import type { IndoorPlant } from '../types'
 
-// Fonctions API à ajouter pour update et delete
-import type { IndoorPlant } from '../types'
 
 export const useIndoorPlantsStore = defineStore('indoorPlants', {
   state: () => ({
