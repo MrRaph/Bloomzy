@@ -133,8 +133,8 @@
 
           <!-- Informations de la plante -->
           <div class="plant-info">
-            <h3 class="plant-name">{{ plant.name }}</h3>
-            <p class="plant-scientific">{{ plant.species }}</p>
+            <h3 class="plant-name">{{ plant.common_names || plant.scientific_name }}</h3>
+            <p class="plant-scientific">{{ plant.scientific_name }}</p>
             
             <div class="plant-meta">
               <span v-if="plant.family" class="meta-tag">
@@ -272,7 +272,7 @@
               <div class="detail-grid">
                 <div class="detail-item">
                   <strong>Nom scientifique :</strong>
-                  <span>{{ selectedPlant.species }}</span>
+                  <span>{{ selectedPlant.scientific_name }}</span>
                 </div>
                 <div class="detail-item" v-if="selectedPlant.family">
                   <strong>Famille :</strong>
@@ -317,8 +317,8 @@ const activeFilters = ref<string[]>([])
 const viewMode = ref<'grid' | 'list'>('grid')
 
 const form = ref({ 
-  name: '', 
-  species: '',
+  scientific_name: '', 
+  common_names: '',
   family: '',
   difficulty: ''
 })
@@ -334,18 +334,17 @@ const quickFilters = [
 // Champs du formulaire
 const plantFields = [
   {
-    name: 'name',
-    label: 'Nom de la plante',
+    name: 'scientific_name',
+    label: 'Nom scientifique',
     type: 'text',
     required: true,
     placeholder: 'Ex: Monstera deliciosa'
   },
   {
-    name: 'species',
-    label: 'Nom scientifique',
+    name: 'common_names',
+    label: 'Noms communs',
     type: 'text',
-    required: true,
-    placeholder: 'Ex: Monstera deliciosa'
+    placeholder: 'Ex: Monstera, Plante gruyère'
   },
   {
     name: 'family',
@@ -374,8 +373,8 @@ const filteredPlants = computed(() => {
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
     result = result.filter(plant => 
-      plant.name?.toLowerCase().includes(query) ||
-      plant.species?.toLowerCase().includes(query) ||
+      plant.scientific_name?.toLowerCase().includes(query) ||
+      plant.common_names?.toLowerCase().includes(query) ||
       plant.family?.toLowerCase().includes(query) ||
       plant.difficulty?.toLowerCase().includes(query)
     )
@@ -471,10 +470,10 @@ const closeDetails = () => {
 const editPlant = (plant: IndoorPlant) => {
   editingPlant.value = plant
   form.value = { 
-    name: plant.name || '', 
-    species: plant.species || '',
-    family: (plant as any).family || '',
-    difficulty: (plant as any).difficulty || ''
+    scientific_name: plant.scientific_name || '', 
+    common_names: plant.common_names || '',
+    family: plant.family || '',
+    difficulty: plant.difficulty || ''
   }
   showAddForm.value = false
 }
@@ -492,8 +491,8 @@ const submitForm = async (formData: Record<string, any>) => {
       editingPlant.value = null
     } else {
       const plantData = {
-        name: formData.name as string,
-        species: formData.species as string,
+        scientific_name: formData.scientific_name as string,
+        common_names: formData.common_names as string,
         family: formData.family as string,
         difficulty: formData.difficulty as string
       }
@@ -508,7 +507,7 @@ const submitForm = async (formData: Record<string, any>) => {
 const closeForm = () => {
   editingPlant.value = null
   showAddForm.value = false
-  form.value = { name: '', species: '', family: '', difficulty: '' }
+  form.value = { scientific_name: '', common_names: '', family: '', difficulty: '' }
 }
 </script>
 
