@@ -7,6 +7,8 @@ export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null)
   const isLoading = ref(false)
   const error = ref<string | null>(null)
+  // Indique si l'authentification a été hydratée (utile pour le rendu conditionnel)
+  const isAuthReady = ref(false)
 
   const isAuthenticated = computed(() => {
     return !!user.value && !!localStorage.getItem('access_token')
@@ -109,6 +111,7 @@ export const useAuthStore = defineStore('auth', () => {
     if (token) {
       await fetchProfile()
     }
+    isAuthReady.value = true
   }
 
   return {
@@ -116,6 +119,7 @@ export const useAuthStore = defineStore('auth', () => {
     isLoading,
     error,
     isAuthenticated,
+    isAuthReady,
     login,
     signup,
     logout,

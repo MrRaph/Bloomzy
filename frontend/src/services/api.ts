@@ -1,4 +1,3 @@
-
 import axios from 'axios'
 import type { AuthTokens, User, LoginCredentials, SignupData } from '@/types'
 
@@ -20,7 +19,7 @@ apiClient.interceptors.request.use((config) => {
   return config
 })
 
-// Indoor Plants API
+// Indoor Plants API (Catalogue des espèces)
 export const fetchIndoorPlants = async (search?: string): Promise<any[]> => {
   const params = search ? { search } : {}
   const res = await apiClient.get<any[]>('/indoor-plants/', { params })
@@ -32,6 +31,68 @@ export const createIndoorPlant = async (payload: Record<string, any>): Promise<a
   return res.data
 }
 
+export const updateIndoorPlant = async (id: number, payload: Record<string, any>): Promise<any> => {
+  const res = await apiClient.put(`/indoor-plants/${id}/`, payload)
+  return res.data
+}
+
+export const deleteIndoorPlant = async (id: number): Promise<void> => {
+  await apiClient.delete(`/indoor-plants/${id}/`)
+}
+
+// User Plants API (Mes plantes personnelles)
+export const fetchMyPlants = async (): Promise<any> => {
+  const res = await apiClient.get('/api/plants/my-plants')
+  return res.data
+}
+
+export const createMyPlant = async (payload: Record<string, any>): Promise<any> => {
+  const res = await apiClient.post('/api/plants/my-plants', payload)
+  return res.data
+}
+
+export const getMyPlant = async (id: number): Promise<any> => {
+  const res = await apiClient.get(`/api/plants/my-plants/${id}`)
+  return res.data
+}
+
+export const updateMyPlant = async (id: number, payload: Record<string, any>): Promise<any> => {
+  const res = await apiClient.put(`/api/plants/my-plants/${id}`, payload)
+  return res.data
+}
+
+export const deleteMyPlant = async (id: number): Promise<void> => {
+  await apiClient.delete(`/api/plants/my-plants/${id}`)
+}
+
+export const uploadPlantPhoto = async (plantId: number, photo: File): Promise<any> => {
+  const formData = new FormData()
+  formData.append('photo', photo)
+  const res = await apiClient.post(`/api/plants/my-plants/${plantId}/photo`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+  return res.data
+}
+
+// Watering API
+export const recordWatering = async (payload: Record<string, any>): Promise<any> => {
+  const res = await apiClient.post('/api/plants/watering', payload)
+  return res.data
+}
+
+export const getWateringHistory = async (plantId: number): Promise<any> => {
+  const res = await apiClient.get(`/api/plants/${plantId}/watering-history`)
+  return res.data
+}
+
+export const getWateringSchedule = async (plantId: number): Promise<any> => {
+  const res = await apiClient.get(`/api/plants/${plantId}/watering-schedule`)
+  return res.data
+}
+
+// Auth API
 export const authApi = {
   login: (credentials: LoginCredentials) => 
     apiClient.post<AuthTokens>('/auth/login', credentials),
@@ -51,5 +112,3 @@ export const authApi = {
   refreshToken: () => 
     apiClient.post<{ access_token: string }>('/auth/refresh')
 }
-
-// export default supprimé car l'instance api n'est plus utilisée

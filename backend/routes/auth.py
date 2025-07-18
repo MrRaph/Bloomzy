@@ -94,7 +94,7 @@ def login():
 @bp.route('/refresh', methods=['POST'])
 def refresh():
     data = request.get_json()
-    token = data.get('token')
+    token = data.get('access_token') or data.get('token')
     secret = current_app.config.get('SECRET_KEY', 'dev-secret-key')
     try:
         if token in jwt_blacklist:
@@ -107,7 +107,7 @@ def refresh():
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)
         }
         new_token = jwt.encode(new_payload, secret, algorithm='HS256')
-        return jsonify({'token': new_token}), 200
+        return jsonify({'access_token': new_token}), 200
     except jwt.ExpiredSignatureError:
         return jsonify({'error': 'Token expiré'}), 401
     except jwt.InvalidTokenError:
@@ -116,7 +116,7 @@ def refresh():
 @bp.route('/logout', methods=['POST'])
 def logout():
     data = request.get_json()
-    token = data.get('token')
+    token = data.get('access_token') or data.get('token')
     if not token:
         return jsonify({'error': 'Token requis'}), 400
     jwt_blacklist.add(token)

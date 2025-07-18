@@ -18,6 +18,7 @@ describe('Login.vue', () => {
   beforeEach(() => {
     authStoreMock = {
       isAuthenticated: false,
+      isAuthReady: true,
       isLoading: false,
       error: '',
       login: vi.fn().mockResolvedValue(true),

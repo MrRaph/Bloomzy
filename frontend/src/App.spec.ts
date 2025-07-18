@@ -11,6 +11,7 @@ describe('App.vue navigation', () => {
   beforeEach(() => {
     authStoreMock = {
       isAuthenticated: true,
+      isAuthReady: true,
       user: { username: 'TestUser', email: 'test@example.com' },
       logout: vi.fn()
     }
@@ -26,10 +27,9 @@ describe('App.vue navigation', () => {
     const links = wrapper.findAllComponents(RouterLinkStub)
     const expected = [
       '/dashboard',
-      '/profile',
-      '/plants',
-      '/journal',
-      '/community'
+      '/my-plants',
+      '/indoor-plants',
+      '/profile'
     ]
     expected.forEach((to) => {
       expect(links.some(l => l.props('to') === to)).toBe(true)
@@ -40,6 +40,7 @@ describe('App.vue navigation', () => {
 
   it('affiche Connexion/Inscription si non connecté', () => {
     authStoreMock.isAuthenticated = false
+    authStoreMock.isAuthReady = true
     const wrapper = mount(App, {
       global: {
         stubs: { RouterLink: RouterLinkStub, RouterView: true }

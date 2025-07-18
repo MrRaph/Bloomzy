@@ -1,0 +1,10 @@
+/* Fichier principal des styles Bloomzy */
+
+/* Variables CSS globales */
+@import './variables.css';
+
+/* Styles des composants communs */
+@import './buttons.css';
+
+/* Styles des composants spécifiques */
+@import './components/base-form.css';
