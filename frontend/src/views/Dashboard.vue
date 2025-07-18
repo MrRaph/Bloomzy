@@ -4,6 +4,7 @@
     <p>Accédez rapidement à toutes les fonctionnalités de Bloomzy :</p>
     <div class="dashboard-menu">
       <router-link to="/profile" class="dashboard-btn">Mon profil</router-link>
+      <router-link to="/indoor-plants" class="dashboard-btn">Plantes d’intérieur</router-link>
       <router-link to="/plants" class="dashboard-btn">Mes plantes</router-link>
       <router-link to="/journal" class="dashboard-btn">Journal de croissance</router-link>
       <router-link to="/community" class="dashboard-btn">Communauté</router-link>
