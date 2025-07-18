@@ -49,8 +49,20 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, _from, next) => {
+router.beforeEach(async (to, _from, next) => {
   const authStore = useAuthStore()
+  // Attendre que l'auth soit hydratée avant de vérifier
+  if (!authStore.isAuthReady) {
+    // On attend que isAuthReady passe à true (hydratation terminée)
+    await new Promise(resolve => {
+      const stop = authStore.$subscribe(() => {
+        if (authStore.isAuthReady) {
+          stop()
+          resolve(true)
+        }
+      })
+    })
+  }
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next('/login')
   } else if (to.meta.requiresGuest && authStore.isAuthenticated) {
