@@ -21,13 +21,34 @@ describe('Dashboard.vue', () => {
     ;(useAuthStore as any).mockReturnValue(authStoreMock)
   })
 
-  it('affiche le nom d’utilisateur ou l’email', () => {
+  it('affiche le nom d’utilisateur si présent', () => {
     const wrapper = mount(Dashboard, {
       global: {
         stubs: { RouterLink: RouterLinkStub }
       }
     })
     expect(wrapper.text()).toContain('Bienvenue sur votre dashboard, TestUser')
+  })
+
+  it('affiche l’email si username absent', () => {
+    authStoreMock.user = { email: 'test2@example.com' }
+    const wrapper = mount(Dashboard, {
+      global: {
+        stubs: { RouterLink: RouterLinkStub }
+      }
+    })
+    expect(wrapper.text()).toContain('Bienvenue sur votre dashboard, test2@example.com')
+  })
+
+  it('n’affiche rien si aucun utilisateur', () => {
+    authStoreMock.user = null
+    const wrapper = mount(Dashboard, {
+      global: {
+        stubs: { RouterLink: RouterLinkStub }
+      }
+    })
+    // Le message doit être générique ou vide
+    expect(wrapper.text()).toContain('Bienvenue sur votre dashboard,')
   })
 
   it('affiche tous les liens du menu dashboard', () => {
