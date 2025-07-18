@@ -13,7 +13,14 @@ export const useIndoorPlantsStore = defineStore('indoorPlants', {
     async fetchPlants(search?: string) {
       this.loading = true
       try {
-        this.plants = await fetchIndoorPlants(search) as IndoorPlant[]
+        const backendPlants = await fetchIndoorPlants(search)
+        this.plants = backendPlants.map((p: any) => ({
+          id: p.id,
+          name: p.scientific_name,
+          species: p.common_names ? p.common_names.split(',')[0].trim() : '',
+          created_at: p.created_at,
+          updated_at: p.updated_at
+        }))
         this.error = null
       } catch (e: any) {
         this.error = e.message

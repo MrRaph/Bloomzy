@@ -20,9 +20,14 @@ def create_indoor_plant():
     if existing_plant:
         return jsonify({'error': 'Plant with this scientific name already exists'}), 409
     
+    # Correction : convertir la liste en chaîne si besoin
+    common_names = data.get('common_names')
+    if isinstance(common_names, list):
+        common_names = ', '.join(common_names)
+
     plant = IndoorPlant(
         scientific_name=data.get('scientific_name'),
-        common_names=data.get('common_names'),
+        common_names=common_names,
         family=data.get('family'),
         origin=data.get('origin'),
         difficulty=data.get('difficulty'),
@@ -44,7 +49,8 @@ def create_indoor_plant():
         return jsonify(plant.to_dict()), 201
     except Exception as e:
         db.session.rollback()
-        return jsonify({'error': 'Failed to create plant'}), 500
+        # DEBUG: retourner le message d'erreur pour analyse (à retirer en prod)
+        return jsonify({'error': 'Failed to create plant', 'details': str(e)}), 500
 
 @indoor_plants_bp.route('/', methods=['GET'])
 def list_indoor_plants():
