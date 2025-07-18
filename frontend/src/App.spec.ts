@@ -27,10 +27,9 @@ describe('App.vue navigation', () => {
     const links = wrapper.findAllComponents(RouterLinkStub)
     const expected = [
       '/dashboard',
-      '/profile',
-      '/plants',
-      '/journal',
-      '/community'
+      '/my-plants',
+      '/indoor-plants',
+      '/profile'
     ]
     expected.forEach((to) => {
       expect(links.some(l => l.props('to') === to)).toBe(true)

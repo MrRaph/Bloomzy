@@ -7,43 +7,31 @@
       </div>
     </template>
     <template v-else>
-      <nav class="navbar">
-        <div class="nav-brand">
-          <router-link to="/" class="brand-link">
-            <h1>🌱 Bloomzy</h1>
-          </router-link>
-        </div>
-        <div class="nav-links">
-          <template v-if="!authStore.isAuthenticated">
-            <router-link to="/login" class="nav-link">Connexion</router-link>
-            <router-link to="/signup" class="nav-link btn-primary">Inscription</router-link>
-          </template>
-          <template v-else>
-            <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
-            <router-link to="/profile" class="nav-link">Mon profil</router-link>
-            <router-link to="/plants" class="nav-link">Mes plantes</router-link>
-            <router-link to="/journal" class="nav-link">Journal</router-link>
-            <router-link to="/community" class="nav-link">Communauté</router-link>
-            <button @click="logout" class="nav-link btn-logout">Déconnexion</button>
-          </template>
-        </div>
-      </nav>
-
+      <AppNavigation />
       <main class="main-content">
         <router-view />
       </main>
+      <NotificationSystem ref="notificationRef" />
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useNotifications } from '@/composables/useNotifications'
+import AppNavigation from '@/components/AppNavigation.vue'
+import NotificationSystem from '@/components/NotificationSystem.vue'
 
 const authStore = useAuthStore()
+const { setNotificationInstance } = useNotifications()
+const notificationRef = ref()
 
-const logout = () => {
-  authStore.logout()
-}
+onMounted(() => {
+  if (notificationRef.value) {
+    setNotificationInstance(notificationRef.value)
+  }
+})
 </script>
 
 <style>
