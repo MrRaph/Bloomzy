@@ -8,6 +8,10 @@ services:
     environment:
       - FLASK_ENV=development
       - FLASK_DEBUG=1
+      # Exemple SQLite local (décommenter pour activer)
+      # - SQLALCHEMY_DATABASE_URI=sqlite:///../bloomzy.db
+      # Exemple MySQL (décommenter et adapter pour activer)
+      # - SQLALCHEMY_DATABASE_URI=mysql://user:password@mysql/bloomzy_db
     ports:
       - "5080:5000"
     volumes:

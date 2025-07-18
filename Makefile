@@ -136,14 +136,27 @@ build-frontend: ## Build le frontend
 # DOCKER
 # =============================================================================
 
+
+# =====================
+# DOCKER AVEC DB CONFIG
+# =====================
+# Utilisez DB_URI pour surcharger la chaîne de connexion (ex : make docker-run DB_URI=mysql://user:pass@mysql/bloomzy_db)
+
 docker-build: ## Build les images Docker
 	@echo "$(YELLOW)Build des images Docker...$(NC)"
+	DB_ARG=""; \
+	if [ ! -z "$(DB_URI)" ]; then DB_ARG="-e SQLALCHEMY_DATABASE_URI=$(DB_URI)"; fi; \
 	docker compose -f docker-compose.dev.yml build
 	@echo "$(GREEN)✅ Images Docker créées$(NC)"
 
-docker-run: ## Lance l'application avec Docker
+docker-run: ## Lance l'application avec Docker (option DB_URI=...)
 	@echo "$(BLUE)🐳 Lancement de l'application avec Docker...$(NC)"
-	docker compose -f docker-compose.dev.yml up -d
+	if [ ! -z "$(DB_URI)" ]; then \
+	  echo "$(YELLOW)Utilisation de SQLALCHEMY_DATABASE_URI=$(DB_URI)$(NC)"; \
+	  docker compose -f docker-compose.dev.yml up -d --remove-orphans -e SQLALCHEMY_DATABASE_URI=$(DB_URI); \
+	else \
+	  docker compose -f docker-compose.dev.yml up -d --remove-orphans; \
+	fi
 	@echo "$(GREEN)✅ Application disponible sur http://localhost:$(FRONTEND_PORT)$(NC)"
 
 docker-stop: ## Arrête les conteneurs Docker
