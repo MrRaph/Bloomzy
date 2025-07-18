@@ -2,6 +2,8 @@ export interface IndoorPlant {
   id: number
   name: string
   species: string
+  family?: string
+  difficulty?: string
   created_at: string
   updated_at: string
 }

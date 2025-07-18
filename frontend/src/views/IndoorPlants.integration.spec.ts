@@ -4,6 +4,24 @@ import IndoorPlants from './IndoorPlants.vue'
 import { useIndoorPlantsStore } from '../stores/indoorPlants'
 import { nextTick } from 'vue'
 
+// Mock du composant BaseForm pour simuler la soumission
+vi.mock('@/components/BaseForm.vue', () => ({
+  default: {
+    name: 'BaseForm',
+    template: `
+      <form @submit.prevent="$props.onSubmit({ 
+        name: 'Monstera', 
+        species: 'Monstera deliciosa',
+        family: 'Araceae',
+        difficulty: 'Modéré'
+      })" data-testid="base-form">
+        <slot name="submit-label"></slot>
+      </form>
+    `,
+    props: ['title', 'description', 'fields', 'initialValues', 'onSubmit']
+  }
+}))
+
 describe('IndoorPlants.vue (integration)', () => {
   it('affiche, ajoute et supprime une plante (flow complet)', async () => {
     // Crée une instance unique de Pinia
@@ -13,7 +31,7 @@ describe('IndoorPlants.vue (integration)', () => {
     // Mock des méthodes du store
     store.fetchPlants = vi.fn().mockImplementation(() => {
       store.plants = [
-        { id: 1, name: 'Ficus', species: 'Ficus lyrata', created_at: '', updated_at: '' }
+        { id: 1, name: 'Ficus', species: 'Ficus lyrata', family: 'Moraceae', difficulty: 'Facile', created_at: '', updated_at: '' }
       ]
     })
     store.addPlant = vi.fn().mockImplementation((plant) => {
@@ -27,14 +45,18 @@ describe('IndoorPlants.vue (integration)', () => {
     // Appel explicite de fetchPlants pour simuler le comportement du composant
     await store.fetchPlants()
     await nextTick()
-    // Ajout
-    await wrapper.find('button').trigger('click')
+    // Ajout - cliquer sur le bouton "Ajouter une espèce"
+    await wrapper.find('.btn-primary').trigger('click')
     await nextTick()
-    await wrapper.find('input[placeholder="Ex: Monstera deliciosa"]').setValue('Monstera')
-    await wrapper.find('input[placeholder="Ex: Araceae"]').setValue('Monstera deliciosa')
+    // Soumettre le formulaire (le mock BaseForm envoie automatiquement les données)
     await wrapper.find('form').trigger('submit.prevent')
     await nextTick()
-    expect(store.addPlant).toHaveBeenCalledWith({ name: 'Monstera', species: 'Monstera deliciosa' })
+    expect(store.addPlant).toHaveBeenCalledWith({ 
+      name: 'Monstera', 
+      species: 'Monstera deliciosa',
+      family: 'Araceae',
+      difficulty: 'Modéré'
+    })
     // Suppression : on simule l'appel direct comme le ferait le bouton
     store.deletePlant(1)
     expect(store.deletePlant).toHaveBeenCalledWith(1)
