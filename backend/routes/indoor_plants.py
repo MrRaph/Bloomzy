@@ -1,8 +1,19 @@
-from flask import Blueprint, request, jsonify
+
+from flask import Blueprint, request, jsonify, make_response
 from models.indoor_plant import IndoorPlant
 from app import db
 
 indoor_plants_bp = Blueprint('indoor_plants', __name__, url_prefix='/indoor-plants')
+
+@indoor_plants_bp.route('/<int:plant_id>', methods=['OPTIONS'])
+def options_indoor_plant(plant_id):
+    """Répond explicitement aux requêtes OPTIONS pour CORS sur /indoor-plants/<id>"""
+    response = make_response()
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,PUT,DELETE,OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    return response, 204
 
 @indoor_plants_bp.route('/', methods=['POST'])
 def create_indoor_plant():
