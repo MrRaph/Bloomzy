@@ -24,4 +24,8 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["python", "run.py"]
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
