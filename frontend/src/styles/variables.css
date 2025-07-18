@@ -42,6 +42,7 @@
   /* Poids de police */
   --font-weight-normal: 500;
   --font-weight-semibold: 600;
+  --font-weight-bold: 700;
 
   /* Border radius */
   --border-radius-sm: 6px;

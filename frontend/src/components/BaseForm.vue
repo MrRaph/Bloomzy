@@ -8,16 +8,21 @@
 
       <form @submit.prevent="handleSubmit" class="base-form">
         <div v-for="field in fields" :key="field.name" class="form-group">
-          <label v-if="field.type !== 'checkbox'" :for="field.name">{{ field.label }}</label>
+          <label v-if="field.type !== 'checkbox'" :for="field.name" class="form-label">
+            {{ field.label }}
+            <span v-if="field.required" class="required-indicator" aria-label="Champ obligatoire">*</span>
+          </label>
           <label v-else class="checkbox-label">
             <input
               type="checkbox"
               :id="field.name"
               v-model="formData[field.name]"
               :required="field.required"
+              :aria-required="field.required"
               :disabled="loading"
             />
             {{ field.label }}
+            <span v-if="field.required" class="required-indicator" aria-label="Champ obligatoire">*</span>
           </label>
           <input
             v-if="field.type !== 'textarea' && field.type !== 'select' && field.type !== 'checkbox'"
@@ -26,6 +31,7 @@
             v-model="formData[field.name]"
             :placeholder="field.placeholder"
             :required="field.required"
+            :aria-required="field.required"
             :disabled="loading"
             :autocomplete="field.autocomplete || 'off'"
           />
@@ -35,6 +41,7 @@
             v-model="formData[field.name]"
             :placeholder="field.placeholder"
             :required="field.required"
+            :aria-required="field.required"
             :disabled="loading"
             :rows="field.rows || 3"
           />
@@ -43,6 +50,7 @@
             :id="field.name"
             v-model="formData[field.name]"
             :required="field.required"
+            :aria-required="field.required"
             :disabled="loading"
           >
             <option v-for="option in field.options" :key="option.value" :value="option.value">
