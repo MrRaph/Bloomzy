@@ -42,7 +42,7 @@ def create_my_plant():
             return jsonify({'error': 'species_id and custom_name are required'}), 400
         
         # Check if species exists
-        species = IndoorPlant.query.get(data['species_id'])
+        species = db.session.get(IndoorPlant, data['species_id'])
         if not species:
             return jsonify({'error': 'Plant species not found'}), 404
         
