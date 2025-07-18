@@ -8,13 +8,12 @@ services:
     environment:
       - FLASK_ENV=production
       - FLASK_DEBUG=0
-      # Exemple SQLite local (décommenter pour activer)
-      # - SQLALCHEMY_DATABASE_URI=sqlite:///../bloomzy.db
+      - SQLALCHEMY_DATABASE_URI=sqlite:////data/bloomzy.db
       # Exemple MySQL (décommenter et adapter pour activer)
       # - SQLALCHEMY_DATABASE_URI=mysql://user:password@mysql/bloomzy_db
     ports:
       - "5080:5000"
-    command: ["python", "run.py"]
+    command: ["flask", "run", "--host=0.0.0.0", "--port=5000"]
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
       interval: 30s
