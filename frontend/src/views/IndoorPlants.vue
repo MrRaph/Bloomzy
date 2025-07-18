@@ -34,12 +34,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useIndoorPlantsStore } from '../stores/indoorPlants';
 import BaseForm from '@/components/BaseForm.vue';
 
 const store = useIndoorPlantsStore();
-const plants = store.plants;
+const plants = computed(() => store.plants);
 const showAddForm = ref(false);
 const editingPlant = ref(null as null | any);
 const form = ref({ name: '', species: '' });
