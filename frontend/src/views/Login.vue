@@ -1,5 +1,5 @@
 <template>
-  <div class="login-page">
+  <div class="login-page" v-if="authStore.isAuthReady">
     <div class="login-container">
       <div class="login-header">
         <h1>🌱 Connexion</h1>
