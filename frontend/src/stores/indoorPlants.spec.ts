@@ -4,8 +4,19 @@ vi.mock('../services/api', () => {
     id: 1,
     scientific_name: 'Monstera deliciosa',
     common_names: 'Monstera',
-    created_at: '',
-    updated_at: ''
+    family: undefined,
+    origin: undefined,
+    difficulty: undefined,
+    watering_frequency: undefined,
+    light: undefined,
+    humidity: undefined,
+    temperature: undefined,
+    soil_type: undefined,
+    adult_size: undefined,
+    growth_rate: undefined,
+    toxicity: undefined,
+    air_purification: undefined,
+    flowering: undefined
   }
   return {
     fetchIndoorPlants: vi.fn().mockResolvedValue([mockPlant]),
@@ -18,8 +29,19 @@ const mockPlant = {
   id: 1,
   scientific_name: 'Monstera deliciosa',
   common_names: 'Monstera',
-  created_at: '',
-  updated_at: ''
+  family: undefined,
+  origin: undefined,
+  difficulty: undefined,
+  watering_frequency: undefined,
+  light: undefined,
+  humidity: undefined,
+  temperature: undefined,
+  soil_type: undefined,
+  adult_size: undefined,
+  growth_rate: undefined,
+  toxicity: undefined,
+  air_purification: undefined,
+  flowering: undefined
 }
 import { setActivePinia, createPinia } from 'pinia'
 import { useIndoorPlantsStore } from './indoorPlants'

@@ -25,7 +25,7 @@ class TestNotificationModel:
                 scheduled_for=datetime.utcnow() + timedelta(hours=1),
                 priority=5,
                 channels=['push', 'web'],
-                metadata={'plant_id': 'test-plant-id'}
+                data={'plant_id': 'test-plant-id'}
             )
             
             db_session.add(notification)
@@ -39,7 +39,7 @@ class TestNotificationModel:
             assert notification.status == NotificationStatus.SCHEDULED
             assert notification.priority == 5
             assert notification.channels == ['push', 'web']
-            assert notification.metadata['plant_id'] == 'test-plant-id'
+            assert notification.data['plant_id'] == 'test-plant-id'
     
     def test_notification_to_dict(self, app, db_session, test_user):
         """Test de conversion en dictionnaire."""
@@ -52,7 +52,7 @@ class TestNotificationModel:
                 scheduled_for=datetime.utcnow() + timedelta(hours=2),
                 priority=7,
                 channels=['email'],
-                metadata={'garden_id': 'test-garden-id'}
+                data={'garden_id': 'test-garden-id'}
             )
             
             db_session.add(notification)
@@ -304,7 +304,7 @@ class TestNotificationDeliveryLogModel:
                 notification_id=notification.id,
                 channel=NotificationChannel.PUSH,
                 success=True,
-                delivery_metadata={'message_id': 'test-123'}
+                delivery_data={'message_id': 'test-123'}
             )
             
             db_session.add(delivery_log)
@@ -315,7 +315,7 @@ class TestNotificationDeliveryLogModel:
             assert delivery_log.channel == NotificationChannel.PUSH
             assert delivery_log.success is True
             assert delivery_log.error_message is None
-            assert delivery_log.delivery_metadata['message_id'] == 'test-123'
+            assert delivery_log.delivery_data['message_id'] == 'test-123'
     
     def test_delivery_log_failure(self, app, db_session, test_user):
         """Test de log d'échec de livraison."""
@@ -365,7 +365,7 @@ class TestNotificationDeliveryLogModel:
                 notification_id=notification.id,
                 channel=NotificationChannel.SMS,
                 success=True,
-                delivery_metadata={'sms_id': 'sms-456'}
+                delivery_data={'sms_id': 'sms-456'}
             )
             
             db_session.add(delivery_log)

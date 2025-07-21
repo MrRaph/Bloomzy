@@ -10,8 +10,8 @@ vi.mock('@/components/BaseForm.vue', () => ({
     name: 'BaseForm',
     template: `
       <form @submit.prevent="$props.onSubmit({ 
-        name: 'Monstera', 
-        species: 'Monstera deliciosa',
+        scientific_name: 'Monstera deliciosa',
+        common_names: 'Monstera', 
         family: 'Araceae',
         difficulty: 'Modéré'
       })" data-testid="base-form">
@@ -52,8 +52,8 @@ describe('IndoorPlants.vue (integration)', () => {
     await wrapper.find('form').trigger('submit.prevent')
     await nextTick()
     expect(store.addPlant).toHaveBeenCalledWith({ 
-      name: 'Monstera', 
-      species: 'Monstera deliciosa',
+      scientific_name: 'Monstera deliciosa',
+      common_names: 'Monstera',
       family: 'Araceae',
       difficulty: 'Modéré'
     })
