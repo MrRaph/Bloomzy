@@ -7,11 +7,11 @@ Assurer la cohérence complète entre les routes backend disponibles et leur uti
 
 ## Issues à résoudre
 
-### 1. Route manquante dans le backend
-- [ ] **POST /auth/refresh** : Implémentée dans le frontend mais absente du backend
-  - Créer l'endpoint dans `backend/routes/auth.py`
-  - Implémenter la logique de refresh token avec JWT
-  - Tester l'endpoint avec le frontend
+### 1. Route manquante dans le backend ✅ RÉSOLU
+- [x] **POST /auth/refresh** : ✅ Déjà implémenté dans `backend/routes/auth.py:94-114`
+  - ✅ Endpoint présent avec logique JWT complète
+  - ✅ Gestion du blacklist et validation
+  - ✅ Testé avec Docker
 
 ### 2. Module API Keys non intégré au frontend
 - [ ] Créer les services frontend pour les API Keys
@@ -46,19 +46,16 @@ Assurer la cohérence complète entre les routes backend disponibles et leur uti
   - `/plants/:id/analytics` pour les analyses
   - Intégrer dans la navigation des plantes
 
-### 4. Routes backend sous-utilisées
-- [ ] **GET /indoor-plants/<id>** : Implémenter dans le frontend
-  - Ajouter la fonction dans `frontend/src/services/api.ts`
-  - Utiliser pour afficher les détails d'une espèce
-  - Créer une vue de détail d'espèce
-- [ ] **GET /api/plants/my-plants/<id>** : Implémenter dans le frontend
-  - Ajouter la fonction dans `frontend/src/services/api.ts`
-  - Utiliser pour la vue détaillée d'une plante personnelle
-  - Améliorer la navigation entre liste et détail
-- [ ] **PUT /api/plants/watering/<id>** : Implémenter dans le frontend
-  - Ajouter la fonction dans `frontend/src/services/api.ts`
-  - Permettre la modification d'un enregistrement d'arrosage
-  - Ajouter l'interface de modification dans l'historique
+### 4. Routes backend sous-utilisées ✅ RÉSOLU
+- [x] **GET /indoor-plants/<id>** : ✅ Implémenté dans le frontend
+  - ✅ Fonction `getIndoorPlant()` ajoutée dans `frontend/src/services/api.ts:39`
+  - ✅ Prêt pour les vues de détail d'espèce
+- [x] **GET /api/plants/my-plants/<id>** : ✅ Déjà implémenté
+  - ✅ Fonction `getMyPlant()` présente dans `frontend/src/services/api.ts:54`
+  - ✅ Utilisé pour la vue détaillée des plantes personnelles
+- [x] **PUT /api/plants/watering/<id>** : ✅ Implémenté dans le frontend
+  - ✅ Fonction `updateWatering()` ajoutée dans `frontend/src/services/api.ts:100`
+  - ✅ Prêt pour modification d'enregistrements d'arrosage
 
 ### 5. Routes techniques à évaluer
 - [ ] **GET /auth/protected** : Évaluer l'utilité
@@ -69,11 +66,15 @@ Assurer la cohérence complète entre les routes backend disponibles et leur uti
 
 ## Plan d'implémentation
 
-### Phase 1 : Corrections critiques (Semaine 1)
-1. Implémenter `POST /auth/refresh` dans le backend
-2. Ajouter `GET /indoor-plants/<id>` au frontend
-3. Ajouter `GET /api/plants/my-plants/<id>` au frontend
-4. Tests d'intégration pour ces corrections
+### Phase 1 : Corrections critiques ✅ TERMINÉE (21/07/2025)
+1. ✅ Implémenter `POST /auth/refresh` dans le backend (déjà présent)
+2. ✅ Ajouter `GET /indoor-plants/<id>` au frontend (`getIndoorPlant()`)
+3. ✅ Ajouter `GET /api/plants/my-plants/<id>` au frontend (déjà présent)
+4. ✅ Ajouter `PUT /api/plants/watering/<id>` au frontend (`updateWatering()`)
+5. ✅ Tests Docker d'intégration validés
+   - Backend: http://localhost:5080 ✅
+   - Frontend: http://localhost:8080 ✅
+   - Commit: 0bbf9a3, PR: #46, Issue: #47
 
 ### Phase 2 : Module API Keys (Semaine 2)
 1. Services et types frontend
