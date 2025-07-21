@@ -103,3 +103,27 @@ export interface ApiResponse<T> {
   message?: string
   error?: string
 }
+
+export interface ApiKey {
+  id: number
+  user_id: number
+  service_name: 'openai' | 'claude' | 'gemini' | 'huggingface'
+  key_name: string
+  encrypted_key: string
+  is_active: boolean
+  created_at: string
+  updated_at: string
+  last_used_at?: string
+}
+
+export interface CreateApiKeyData {
+  service_name: 'openai' | 'claude' | 'gemini' | 'huggingface'
+  key_name: string
+  api_key: string
+}
+
+export interface UpdateApiKeyData {
+  key_name?: string
+  api_key?: string
+  is_active?: boolean
+}

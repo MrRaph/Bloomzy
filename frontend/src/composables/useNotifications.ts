@@ -97,6 +97,11 @@ export const useNotifications = () => {
     }
   }
 
+  // Alias pour compatibility
+  const showNotification = (message: string, type: 'success' | 'error' | 'warning' | 'info' = 'info', title?: string) => {
+    return addNotification({ type, message, title })
+  }
+
   return {
     setNotificationInstance,
     addNotification,
@@ -106,6 +111,7 @@ export const useNotifications = () => {
     error,
     warning,
     info,
+    showNotification,
     plantActions
   }
 }

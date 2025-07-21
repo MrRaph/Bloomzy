@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { AuthTokens, User, LoginCredentials, SignupData } from '@/types'
+import type { AuthTokens, User, LoginCredentials, SignupData, ApiKey, CreateApiKeyData, UpdateApiKeyData } from '@/types'
 
 // Configuration de l'URL de base de l'API
 const API_BASE_URL = import.meta.env.VITE_API_URL || ''
@@ -111,4 +111,35 @@ export const authApi = {
   
   refreshToken: () => 
     apiClient.post<{ access_token: string }>('/auth/refresh')
+}
+
+// API Keys API
+export const apiKeysApi = {
+  // Lister toutes les clés API de l'utilisateur
+  list: () => 
+    apiClient.get<ApiKey[]>('/api/keys/'),
+  
+  // Créer une nouvelle clé API
+  create: (data: CreateApiKeyData) => 
+    apiClient.post<ApiKey>('/api/keys/', data),
+  
+  // Récupérer une clé API spécifique
+  get: (id: number) => 
+    apiClient.get<ApiKey>(`/api/keys/${id}`),
+  
+  // Mettre à jour une clé API
+  update: (id: number, data: UpdateApiKeyData) => 
+    apiClient.put<ApiKey>(`/api/keys/${id}`, data),
+  
+  // Supprimer une clé API
+  delete: (id: number) => 
+    apiClient.delete(`/api/keys/${id}`),
+  
+  // Tester une clé API
+  test: (id: number) => 
+    apiClient.post<{ success: boolean, message: string }>(`/api/keys/${id}/test`),
+  
+  // Récupérer les services supportés
+  getSupportedServices: () => 
+    apiClient.get<string[]>('/api/keys/services')
 }

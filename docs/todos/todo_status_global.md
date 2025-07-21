@@ -32,18 +32,21 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
    - Tests : 19 tests passants (100%)
    - Documentation : Complète
 
-### Modules prêts à commencer 🔄
-4. **Module Architecture** - **PRÊT** (Issues #26 à #29)
-   - Prochaine étape : Infrastructure Docker (Issue #26)
-   - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
-   - Note : Peut être démarré maintenant
+### Module architectural dépriorisé ⏸️
+4. **Module Architecture** - **DÉPRIORISÉ** (Issues #26 à #29)
+   - ✅ Infrastructure Docker terminée (Issue #26)
+   - ⏸️ **DÉCISION** : Microservices reportés en fin de roadmap
+   - ⏸️ Issues #27, #28, #29 à traiter APRÈS tous les modules fonctionnels
 
-### Modules en attente 🔄
-5. **Module Garden** - **EN ATTENTE**
+### Modules prêts à commencer 🚀
+5. **API Consistency** - **PRIORITÉ #1**
+   - Consolider les API backend/frontend existantes
+   - Intégrer API Keys et Growth Journal côté frontend
+6. **Module Garden** - **PRÊT**
    - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
-6. **Module AI Integration** - **EN ATTENTE**
+7. **Module AI Integration** - **PRÊT** 
    - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
-7. **Module Community** - **EN ATTENTE**
+8. **Module Community** - **PRÊT**
    - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
 
 ## 📊 Statistiques
@@ -100,22 +103,29 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 - Architecture sur une branche séparée
 - Indoor Plants sur la branche courante
 
-## 🎯 Prochaines étapes recommandées
+## 🎯 Nouvelle roadmap (après dépriorisation microservices)
 
-### Priorité 1 : Module Architecture
-- **Avantage** : Améliore l'infrastructure existante
-- **Impact** : Scalabilité et déploiement
-- Commence par l'Issue #27 (Déploiement microservices)
+### Priorité 1 : API Consistency ⚡
+- **Avantage** : Consolide la base existante avant d'ajouter des fonctionnalités
+- **Impact** : Correction des incohérences backend/frontend critiques
+- **Actions** : Intégrer API Keys et Growth Journal côté frontend
 
-### Priorité 2 : Module Notifications
-- **Avantage** : Valorise les modules Auth et Indoor Plants
-- **Synergie** : Arrosage intelligent + notifications = UX complète
-- **Dépendances** : ✅ Auth et Indoor Plants terminés
-
-### Priorité 3 : Module Garden
+### Priorité 2 : Module Garden 🌱
 - **Avantage** : Extension naturelle d'Indoor Plants
 - **Réutilisation** : Logique similaire, composants partagés
 - **Différenciation** : Extérieur vs Intérieur
+
+### Priorité 3 : Module AI Integration 🤖
+- **Avantage** : Valorise tous les modules existants
+- **Synergie** : IA + plantes + notifications = UX avancée
+
+### Priorité 4 : Module Community 👥
+- **Avantage** : Fonctionnalités sociales sur base solide
+- **Impact** : Engagement utilisateur maximal
+
+### Priorité finale : Architecture microservices ⏸️
+- **Report** : À traiter en toute fin de développement
+- **Justification** : Se concentrer sur les fonctionnalités avant la scalabilité
 
 ## 📝 Actions immédiates
 
@@ -124,9 +134,9 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 - ✅ Module Indoor Plants complet et testé
 - Prêts pour production
 
-### Choix de direction
-- **Recommandé** : Commencer par le Module Architecture (Issue #27)
-- **Alternative** : Module Notifications pour valoriser l'existant
+### Nouvelle direction après dépriorisation microservices
+- **Recommandé** : Commencer par API Consistency (priorité absolue)
+- **Ensuite** : Garden → AI Integration → Community → Architecture (microservices en dernier)
 - **Approche** : Continuer avec TDD et documentation complète
 
 ## 🔧 État technique
@@ -147,6 +157,6 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 
 ---
 
-**Statut global** : 🎉 **PHASE 1 TERMINÉE AVEC SUCCÈS**
-**Statut actuel** : 🎉 **PHASE 2 TERMINÉE** (3 modules complets sur 7)
-**Prochaine phase** : Module Architecture ou Garden selon les priorités métier/infrastructure
+**Statut global** : 🎉 **PHASE 2 TERMINÉE** (3 modules complets sur 7)
+**Décision stratégique** : ⏸️ **MICROSERVICES DÉPRIORISÉS** - Focus sur les fonctionnalités
+**Prochaine phase** : 🎯 **API Consistency** puis Garden → AI → Community → Architecture
