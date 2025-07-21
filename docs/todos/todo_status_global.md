@@ -38,23 +38,28 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
    - ⏸️ **DÉCISION** : Microservices reportés en fin de roadmap
    - ⏸️ Issues #27, #28, #29 à traiter APRÈS tous les modules fonctionnels
 
+### Module en cours de finalisation 🔄
+4. **API Consistency** - **EN COURS** (50% terminé)
+   - ✅ **API Keys intégrées** (PR #46) : 188 lignes backend → 100% frontend
+   - 🔄 **Growth Journal** : 470 lignes backend à intégrer (prochaine étape)
+   - 🔄 **Notifications** : 535 lignes backend à intégrer
+   - **Progression** : Frontend/Backend alignment 30% → 60%
+
 ### Modules prêts à commencer 🚀
-5. **API Consistency** - **PRIORITÉ #1**
-   - Consolider les API backend/frontend existantes
-   - Intégrer API Keys et Growth Journal côté frontend
-6. **Module Garden** - **PRÊT**
+5. **Module Garden** - **PRÊT**
    - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
-7. **Module AI Integration** - **PRÊT** 
+6. **Module AI Integration** - **PRÊT** 
    - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
-8. **Module Community** - **PRÊT**
+7. **Module Community** - **PRÊT**
    - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
 
 ## 📊 Statistiques
 
 ### Tests et qualité
-- **Tests passants** : 103/103 (100%) ← **Mis à jour**
-- **Couverture** : Modules Auth, Indoor Plants et Notifications complets
+- **Tests passants** : 140/140 (100%) ← **Mis à jour** 
+- **Couverture** : Modules Auth, Indoor Plants, Notifications et API Keys complets
 - **Documentation** : À jour
+- **Frontend/Backend alignment** : 60% (↗️ +30% grâce à API Keys)
 
 ### Fonctionnalités implémentées
 - ✅ Inscription/connexion avec JWT
@@ -78,6 +83,10 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 - ✅ Scheduler automatique de notifications
 - ✅ API REST complète pour notifications
 - ✅ Analytics de notifications
+- ✅ **Gestion complète des clés API IA** (OpenAI, Claude, Gemini, Hugging Face)
+- ✅ **Interface API Keys responsive** avec modal de gestion
+- ✅ **Test et validation des clés API** en temps réel
+- ✅ **Navigation intégrée** dans menu "Plus" → "Clés API" 🔑
 
 ### Architecture technique
 - ✅ Flask avec SQLAlchemy
@@ -135,9 +144,10 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 - Prêts pour production
 
 ### Nouvelle direction après dépriorisation microservices
-- **Recommandé** : Commencer par API Consistency (priorité absolue)
+- **En cours** : API Consistency (50% terminé - API Keys ✅, Growth Journal 🔄)
 - **Ensuite** : Garden → AI Integration → Community → Architecture (microservices en dernier)
 - **Approche** : Continuer avec TDD et documentation complète
+- **Progrès notable** : Frontend/Backend alignment 30% → 60%
 
 ## 🔧 État technique
 
@@ -157,6 +167,7 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 
 ---
 
-**Statut global** : 🎉 **PHASE 2 TERMINÉE** (3 modules complets sur 7)
+**Statut global** : 🎯 **PHASE 2.5 EN COURS** (3.5 modules sur 7 - API Consistency 50%)
 **Décision stratégique** : ⏸️ **MICROSERVICES DÉPRIORISÉS** - Focus sur les fonctionnalités
-**Prochaine phase** : 🎯 **API Consistency** puis Garden → AI → Community → Architecture
+**Prochaine phase** : 🔄 **Finaliser API Consistency** (Growth Journal) puis Garden → AI → Community
+**Progrès récent** : ✅ **API Keys intégrées** (PR #46, closes #18) - 188 lignes backend utilisées
