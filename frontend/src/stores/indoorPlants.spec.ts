@@ -2,8 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 vi.mock('../services/api', () => {
   const mockPlant = {
     id: 1,
-    name: 'Monstera',
-    species: 'Monstera deliciosa',
+    scientific_name: 'Monstera deliciosa',
+    common_names: 'Monstera',
     created_at: '',
     updated_at: ''
   }
@@ -16,8 +16,8 @@ vi.mock('../services/api', () => {
 })
 const mockPlant = {
   id: 1,
-  name: 'Monstera',
-  species: 'Monstera deliciosa',
+  scientific_name: 'Monstera deliciosa',
+  common_names: 'Monstera',
   created_at: '',
   updated_at: ''
 }
@@ -37,15 +37,15 @@ describe('IndoorPlants Pinia Store', () => {
 
   it('addPlant ajoute une plante', async () => {
     const store = useIndoorPlantsStore()
-    await store.addPlant({ name: 'Monstera', species: 'Monstera deliciosa' })
+    await store.addPlant({ scientific_name: 'Monstera deliciosa', common_names: 'Monstera' })
     expect(store.plants[0]).toEqual(mockPlant)
   })
 
   it('updatePlant modifie une plante', async () => {
     const store = useIndoorPlantsStore()
     store.plants = [mockPlant]
-    await store.updatePlant(1, { name: 'Ficus' })
-    expect(store.plants[0].name).toBe('Ficus')
+    await store.updatePlant(1, { common_names: 'Ficus' })
+    expect(store.plants[0].common_names).toBe('Ficus')
   })
 
   it('deletePlant supprime une plante', async () => {

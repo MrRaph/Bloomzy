@@ -5,6 +5,7 @@ from app import db
 from datetime import datetime
 from enum import Enum
 import json
+import uuid
 
 
 class NotificationType(Enum):
@@ -293,5 +294,3 @@ class NotificationDeliveryLog(db.Model):
         }
 
 
-# Import nécessaire pour UUID
-import uuid
