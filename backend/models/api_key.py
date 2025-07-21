@@ -4,8 +4,9 @@ from cryptography.fernet import Fernet
 import os
 
 class ApiKey(db.Model):
+    __tablename__ = 'api_keys'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     service_name = db.Column(db.String(50), nullable=False)  # openai, claude, etc.
     encrypted_key = db.Column(db.Text, nullable=False)
     key_name = db.Column(db.String(100), nullable=False)  # Nom donné par l'utilisateur

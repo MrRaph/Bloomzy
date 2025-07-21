@@ -31,11 +31,11 @@ describe('IndoorPlants.vue (integration)', () => {
     // Mock des méthodes du store
     store.fetchPlants = vi.fn().mockImplementation(() => {
       store.plants = [
-        { id: 1, name: 'Ficus', species: 'Ficus lyrata', family: 'Moraceae', difficulty: 'Facile', created_at: '', updated_at: '' }
+        { id: 1, scientific_name: 'Ficus lyrata', common_names: 'Ficus', family: 'Moraceae', difficulty: 'Facile' }
       ]
     })
     store.addPlant = vi.fn().mockImplementation((plant) => {
-      store.plants.unshift({ id: 2, ...plant, created_at: '', updated_at: '' })
+      store.plants.unshift({ id: 2, ...plant })
     })
     store.deletePlant = vi.fn().mockImplementation((id) => {
       store.plants = store.plants.filter(p => p.id !== id)

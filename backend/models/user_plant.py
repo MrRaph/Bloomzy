@@ -5,7 +5,7 @@ class UserPlant(db.Model):
     __tablename__ = 'user_plants'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     species_id = db.Column(db.Integer, db.ForeignKey('indoor_plants.id'), nullable=False)
     
     # Informations personnalisées

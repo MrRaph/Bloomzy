@@ -51,8 +51,8 @@
             <button class="user-button">
               <div class="user-avatar">
                 <img 
-                  v-if="authStore.user?.avatar_url" 
-                  :src="authStore.user.avatar_url" 
+                  v-if="authStore.user?.profile_picture" 
+                  :src="authStore.user.profile_picture" 
                   :alt="authStore.user.username"
                 />
                 <span v-else class="avatar-placeholder">

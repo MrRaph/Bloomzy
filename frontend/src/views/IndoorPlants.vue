@@ -253,7 +253,7 @@
         <div class="modal-header">
           <h2>
             <span class="modal-icon">🌿</span>
-            {{ selectedPlant.name }}
+            {{ selectedPlant.common_names || selectedPlant.scientific_name }}
           </h2>
           <button @click="closeDetails" class="close-btn" title="Fermer">&times;</button>
         </div>

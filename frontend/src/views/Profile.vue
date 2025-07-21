@@ -28,12 +28,12 @@
                 <span>{{ authStore.user?.location || 'Non renseignée' }}</span>
               </div>
               <div class="info-item">
-                <label>Niveau d'expertise</label>
-                <span>{{ getExpertiseLabel(authStore.user?.expertise_level) }}</span>
+                <label>Langue</label>
+                <span>{{ authStore.user?.language || 'fr' }}</span>
               </div>
               <div class="info-item">
-                <label>Téléphone</label>
-                <span>{{ authStore.user?.phone || 'Non renseigné' }}</span>
+                <label>Fuseau horaire</label>
+                <span>{{ authStore.user?.timezone || 'UTC' }}</span>
               </div>
             </div>
           </div>
@@ -42,8 +42,8 @@
             <h3>Préférences</h3>
             <div class="info-grid">
               <div class="info-item">
-                <label>Unités préférées</label>
-                <span>{{ getUnitsLabel(authStore.user?.preferred_units) }}</span>
+                <label>Notifications email</label>
+                <span>{{ authStore.user?.email_notifications ? 'Activées' : 'Désactivées' }}</span>
               </div>
               <div class="info-item">
                 <label>Notifications</label>
@@ -99,10 +99,10 @@ const form = ref({
   username: '',
   bio: '',
   location: '',
-  expertise_level: 'beginner',
-  phone: '',
-  preferred_units: 'metric',
-  notifications_enabled: true
+  language: 'fr',
+  timezone: 'UTC',
+  notifications_enabled: true,
+  email_notifications: true
 })
 
 const profileFields = [
@@ -127,30 +127,26 @@ const profileFields = [
     placeholder: 'Votre ville, pays'
   },
   {
-    name: 'expertise_level',
-    label: 'Niveau d\'expertise',
+    name: 'language',
+    label: 'Langue',
     type: 'select',
     options: [
-      { value: 'beginner', label: 'Débutant' },
-      { value: 'intermediate', label: 'Intermédiaire' },
-      { value: 'advanced', label: 'Avancé' },
-      { value: 'expert', label: 'Expert' }
+      { value: 'fr', label: 'Français' },
+      { value: 'en', label: 'English' },
+      { value: 'es', label: 'Español' },
+      { value: 'de', label: 'Deutsch' }
     ]
   },
   {
-    name: 'phone',
-    label: 'Téléphone',
-    type: 'tel',
-    placeholder: '+33 1 23 45 67 89'
+    name: 'timezone',
+    label: 'Fuseau horaire',
+    type: 'text',
+    placeholder: 'UTC'
   },
   {
-    name: 'preferred_units',
-    label: 'Unités préférées',
-    type: 'select',
-    options: [
-      { value: 'metric', label: 'Métrique (cm, ml, °C)' },
-      { value: 'imperial', label: 'Impérial (in, fl oz, °F)' }
-    ]
+    name: 'email_notifications',
+    label: 'Notifications par email',
+    type: 'checkbox'
   },
   {
     name: 'notifications_enabled',
@@ -159,34 +155,17 @@ const profileFields = [
   }
 ]
 
-const getExpertiseLabel = (level: string | undefined) => {
-  const labels = {
-    beginner: 'Débutant',
-    intermediate: 'Intermédiaire',
-    advanced: 'Avancé',
-    expert: 'Expert'
-  }
-  return labels[level as keyof typeof labels] || 'Non renseigné'
-}
-
-const getUnitsLabel = (units: string | undefined) => {
-  const labels = {
-    metric: 'Métrique',
-    imperial: 'Impérial'
-  }
-  return labels[units as keyof typeof labels] || 'Métrique'
-}
 
 const startEditing = () => {
   if (authStore.user) {
     form.value = {
-      username: authStore.user.username,
+      username: authStore.user.username || '',
       bio: authStore.user.bio || '',
       location: authStore.user.location || '',
-      expertise_level: authStore.user.expertise_level || 'beginner',
-      phone: authStore.user.phone || '',
-      preferred_units: authStore.user.preferred_units || 'metric',
-      notifications_enabled: authStore.user.notifications_enabled ?? true
+      language: authStore.user.language || 'fr',
+      timezone: authStore.user.timezone || 'UTC',
+      notifications_enabled: authStore.user.notifications_enabled ?? true,
+      email_notifications: authStore.user.email_notifications ?? true
     }
   }
   isEditing.value = true
