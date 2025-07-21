@@ -7,6 +7,7 @@ from routes.api_keys import bp as api_keys_bp
 from routes.indoor_plants import indoor_plants_bp
 from routes.user_plants import user_plants_bp
 from routes.growth_journal import growth_journal_bp
+from routes.notifications import notifications_bp
 import os
 
 # Import models to ensure they are registered with SQLAlchemy
@@ -15,6 +16,7 @@ from models.indoor_plant import IndoorPlant
 from models.user_plant import UserPlant
 from models.watering_history import WateringHistory
 from models.growth_entry import GrowthEntry
+from models.notification import Notification, NotificationPreferences, NotificationTemplate, NotificationDeliveryLog
 
 def create_app():
     app = Flask(__name__)
@@ -39,6 +41,7 @@ def create_app():
     app.register_blueprint(indoor_plants_bp)
     app.register_blueprint(user_plants_bp)
     app.register_blueprint(growth_journal_bp)
+    app.register_blueprint(notifications_bp, url_prefix='/api')
     
     @app.route('/health')
     def health_check():

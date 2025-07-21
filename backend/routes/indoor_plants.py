@@ -1,8 +1,19 @@
-from flask import Blueprint, request, jsonify
+
+from flask import Blueprint, request, jsonify, make_response
 from models.indoor_plant import IndoorPlant
 from app import db
 
 indoor_plants_bp = Blueprint('indoor_plants', __name__, url_prefix='/indoor-plants')
+
+@indoor_plants_bp.route('/<int:plant_id>', methods=['OPTIONS'])
+def options_indoor_plant(plant_id):
+    """Répond explicitement aux requêtes OPTIONS pour CORS sur /indoor-plants/<id>"""
+    response = make_response()
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,PUT,DELETE,OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    return response, 204
 
 @indoor_plants_bp.route('/', methods=['POST'])
 def create_indoor_plant():
@@ -20,9 +31,14 @@ def create_indoor_plant():
     if existing_plant:
         return jsonify({'error': 'Plant with this scientific name already exists'}), 409
     
+    # Correction : convertir la liste en chaîne si besoin
+    common_names = data.get('common_names')
+    if isinstance(common_names, list):
+        common_names = ', '.join(common_names)
+
     plant = IndoorPlant(
         scientific_name=data.get('scientific_name'),
-        common_names=data.get('common_names'),
+        common_names=common_names,
         family=data.get('family'),
         origin=data.get('origin'),
         difficulty=data.get('difficulty'),
@@ -44,7 +60,8 @@ def create_indoor_plant():
         return jsonify(plant.to_dict()), 201
     except Exception as e:
         db.session.rollback()
-        return jsonify({'error': 'Failed to create plant'}), 500
+        # DEBUG: retourner le message d'erreur pour analyse (à retirer en prod)
+        return jsonify({'error': 'Failed to create plant', 'details': str(e)}), 500
 
 @indoor_plants_bp.route('/', methods=['GET'])
 def list_indoor_plants():

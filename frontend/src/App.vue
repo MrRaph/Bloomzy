@@ -1,44 +1,72 @@
 <template>
   <div id="app">
-    <nav class="navbar">
-      <div class="nav-brand">
-        <router-link to="/" class="brand-link">
-          <h1>🌱 Bloomzy</h1>
-        </router-link>
+    <template v-if="!authStore.isAuthReady">
+      <div class="loading-overlay">
+        <div class="spinner"></div>
+        <div class="loading-text">Chargement...</div>
       </div>
-      <div class="nav-links">
-        <template v-if="!authStore.isAuthenticated">
-          <router-link to="/login" class="nav-link">Connexion</router-link>
-          <router-link to="/signup" class="nav-link btn-primary">Inscription</router-link>
-        </template>
-        <template v-else>
-          <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
-          <router-link to="/profile" class="nav-link">Mon profil</router-link>
-          <router-link to="/plants" class="nav-link">Mes plantes</router-link>
-          <router-link to="/journal" class="nav-link">Journal</router-link>
-          <router-link to="/community" class="nav-link">Communauté</router-link>
-          <button @click="logout" class="nav-link btn-logout">Déconnexion</button>
-        </template>
-      </div>
-    </nav>
-
-    <main class="main-content">
-      <router-view />
-    </main>
+    </template>
+    <template v-else>
+      <AppNavigation />
+      <main class="main-content">
+        <router-view />
+      </main>
+      <NotificationSystem ref="notificationRef" />
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useNotifications } from '@/composables/useNotifications'
+import AppNavigation from '@/components/AppNavigation.vue'
+import NotificationSystem from '@/components/NotificationSystem.vue'
 
 const authStore = useAuthStore()
+const { setNotificationInstance } = useNotifications()
+const notificationRef = ref()
 
-const logout = () => {
-  authStore.logout()
-}
+onMounted(() => {
+  if (notificationRef.value) {
+    setNotificationInstance(notificationRef.value)
+  }
+})
 </script>
 
 <style>
+/* Overlay de chargement global */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255,255,255,0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.spinner {
+  border: 6px solid #e5e7eb;
+  border-top: 6px solid #059669;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.loading-text {
+  color: #059669;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
 * {
   margin: 0;
   padding: 0;

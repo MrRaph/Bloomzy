@@ -60,7 +60,8 @@ describe('Dashboard.vue', () => {
     const links = wrapper.findAllComponents(RouterLinkStub)
     const expected = [
       '/profile',
-      '/plants',
+      '/my-plants',
+      '/indoor-plants',
       '/journal',
       '/community',
       '/settings'
