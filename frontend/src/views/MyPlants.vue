@@ -52,6 +52,7 @@
             @edit="(plant) => editPlant(plant)"
             @delete="(plant) => handleDeletePlant(plant)"
             @water="(plant) => openWateringModal(plant)"
+            @growth="(plant) => openGrowthJournal(plant)"
           />
     </div>
 
@@ -118,6 +119,18 @@
         </BaseForm>
       </div>
     </div>
+
+    <!-- Modal Journal de Croissance -->
+    <div v-if="growthJournalPlant" class="modal-overlay" @click="closeGrowthJournal">
+      <div class="modal-content growth-journal-modal" @click.stop>
+        <div class="modal-header">
+          <h2>Journal de croissance - {{ growthJournalPlant.custom_name }}</h2>
+          <button @click="closeGrowthJournal" class="close-btn">&times;</button>
+        </div>
+        
+        <GrowthJournal :plant-id="growthJournalPlant.id" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -128,6 +141,7 @@ import { useNotifications } from '@/composables/useNotifications'
 import { fetchIndoorPlants } from '@/services/api'
 import BaseForm from '@/components/BaseForm.vue'
 import PlantCard from '@/components/PlantCard.vue'
+import GrowthJournal from '@/components/GrowthJournal/GrowthJournal.vue'
 import type { UserPlant } from '@/types'
 
 const store = useMyPlantsStore()
@@ -137,6 +151,7 @@ const plants = computed(() => store.plants)
 const showAddForm = ref(false)
 const editingPlant = ref<UserPlant | null>(null)
 const wateringPlant = ref<UserPlant | null>(null)
+const growthJournalPlant = ref<UserPlant | null>(null)
 
 const form = ref({
   species_id: '',
@@ -295,6 +310,14 @@ const openWateringModal = (plant: UserPlant) => {
 
 const closeWateringModal = () => {
   wateringPlant.value = null
+}
+
+const openGrowthJournal = (plant: UserPlant) => {
+  growthJournalPlant.value = plant
+}
+
+const closeGrowthJournal = () => {
+  growthJournalPlant.value = null
 }
 
 const submitForm = async (formData: Record<string, any>) => {
@@ -625,5 +648,22 @@ const closeForm = () => {
 .btn-sm {
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
+}
+
+.growth-journal-modal {
+  max-width: 1200px;
+  width: 95%;
+  max-height: 95vh;
+  overflow: hidden;
+}
+
+.growth-journal-modal .modal-header {
+  border-bottom: 2px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.growth-journal-modal .modal-header h2 {
+  color: #2d5a27;
+  font-size: 1.5rem;
 }
 </style>

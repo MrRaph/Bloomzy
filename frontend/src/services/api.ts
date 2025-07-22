@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { AuthTokens, User, LoginCredentials, SignupData, ApiKey, CreateApiKeyData, UpdateApiKeyData } from '@/types'
+import type { AuthTokens, User, LoginCredentials, SignupData, ApiKey, CreateApiKeyData, UpdateApiKeyData, GrowthEntry, CreateGrowthEntryData, UpdateGrowthEntryData, GrowthAnalytics, GrowthComparison } from '@/types'
 
 // Configuration de l'URL de base de l'API
 const API_BASE_URL = import.meta.env.VITE_API_URL || ''
@@ -152,4 +152,54 @@ export const apiKeysApi = {
   // Récupérer les services supportés
   getSupportedServices: () => 
     apiClient.get<string[]>('/api/keys/services')
+}
+
+// Growth Journal API
+export const growthJournalApi = {
+  // Lister toutes les entrées de croissance d'une plante
+  list: (plantId: number, params?: { type?: string, start_date?: string, end_date?: string, limit?: number }) => 
+    apiClient.get<GrowthEntry[]>(`/api/plants/${plantId}/growth-entries`, { params }),
+  
+  // Créer une nouvelle entrée de croissance
+  create: (plantId: number, data: CreateGrowthEntryData) => 
+    apiClient.post<GrowthEntry>(`/api/plants/${plantId}/growth-entries`, data),
+  
+  // Récupérer une entrée de croissance spécifique
+  get: (plantId: number, entryId: number) => 
+    apiClient.get<GrowthEntry>(`/api/plants/${plantId}/growth-entries/${entryId}`),
+  
+  // Mettre à jour une entrée de croissance
+  update: (plantId: number, entryId: number, data: UpdateGrowthEntryData) => 
+    apiClient.put<GrowthEntry>(`/api/plants/${plantId}/growth-entries/${entryId}`, data),
+  
+  // Supprimer une entrée de croissance
+  delete: (plantId: number, entryId: number) => 
+    apiClient.delete(`/api/plants/${plantId}/growth-entries/${entryId}`),
+  
+  // Uploader une photo avec création d'entrée
+  uploadPhoto: (plantId: number, photo: File, data?: { photo_description?: string } & Omit<CreateGrowthEntryData, 'entry_type'>) => {
+    const formData = new FormData()
+    formData.append('photo', photo)
+    if (data) {
+      Object.keys(data).forEach(key => {
+        const value = (data as any)[key]
+        if (value !== undefined && value !== null) {
+          formData.append(key, value.toString())
+        }
+      })
+    }
+    return apiClient.post<GrowthEntry>(`/api/plants/${plantId}/growth-entries/photo`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+  },
+  
+  // Récupérer les analyses de croissance
+  getAnalytics: (plantId: number) => 
+    apiClient.get<GrowthAnalytics>(`/api/plants/${plantId}/growth-analytics`),
+  
+  // Récupérer la comparaison de croissance
+  getComparison: (plantId: number, params?: { start_date?: string, end_date?: string }) => 
+    apiClient.get<GrowthComparison>(`/api/plants/${plantId}/growth-comparison`, { params })
 }
