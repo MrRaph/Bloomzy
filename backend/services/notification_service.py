@@ -26,7 +26,7 @@ class NotificationService:
         self.default_channels = ['push', 'web']
         self.spam_prevention = SpamPrevention()
     
-    def create_default_preferences(self, user_id: str) -> List[NotificationPreferences]:
+    def create_default_preferences(self, user_id: int) -> List[NotificationPreferences]:
         """Crée les préférences par défaut pour un utilisateur."""
         try:
             preferences = []
@@ -92,16 +92,88 @@ class NotificationService:
             db.session.rollback()
             return []
     
-    def get_user_preferences(self, user_id: str) -> Dict[NotificationType, NotificationPreferences]:
+    def get_user_preferences(self, user_id: int) -> Dict[NotificationType, NotificationPreferences]:
         """Récupère les préférences d'un utilisateur."""
-        preferences = NotificationPreferences.query.filter_by(user_id=user_id).all()
+        existing_preferences = NotificationPreferences.query.filter_by(user_id=user_id).all()
+        preferences_dict = {pref.notification_type: pref for pref in existing_preferences}
         
-        if not preferences:
-            preferences = self.create_default_preferences(user_id)
+        # Vérifier s'il manque des préférences pour certains types
+        all_types = [
+            NotificationType.WATERING,
+            NotificationType.HARVEST,
+            NotificationType.PLANTING,
+            NotificationType.MAINTENANCE,
+            NotificationType.WEATHER_ALERT,
+            NotificationType.PLANT_CARE_GUIDE
+        ]
         
-        return {pref.notification_type: pref for pref in preferences}
+        missing_types = [nt for nt in all_types if nt not in preferences_dict]
+        
+        if missing_types:
+            # Créer les préférences par défaut pour les types manquants
+            default_settings = {
+                NotificationType.WATERING: {
+                    'enabled': True,
+                    'preferred_channels': ['push', 'web'],
+                    'preferred_hour': 9,
+                    'frequency': 'normal'
+                },
+                NotificationType.HARVEST: {
+                    'enabled': True,
+                    'preferred_channels': ['push', 'web'],
+                    'preferred_hour': 8,
+                    'frequency': 'normal'
+                },
+                NotificationType.PLANTING: {
+                    'enabled': True,
+                    'preferred_channels': ['push', 'web'],
+                    'preferred_hour': 9,
+                    'frequency': 'normal'
+                },
+                NotificationType.MAINTENANCE: {
+                    'enabled': True,
+                    'preferred_channels': ['push', 'web'],
+                    'preferred_hour': 10,
+                    'frequency': 'reduced'
+                },
+                NotificationType.WEATHER_ALERT: {
+                    'enabled': True,
+                    'preferred_channels': ['push', 'email'],
+                    'preferred_hour': 7,
+                    'frequency': 'normal'
+                },
+                NotificationType.PLANT_CARE_GUIDE: {
+                    'enabled': True,
+                    'preferred_channels': ['web'],
+                    'preferred_hour': 11,
+                    'frequency': 'reduced'
+                }
+            }
+            
+            try:
+                for notification_type in missing_types:
+                    settings = default_settings[notification_type]
+                    preference = NotificationPreferences(
+                        user_id=user_id,
+                        notification_type=notification_type,
+                        enabled=settings['enabled'],
+                        preferred_channels=settings['preferred_channels'],
+                        preferred_hour=settings['preferred_hour'],
+                        frequency=settings['frequency']
+                    )
+                    preferences_dict[notification_type] = preference
+                    db.session.add(preference)
+                
+                db.session.commit()
+                logger.info(f"Préférences par défaut créées pour l'utilisateur {user_id}")
+                
+            except Exception as e:
+                logger.error(f"Erreur lors de la création des préférences manquantes: {str(e)}")
+                db.session.rollback()
+        
+        return preferences_dict
     
-    def can_send_notification(self, user_id: str, notification_type: NotificationType) -> bool:
+    def can_send_notification(self, user_id: int, notification_type: NotificationType) -> bool:
         """Vérifie si une notification peut être envoyée."""
         try:
             # Vérifier les préférences utilisateur
@@ -138,7 +210,7 @@ class NotificationService:
         else:
             return current_time >= preference.quiet_hours_start or current_time <= preference.quiet_hours_end
     
-    def calculate_optimal_time(self, user_id: str, notification_type: NotificationType, 
+    def calculate_optimal_time(self, user_id: int, notification_type: NotificationType, 
                               target_date: datetime = None) -> datetime:
         """Calcule l'heure optimale pour envoyer une notification."""
         try:
@@ -250,7 +322,7 @@ class NotificationService:
         
         return base_content
     
-    def get_preferred_channels(self, user_id: str, notification_type: NotificationType) -> List[str]:
+    def get_preferred_channels(self, user_id: int, notification_type: NotificationType) -> List[str]:
         """Récupère les canaux préférés pour un type de notification."""
         try:
             preferences = self.get_user_preferences(user_id)
@@ -392,7 +464,7 @@ class SpamPrevention:
             NotificationType.PLANT_CARE_GUIDE: 2
         }
     
-    def can_send_notification(self, user_id: str, notification_type: NotificationType) -> bool:
+    def can_send_notification(self, user_id: int, notification_type: NotificationType) -> bool:
         """Vérifie si une notification peut être envoyée selon les limites anti-spam."""
         try:
             # Vérifier les limites horaires
@@ -417,7 +489,7 @@ class SpamPrevention:
             logger.error(f"Erreur lors de la vérification anti-spam: {str(e)}")
             return True  # En cas d'erreur, permettre l'envoi
     
-    def get_hourly_count(self, user_id: str) -> int:
+    def get_hourly_count(self, user_id: int) -> int:
         """Récupère le nombre de notifications envoyées dans la dernière heure."""
         one_hour_ago = datetime.utcnow() - timedelta(hours=1)
         return Notification.query.filter(
@@ -426,7 +498,7 @@ class SpamPrevention:
             Notification.status == NotificationStatus.SENT
         ).count()
     
-    def get_daily_count(self, user_id: str) -> int:
+    def get_daily_count(self, user_id: int) -> int:
         """Récupère le nombre de notifications envoyées dans les dernières 24h."""
         one_day_ago = datetime.utcnow() - timedelta(days=1)
         return Notification.query.filter(
@@ -435,7 +507,7 @@ class SpamPrevention:
             Notification.status == NotificationStatus.SENT
         ).count()
     
-    def get_type_count(self, user_id: str, notification_type: NotificationType) -> int:
+    def get_type_count(self, user_id: int, notification_type: NotificationType) -> int:
         """Récupère le nombre de notifications d'un type envoyées dans les dernières 24h."""
         one_day_ago = datetime.utcnow() - timedelta(days=1)
         return Notification.query.filter(
@@ -445,7 +517,7 @@ class SpamPrevention:
             Notification.status == NotificationStatus.SENT
         ).count()
     
-    def record_notification_sent(self, user_id: str, notification_type: NotificationType):
+    def record_notification_sent(self, user_id: int, notification_type: NotificationType):
         """Enregistre qu'une notification a été envoyée."""
         # Cette méthode est principalement pour la cohérence avec le PRD
         # L'enregistrement se fait déjà via le model Notification
