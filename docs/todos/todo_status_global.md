@@ -1,6 +1,6 @@
 # Status Global du Projet Bloomzy
 
-**Dernière mise à jour** : 18 juillet 2025
+**Dernière mise à jour** : 22 juillet 2025
 
 ## 🎯 Vue d'ensemble
 
@@ -39,8 +39,10 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
    - ⏸️ Issues #27, #28, #29 à traiter APRÈS tous les modules fonctionnels
 
 ### Module en cours de finalisation 🔄
-4. **API Consistency** - **EN COURS** (50% terminé)
+4. **API Consistency** - **EN COURS** (80% terminé)
    - ✅ **API Keys intégrées** (PR #46) : 188 lignes backend → 100% frontend
+   - ✅ **Phase 1 terminée** (22/07/2025) : Routes critiques et tests corrigés
+   - ✅ **Tests complets** : 227/227 tests passent (144 backend + 83 frontend)
    - 🔄 **Growth Journal** : 470 lignes backend à intégrer (prochaine étape)
    - 🔄 **Notifications** : 535 lignes backend à intégrer
    - **Progression** : Frontend/Backend alignment 30% → 60%
@@ -56,7 +58,9 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 ## 📊 Statistiques
 
 ### Tests et qualité
-- **Tests passants** : 140/140 (100%) ← **Mis à jour** 
+- **Tests passants** : 227/227 (100%) ← **Mis à jour 22/07**
+  - Backend: 144/144 tests (100%)
+  - Frontend: 83/83 tests (100%)
 - **Couverture** : Modules Auth, Indoor Plants, Notifications et API Keys complets
 - **Documentation** : À jour
 - **Frontend/Backend alignment** : 60% (↗️ +30% grâce à API Keys)
@@ -144,7 +148,8 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 - Prêts pour production
 
 ### Nouvelle direction après dépriorisation microservices
-- **En cours** : API Consistency (50% terminé - API Keys ✅, Growth Journal 🔄)
+- **En cours** : API Consistency (80% terminé - Phase 1 ✅, Growth Journal 🔄)
+- **Récent** : Correction complète des tests (227/227 passent)
 - **Ensuite** : Garden → AI Integration → Community → Architecture (microservices en dernier)
 - **Approche** : Continuer avec TDD et documentation complète
 - **Progrès notable** : Frontend/Backend alignment 30% → 60%
@@ -167,7 +172,7 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 
 ---
 
-**Statut global** : 🎯 **PHASE 2.5 EN COURS** (3.5 modules sur 7 - API Consistency 50%)
+**Statut global** : 🎯 **PHASE 2.8 EN COURS** (3.8 modules sur 7 - API Consistency 80%)
 **Décision stratégique** : ⏸️ **MICROSERVICES DÉPRIORISÉS** - Focus sur les fonctionnalités
 **Prochaine phase** : 🔄 **Finaliser API Consistency** (Growth Journal) puis Garden → AI → Community
-**Progrès récent** : ✅ **API Keys intégrées** (PR #46, closes #18) - 188 lignes backend utilisées
+**Progrès récent** : ✅ **Phase 1 API Consistency terminée** (22/07) - 227/227 tests passent, routes critiques alignées

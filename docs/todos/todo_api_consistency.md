@@ -66,7 +66,7 @@ Assurer la cohérence complète entre les routes backend disponibles et leur uti
 
 ## Plan d'implémentation
 
-### Phase 1 : Corrections critiques ✅ TERMINÉE (21/07/2025)
+### Phase 1 : Corrections critiques ✅ TERMINÉE (22/07/2025)
 1. ✅ Implémenter `POST /auth/refresh` dans le backend (déjà présent)
 2. ✅ Ajouter `GET /indoor-plants/<id>` au frontend (`getIndoorPlant()`)
 3. ✅ Ajouter `GET /api/plants/my-plants/<id>` au frontend (déjà présent)
@@ -75,6 +75,13 @@ Assurer la cohérence complète entre les routes backend disponibles et leur uti
    - Backend: http://localhost:5080 ✅
    - Frontend: http://localhost:8080 ✅
    - Commit: 0bbf9a3, PR: #46, Issue: #47
+6. ✅ Correction des erreurs de tests (22/07/2025)
+   - ✅ Backend: 144/144 tests passent
+   - ✅ Frontend: 83/83 tests passent
+   - ✅ Service de notifications corrigé
+   - ✅ Fixtures pytest ajoutées
+   - ✅ Types et interfaces alignés
+   - ✅ Commit: 065390d
 
 ### Phase 2 : Module API Keys (Semaine 2)
 1. Services et types frontend
