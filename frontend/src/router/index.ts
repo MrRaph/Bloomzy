@@ -7,6 +7,7 @@ import Profile from '@/views/Profile.vue'
 import Dashboard from '@/views/Dashboard.vue'
 import IndoorPlants from '@/views/IndoorPlants.vue'
 import MyPlants from '@/views/MyPlants.vue'
+import ApiKeys from '@/views/ApiKeys.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -50,6 +51,12 @@ const router = createRouter({
       path: '/my-plants',
       name: 'my-plants',
       component: MyPlants,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/api-keys',
+      name: 'api-keys',
+      component: ApiKeys,
       meta: { requiresAuth: true }
     }
   ]

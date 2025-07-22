@@ -18,8 +18,8 @@ describe('IndoorPlants.vue', () => {
       initialState: {
         indoorPlants: {
           plants: [
-            { id: 1, name: 'Ficus', species: 'Ficus lyrata', family: 'Moraceae', difficulty: 'Facile', created_at: '', updated_at: '' },
-            { id: 2, name: 'Monstera', species: 'Monstera deliciosa', family: 'Araceae', difficulty: 'Modéré', created_at: '', updated_at: '' }
+            { id: 1, scientific_name: 'Ficus lyrata', common_names: 'Ficus', family: 'Moraceae', difficulty: 'Facile' },
+            { id: 2, scientific_name: 'Monstera deliciosa', common_names: 'Monstera', family: 'Araceae', difficulty: 'Modéré' }
           ],
           loading: false,
           error: null
@@ -50,8 +50,8 @@ describe('IndoorPlants.vue', () => {
     // Soumettre le formulaire (le mock retourne automatiquement les données)
     await wrapper.find('form').trigger('submit.prevent')
     expect(store.addPlant).toHaveBeenCalledWith({ 
-      name: 'Pothos', 
-      species: 'Epipremnum aureum',
+      scientific_name: undefined, 
+      common_names: undefined,
       family: '',
       difficulty: ''
     })

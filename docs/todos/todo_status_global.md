@@ -1,6 +1,6 @@
 # Status Global du Projet Bloomzy
 
-**Dernière mise à jour** : 18 juillet 2025
+**Dernière mise à jour** : 22 juillet 2025
 
 ## 🎯 Vue d'ensemble
 
@@ -32,26 +32,38 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
    - Tests : 19 tests passants (100%)
    - Documentation : Complète
 
-### Modules prêts à commencer 🔄
-4. **Module Architecture** - **PRÊT** (Issues #26 à #29)
-   - Prochaine étape : Infrastructure Docker (Issue #26)
-   - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
-   - Note : Peut être démarré maintenant
+### Module architectural dépriorisé ⏸️
+4. **Module Architecture** - **DÉPRIORISÉ** (Issues #26 à #29)
+   - ✅ Infrastructure Docker terminée (Issue #26)
+   - ⏸️ **DÉCISION** : Microservices reportés en fin de roadmap
+   - ⏸️ Issues #27, #28, #29 à traiter APRÈS tous les modules fonctionnels
 
-### Modules en attente 🔄
-5. **Module Garden** - **EN ATTENTE**
+### Module en cours de finalisation 🔄
+4. **API Consistency** - **EN COURS** (80% terminé)
+   - ✅ **API Keys intégrées** (PR #46) : 188 lignes backend → 100% frontend
+   - ✅ **Phase 1 terminée** (22/07/2025) : Routes critiques et tests corrigés
+   - ✅ **Tests complets** : 227/227 tests passent (144 backend + 83 frontend)
+   - 🔄 **Growth Journal** : 470 lignes backend à intégrer (prochaine étape)
+   - 🔄 **Notifications** : 535 lignes backend à intégrer
+   - **Progression** : Frontend/Backend alignment 30% → 60%
+
+### Modules prêts à commencer 🚀
+5. **Module Garden** - **PRÊT**
    - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
-6. **Module AI Integration** - **EN ATTENTE**
+6. **Module AI Integration** - **PRÊT** 
    - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
-7. **Module Community** - **EN ATTENTE**
+7. **Module Community** - **PRÊT**
    - Dépendances : ✅ Modules Auth, Indoor Plants et Notifications terminés
 
 ## 📊 Statistiques
 
 ### Tests et qualité
-- **Tests passants** : 103/103 (100%) ← **Mis à jour**
-- **Couverture** : Modules Auth, Indoor Plants et Notifications complets
+- **Tests passants** : 227/227 (100%) ← **Mis à jour 22/07**
+  - Backend: 144/144 tests (100%)
+  - Frontend: 83/83 tests (100%)
+- **Couverture** : Modules Auth, Indoor Plants, Notifications et API Keys complets
 - **Documentation** : À jour
+- **Frontend/Backend alignment** : 60% (↗️ +30% grâce à API Keys)
 
 ### Fonctionnalités implémentées
 - ✅ Inscription/connexion avec JWT
@@ -75,6 +87,10 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 - ✅ Scheduler automatique de notifications
 - ✅ API REST complète pour notifications
 - ✅ Analytics de notifications
+- ✅ **Gestion complète des clés API IA** (OpenAI, Claude, Gemini, Hugging Face)
+- ✅ **Interface API Keys responsive** avec modal de gestion
+- ✅ **Test et validation des clés API** en temps réel
+- ✅ **Navigation intégrée** dans menu "Plus" → "Clés API" 🔑
 
 ### Architecture technique
 - ✅ Flask avec SQLAlchemy
@@ -100,22 +116,29 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 - Architecture sur une branche séparée
 - Indoor Plants sur la branche courante
 
-## 🎯 Prochaines étapes recommandées
+## 🎯 Nouvelle roadmap (après dépriorisation microservices)
 
-### Priorité 1 : Module Architecture
-- **Avantage** : Améliore l'infrastructure existante
-- **Impact** : Scalabilité et déploiement
-- Commence par l'Issue #27 (Déploiement microservices)
+### Priorité 1 : API Consistency ⚡
+- **Avantage** : Consolide la base existante avant d'ajouter des fonctionnalités
+- **Impact** : Correction des incohérences backend/frontend critiques
+- **Actions** : Intégrer API Keys et Growth Journal côté frontend
 
-### Priorité 2 : Module Notifications
-- **Avantage** : Valorise les modules Auth et Indoor Plants
-- **Synergie** : Arrosage intelligent + notifications = UX complète
-- **Dépendances** : ✅ Auth et Indoor Plants terminés
-
-### Priorité 3 : Module Garden
+### Priorité 2 : Module Garden 🌱
 - **Avantage** : Extension naturelle d'Indoor Plants
 - **Réutilisation** : Logique similaire, composants partagés
 - **Différenciation** : Extérieur vs Intérieur
+
+### Priorité 3 : Module AI Integration 🤖
+- **Avantage** : Valorise tous les modules existants
+- **Synergie** : IA + plantes + notifications = UX avancée
+
+### Priorité 4 : Module Community 👥
+- **Avantage** : Fonctionnalités sociales sur base solide
+- **Impact** : Engagement utilisateur maximal
+
+### Priorité finale : Architecture microservices ⏸️
+- **Report** : À traiter en toute fin de développement
+- **Justification** : Se concentrer sur les fonctionnalités avant la scalabilité
 
 ## 📝 Actions immédiates
 
@@ -124,10 +147,12 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 - ✅ Module Indoor Plants complet et testé
 - Prêts pour production
 
-### Choix de direction
-- **Recommandé** : Commencer par le Module Architecture (Issue #27)
-- **Alternative** : Module Notifications pour valoriser l'existant
+### Nouvelle direction après dépriorisation microservices
+- **En cours** : API Consistency (80% terminé - Phase 1 ✅, Growth Journal 🔄)
+- **Récent** : Correction complète des tests (227/227 passent)
+- **Ensuite** : Garden → AI Integration → Community → Architecture (microservices en dernier)
 - **Approche** : Continuer avec TDD et documentation complète
+- **Progrès notable** : Frontend/Backend alignment 30% → 60%
 
 ## 🔧 État technique
 
@@ -147,6 +172,7 @@ Le projet Bloomzy a atteint une étape majeure avec **3 modules complets** sur 7
 
 ---
 
-**Statut global** : 🎉 **PHASE 1 TERMINÉE AVEC SUCCÈS**
-**Statut actuel** : 🎉 **PHASE 2 TERMINÉE** (3 modules complets sur 7)
-**Prochaine phase** : Module Architecture ou Garden selon les priorités métier/infrastructure
+**Statut global** : 🎯 **PHASE 2.8 EN COURS** (3.8 modules sur 7 - API Consistency 80%)
+**Décision stratégique** : ⏸️ **MICROSERVICES DÉPRIORISÉS** - Focus sur les fonctionnalités
+**Prochaine phase** : 🔄 **Finaliser API Consistency** (Growth Journal) puis Garden → AI → Community
+**Progrès récent** : ✅ **Phase 1 API Consistency terminée** (22/07) - 227/227 tests passent, routes critiques alignées

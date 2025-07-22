@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { AuthTokens, User, LoginCredentials, SignupData } from '@/types'
+import type { AuthTokens, User, LoginCredentials, SignupData, ApiKey, CreateApiKeyData, UpdateApiKeyData, GrowthEntry, CreateGrowthEntryData, UpdateGrowthEntryData, GrowthAnalytics, GrowthComparison } from '@/types'
 
 // Configuration de l'URL de base de l'API
 const API_BASE_URL = import.meta.env.VITE_API_URL || ''
@@ -33,6 +33,11 @@ export const createIndoorPlant = async (payload: Record<string, any>): Promise<a
 
 export const updateIndoorPlant = async (id: number, payload: Record<string, any>): Promise<any> => {
   const res = await apiClient.put(`/indoor-plants/${id}/`, payload)
+  return res.data
+}
+
+export const getIndoorPlant = async (id: number): Promise<any> => {
+  const res = await apiClient.get(`/indoor-plants/${id}`)
   return res.data
 }
 
@@ -92,6 +97,11 @@ export const getWateringSchedule = async (plantId: number): Promise<any> => {
   return res.data
 }
 
+export const updateWatering = async (wateringId: number, payload: Record<string, any>): Promise<any> => {
+  const res = await apiClient.put(`/api/plants/watering/${wateringId}`, payload)
+  return res.data
+}
+
 // Auth API
 export const authApi = {
   login: (credentials: LoginCredentials) => 
@@ -111,4 +121,85 @@ export const authApi = {
   
   refreshToken: () => 
     apiClient.post<{ access_token: string }>('/auth/refresh')
+}
+
+// API Keys API
+export const apiKeysApi = {
+  // Lister toutes les clés API de l'utilisateur
+  list: () => 
+    apiClient.get<ApiKey[]>('/api/keys/'),
+  
+  // Créer une nouvelle clé API
+  create: (data: CreateApiKeyData) => 
+    apiClient.post<ApiKey>('/api/keys/', data),
+  
+  // Récupérer une clé API spécifique
+  get: (id: number) => 
+    apiClient.get<ApiKey>(`/api/keys/${id}`),
+  
+  // Mettre à jour une clé API
+  update: (id: number, data: UpdateApiKeyData) => 
+    apiClient.put<ApiKey>(`/api/keys/${id}`, data),
+  
+  // Supprimer une clé API
+  delete: (id: number) => 
+    apiClient.delete(`/api/keys/${id}`),
+  
+  // Tester une clé API
+  test: (id: number) => 
+    apiClient.post<{ success: boolean, message: string }>(`/api/keys/${id}/test`),
+  
+  // Récupérer les services supportés
+  getSupportedServices: () => 
+    apiClient.get<string[]>('/api/keys/services')
+}
+
+// Growth Journal API
+export const growthJournalApi = {
+  // Lister toutes les entrées de croissance d'une plante
+  list: (plantId: number, params?: { type?: string, start_date?: string, end_date?: string, limit?: number }) => 
+    apiClient.get<GrowthEntry[]>(`/api/plants/${plantId}/growth-entries`, { params }),
+  
+  // Créer une nouvelle entrée de croissance
+  create: (plantId: number, data: CreateGrowthEntryData) => 
+    apiClient.post<GrowthEntry>(`/api/plants/${plantId}/growth-entries`, data),
+  
+  // Récupérer une entrée de croissance spécifique
+  get: (plantId: number, entryId: number) => 
+    apiClient.get<GrowthEntry>(`/api/plants/${plantId}/growth-entries/${entryId}`),
+  
+  // Mettre à jour une entrée de croissance
+  update: (plantId: number, entryId: number, data: UpdateGrowthEntryData) => 
+    apiClient.put<GrowthEntry>(`/api/plants/${plantId}/growth-entries/${entryId}`, data),
+  
+  // Supprimer une entrée de croissance
+  delete: (plantId: number, entryId: number) => 
+    apiClient.delete(`/api/plants/${plantId}/growth-entries/${entryId}`),
+  
+  // Uploader une photo avec création d'entrée
+  uploadPhoto: (plantId: number, photo: File, data?: { photo_description?: string } & Omit<CreateGrowthEntryData, 'entry_type'>) => {
+    const formData = new FormData()
+    formData.append('photo', photo)
+    if (data) {
+      Object.keys(data).forEach(key => {
+        const value = (data as any)[key]
+        if (value !== undefined && value !== null) {
+          formData.append(key, value.toString())
+        }
+      })
+    }
+    return apiClient.post<GrowthEntry>(`/api/plants/${plantId}/growth-entries/photo`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+  },
+  
+  // Récupérer les analyses de croissance
+  getAnalytics: (plantId: number) => 
+    apiClient.get<GrowthAnalytics>(`/api/plants/${plantId}/growth-analytics`),
+  
+  // Récupérer la comparaison de croissance
+  getComparison: (plantId: number, params?: { start_date?: string, end_date?: string }) => 
+    apiClient.get<GrowthComparison>(`/api/plants/${plantId}/growth-comparison`, { params })
 }

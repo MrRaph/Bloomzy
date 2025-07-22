@@ -67,6 +67,14 @@
           📷
         </button>
         <button 
+          v-if="actions.includes('growth')"
+          @click="$emit('growth', plant)" 
+          class="action-btn action-btn--secondary"
+          :title="'Journal de croissance de ' + plant.custom_name"
+        >
+          📈
+        </button>
+        <button 
           v-if="actions.includes('edit')"
           @click="$emit('edit', plant)" 
           class="action-btn action-btn--secondary"
@@ -109,19 +117,20 @@ interface Props {
   plant: UserPlant
   compact?: boolean
   showActions?: boolean
-  actions?: Array<'water' | 'photo' | 'edit' | 'details' | 'delete'>
+  actions?: Array<'water' | 'photo' | 'growth' | 'edit' | 'details' | 'delete'>
   wateringInfo?: WateringInfo | null
 }
 
 withDefaults(defineProps<Props>(), {
   compact: false,
   showActions: true,
-  actions: () => ['water', 'edit', 'details', 'delete']
+  actions: () => ['water', 'growth', 'edit', 'details', 'delete']
 })
 
 const emit = defineEmits<{
   water: [plant: UserPlant]
   photo: [plant: UserPlant]
+  growth: [plant: UserPlant]
   edit: [plant: UserPlant]
   details: [plant: UserPlant]
   delete: [plant: UserPlant]

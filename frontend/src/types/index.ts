@@ -103,3 +103,124 @@ export interface ApiResponse<T> {
   message?: string
   error?: string
 }
+
+export interface ApiKey {
+  id: number
+  user_id: number
+  service_name: 'openai' | 'claude' | 'gemini' | 'huggingface'
+  key_name: string
+  encrypted_key: string
+  is_active: boolean
+  created_at: string
+  updated_at: string
+  last_used_at?: string
+}
+
+export interface CreateApiKeyData {
+  service_name: 'openai' | 'claude' | 'gemini' | 'huggingface'
+  key_name: string
+  api_key: string
+}
+
+export interface UpdateApiKeyData {
+  key_name?: string
+  api_key?: string
+  is_active?: boolean
+}
+
+export interface GrowthEntry {
+  id: number
+  plant_id: number
+  entry_date: string
+  entry_type: 'photo' | 'measurement' | 'observation'
+  photo_url?: string
+  photo_description?: string
+  height_cm?: number
+  width_cm?: number
+  leaf_count?: number
+  stem_count?: number
+  leaf_color?: 'green' | 'yellow' | 'brown' | 'red' | 'purple' | 'variegated'
+  stem_firmness?: 'firm' | 'soft' | 'brittle'
+  has_flowers: boolean
+  has_fruits: boolean
+  health_notes?: string
+  growth_notes?: string
+  user_observations?: string
+  ai_health_score?: number
+  ai_growth_analysis?: string
+  ai_recommendations?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface CreateGrowthEntryData {
+  entry_type: 'photo' | 'measurement' | 'observation'
+  entry_date?: string
+  photo_description?: string
+  height_cm?: number
+  width_cm?: number
+  leaf_count?: number
+  stem_count?: number
+  leaf_color?: 'green' | 'yellow' | 'brown' | 'red' | 'purple' | 'variegated'
+  stem_firmness?: 'firm' | 'soft' | 'brittle'
+  has_flowers?: boolean
+  has_fruits?: boolean
+  health_notes?: string
+  growth_notes?: string
+  user_observations?: string
+}
+
+export interface UpdateGrowthEntryData {
+  entry_date?: string
+  photo_description?: string
+  height_cm?: number
+  width_cm?: number
+  leaf_count?: number
+  stem_count?: number
+  leaf_color?: 'green' | 'yellow' | 'brown' | 'red' | 'purple' | 'variegated'
+  stem_firmness?: 'firm' | 'soft' | 'brittle'
+  has_flowers?: boolean
+  has_fruits?: boolean
+  health_notes?: string
+  growth_notes?: string
+  user_observations?: string
+}
+
+export interface GrowthAnalytics {
+  total_entries: number
+  date_range: {
+    start: string
+    end: string
+  }
+  entry_types: Record<string, number>
+  growth_trends: {
+    height: Array<[string, number]>
+    width: Array<[string, number]>
+    leaf_count: Array<[string, number]>
+  }
+  health_trends: {
+    ai_health_scores: Array<[string, number]>
+    leaf_color_distribution: Record<string, number>
+  }
+  growth_rates?: {
+    height_cm_per_day: number
+    total_growth_cm: number
+    growth_period_days: number
+  }
+}
+
+export interface GrowthComparison {
+  comparison_period_days: number
+  first_entry: GrowthEntry | null
+  last_entry: GrowthEntry | null
+  changes: {
+    height_cm?: number
+    width_cm?: number
+    leaf_count?: number
+    ai_health_score?: number
+  }
+  photo_comparison?: {
+    first_photo: string | null
+    last_photo: string | null
+  }
+}

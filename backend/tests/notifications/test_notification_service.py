@@ -109,7 +109,7 @@ class TestNotificationService:
             )
             
             # Simuler différentes heures
-            with patch('datetime.datetime') as mock_datetime:
+            with patch('services.notification_service.datetime') as mock_datetime:
                 # 2h du matin (dans les heures de silence)
                 mock_datetime.now.return_value.time.return_value = time(2, 0)
                 assert service.is_in_quiet_hours(pref) is True
@@ -136,12 +136,13 @@ class TestNotificationService:
             db_session.add(pref)
             db_session.commit()
             
-            # Calculer l'heure optimale pour aujourd'hui
-            optimal_time = service.calculate_optimal_time(test_user.id, NotificationType.WATERING)
+            # Calculer l'heure optimale pour demain
+            tomorrow = datetime.now().date() + timedelta(days=1)
+            optimal_time = service.calculate_optimal_time(test_user.id, NotificationType.WATERING, tomorrow)
             
             # Vérifier que l'heure est correcte
             assert optimal_time.hour == 9
-            assert optimal_time.date() == datetime.now().date()
+            assert optimal_time.date() == tomorrow
     
     def test_calculate_optimal_time_watering_adjustment(self, app, db_session, test_user):
         """Test d'ajustement d'heure pour les notifications d'arrosage."""
@@ -157,8 +158,9 @@ class TestNotificationService:
             db_session.add(pref)
             db_session.commit()
             
-            # Calculer l'heure optimale pour arrosage
-            optimal_time = service.calculate_optimal_time(test_user.id, NotificationType.WATERING)
+            # Calculer l'heure optimale pour arrosage demain
+            tomorrow = datetime.now().date() + timedelta(days=1)
+            optimal_time = service.calculate_optimal_time(test_user.id, NotificationType.WATERING, tomorrow)
             
             # Vérifier que l'heure est ajustée (max 10h pour arrosage)
             assert optimal_time.hour == 10

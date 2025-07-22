@@ -22,8 +22,8 @@ describe('Profile.vue', () => {
         username: 'TestUser',
         bio: 'Ma bio',
         location: 'Paris',
-        expertise_level: 'expert',
-        phone: '0600000000'
+        timezone: 'Europe/Paris',
+        language: 'fr'
       },
       isAuthenticated: true
     })
@@ -40,8 +40,8 @@ describe('Profile.vue', () => {
         username: 'TestUser',
         bio: 'Ma bio',
         location: 'Paris',
-        expertise_level: 'expert',
-        phone: '0600000000'
+        timezone: 'Europe/Paris',
+        language: 'fr'
       },
       isAuthenticated: true
     })
@@ -52,8 +52,8 @@ describe('Profile.vue', () => {
     expect(wrapper.text()).toContain('TestUser')
     expect(wrapper.text()).toContain('Ma bio')
     expect(wrapper.text()).toContain('Paris')
-    expect(wrapper.text()).toContain('expert')
-    expect(wrapper.text()).toContain('0600000000')
+    expect(wrapper.text()).toContain('Europe/Paris')
+    expect(wrapper.text()).toContain('fr')
   })
 
   it('affiche le mode édition après clic sur Modifier', async () => {
@@ -63,8 +63,8 @@ describe('Profile.vue', () => {
         username: 'TestUser',
         bio: 'Ma bio',
         location: 'Paris',
-        expertise_level: 'expert',
-        phone: '0600000000'
+        timezone: 'Europe/Paris',
+        language: 'fr'
       },
       isAuthenticated: true
     })

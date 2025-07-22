@@ -8,6 +8,7 @@ from models.notification import (
     Notification, NotificationPreferences, NotificationType, 
     NotificationStatus, NotificationChannel
 )
+from models.user import User
 
 
 class TestNotificationAPI:
@@ -52,9 +53,9 @@ class TestNotificationAPI:
             assert data['limit'] == 50
             assert data['offset'] == 0
             
-            # Vérifier l'ordre (plus récent en premier)
-            assert data['notifications'][0]['title'] == "Notification 1"
-            assert data['notifications'][1]['title'] == "Notification 2"
+            # Vérifier l'ordre (plus récent créé en premier par created_at desc)
+            assert data['notifications'][0]['title'] == "Notification 2"
+            assert data['notifications'][1]['title'] == "Notification 1"
     
     def test_get_user_notifications_filtered(self, app, client, auth_headers, test_user, db_session):
         """Test de filtrage des notifications."""

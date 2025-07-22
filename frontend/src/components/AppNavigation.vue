@@ -28,6 +28,10 @@
             <span class="dropdown-arrow">▼</span>
           </button>
           <div class="dropdown-menu" v-show="showDropdown">
+            <router-link to="/api-keys" class="dropdown-item">
+              <span class="nav-icon">🔑</span>
+              Clés API
+            </router-link>
             <router-link to="/journal" class="dropdown-item">
               <span class="nav-icon">📖</span>
               Journal
@@ -111,6 +115,10 @@
           <router-link to="/indoor-plants" @click="showMobileMenu = false" class="mobile-nav-link">
             <span class="nav-icon">📚</span>
             Catalogue
+          </router-link>
+          <router-link to="/api-keys" @click="showMobileMenu = false" class="mobile-nav-link">
+            <span class="nav-icon">🔑</span>
+            Clés API
           </router-link>
           <router-link to="/journal" @click="showMobileMenu = false" class="mobile-nav-link">
             <span class="nav-icon">📖</span>
